@@ -1,0 +1,45 @@
+{% extends 'base_front.html.twig' %}
+{% block body %}
+    <section class="special_cource padding_top">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xl-5">
+                    <div class="section_tittle text-center">
+                        <h2> Nos Oeuvres </h2>
+                    </div>
+                </div>
+            </div>
+            {% for oeuvrage in oeuvrages%}
+            <div class="row">
+                <div class="col-sm-6 col-lg-4">
+                    <div class="single_special_cource">
+                        <img src="{{asset('img/special_cource_1.png')}}" class="special_img" alt="">
+                        <div class="special_cource_text">
+                            {% if oeuvrage.quantite > 0 %}
+                            <a href="{{ path('panier_temp_new', {id: oeuvrage.oeuvrageId }) }}" class="btn_4">Ajouter au panier</a>
+                            <h4>{{ oeuvrage.prix }} DT</h4>
+                                <h3>{{ oeuvrage.nom }}</h3>
+                            <p>{{ oeuvrage.description }}</p>
+                            <div class="author_info">
+                                <div class="author_img">
+                                    <img src="{{asset('img/author/author_1.png')}}" alt="">
+                                    <div class="author_info_text">
+                                        <p>Made by:</p>
+                                        <h5><a href="#">{{ oeuvrage.user.nom }}</a></h5>
+                                        {% else %}
+                                            <h3 style="color: red;">EN RUPTURE DE STOCK</h3>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+    </section>
+{% endblock %}

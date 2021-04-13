@@ -1,0 +1,66 @@
+{% extends 'BlogBack.html.twig' %}
+
+
+{% block body %}
+<div class="blog_area section_padding">
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 mb-5 mb-lg-0">
+            <div class="blog_left_sidebar">
+                <div style="text-align: center;margin-top: 15px">
+                    <a href="{{ path('blog_new') }}">Create new</a>
+                </div>
+                {% for blog in blogs %}
+                <article style="margin-top: 30px" class="blog_item">
+                    <div class="blog_item_img">
+                        <img class="card-img rounded-0" src="{{asset('img/blog/single_blog_1.png')}}" alt="Blog1">
+                        <a href="#" class="blog_item_date">
+                            <h3>15</h3>
+                            <p>Jan</p>
+                        </a>
+                    </div>
+
+                    <div class="blog_details">
+                        <a class="d-inline-block" href="{{ path('blog_show', {'blogId': blog.blogId}) }}">
+                            <h2>{{ blog.titre }}</h2>
+                        </a>
+                        <ul class="blog-info-link">
+                            <li><a href="{{ path('blog_show', {'blogId': blog.blogId}) }}"> Afficher</a></li>
+                            <li><a href="{{ path('blog_edit', {'blogId': blog.blogId}) }}"> Editer</a></li>
+                        </ul>
+                    </div>
+                    {% else %}
+                    <p style="font-size: 20px;color: black">Pas de Blog</p>
+                    {% endfor %}
+                     </article>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section/>
+
+    <nav style="margin-bottom: 30px" class="blog-pagination justify-content-center d-flex">
+        <ul class="pagination">
+            <li class="page-item">
+                <a href="#" class="page-link" aria-label="Previous">
+                    <i class="ti-angle-left"></i>
+                </a>
+            </li>
+            <li class="page-item">
+                <a href="#" class="page-link">1</a>
+            </li>
+            <li class="page-item active">
+                <a href="#" class="page-link">2</a>
+            </li>
+            <li class="page-item">
+                <a href="#" class="page-link" aria-label="Next">
+                    <i class="ti-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+
+{% endblock %}

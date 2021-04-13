@@ -1,0 +1,42 @@
+{% extends 'base_back.html.twig' %}
+
+
+{% block body %}
+
+    <div class="section_padding">
+        <div class="section-top-border">
+            <center><h3 class="mb-30">Livraisons</h3></center>
+            <center><div class="progress-table-wrap">
+                    <div class="progress-table">
+                        <div class="table-head">
+                            <div class="serial">Livraison ID</div>
+                            <div class="serial">Commande ID</div>
+                            <div class="serial">User ID</div>
+                            <div class="serial">Destination</div>
+                            <div class="serial">Num Tel</div>
+                            <div class="serial">Etat</div>
+                        </div>
+                        {% for livraison in livraisons %}
+                            <div class="table-row">
+                                <div style="position: relative; left: 5%" class="serial" >{{ livraison.livraisonId }}</div>
+                                <div style="position: relative; left: 5%" class="serial" >{{ livraison.commande.commandeId }}</div>
+                                <div style="position: relative; left: 5%" class="serial">{{ livraison.user.userId }}</div>
+                                <div style="position: relative; left: 2%" class="serial">{{ livraison.adresse }}</div>
+                                <div style="position: relative; left: 3%" class="serial">{{ livraison.numTel }}</div>
+                                <div style="position: relative; left: 6%" class="percentage">
+                                    <div class="progress">
+                                        <div class="progress-bar color-5" role="progressbar" style="width: 10%" aria-valuenow="10" aria-valuemin="10"
+                                             aria-valuemax="10"></div>
+                                    </div>
+                                    <a style="position: relative;right:30%"class="btn" href="{{ path('livraison_showadmin', {'livraisonId': livraison.livraisonId}) }}"> Affecter Au livreur</a>
+                                </div>
+                            </div>
+                        {% else %}
+                            <p style="font-size: 20px;color: black">Pas de Livraisons</p>
+                        {% endfor %}
+                    </div>
+                </div></center>
+        </div>
+    </div>
+
+{% endblock %}

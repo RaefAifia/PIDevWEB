@@ -1,0 +1,35 @@
+{% extends 'panier.html.twig' %}
+
+
+{% block body %}
+    <div class="section_padding">
+        <div class="section-top-border">
+            <center><h3 class="mb-30">Panier</h3></center>
+            <center><div class="progress-table-wrap">
+                    <div class="progress-table">
+                        <div class="table-head">
+                            <div class="serial">Nom Oeuvre</div>
+                            <div class="country">Image</div>
+                            <div class="serial">Quantite</div>
+                            <div class="serial">Prix Unitaire</div>
+                            <div class="serial">Prix Total</div>
+                        </div>
+                        {% for panier_temp in panier_temps %}
+                            <div class="table-row">
+                                <div style="position: relative; left: 4%" class="serial" >{{ panier_temp.oeuvrage.nom }}</div>
+                                <div style="position: relative; left: 13%"class="country" data-setbg="{{asset('/img/' ~ panier_temp.oeuvrage.image)}}" alt=""></div>
+                                <div style="position: relative; left: 5%" class="serial" >{{ panier_temp.quantite }}</div>
+                                <div style="position: relative; left: 4%" class="serial">{{ panier_temp.oeuvrage.prix }}</div>
+                                <div style="position: relative; left: 4%" class="serial">{{ panier_temp.quantite*panier_temp.oeuvrage.prix }}</div>
+
+                                    <a style="position: relative;left:10%"class="btn btn-outline-primary" href="{{ path('panier_temp_edit', {'id': panier_temp.id}) }}"> Modifier</a>
+
+                            </div>
+                        {% else %}
+                            <p style="font-size: 20px;color: black">Panier Vide</p>
+                        {% endfor %}
+                    </div>
+                </div></center>
+        </div>
+    </div>
+{% endblock %}

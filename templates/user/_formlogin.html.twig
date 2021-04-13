@@ -1,0 +1,18 @@
+
+{{ form_start(form) }}
+
+
+        {{ form_widget(form.username ,  {'attr': {'placeholder': 'username'}}) }}
+        {{ form_errors(form.username) }}
+<br/>
+
+
+        {{ form_widget(form.password ,   {'attr': {'placeholder': 'password'}}) }}
+        {{ form_errors(form.password) }}
+<br/>
+
+
+
+
+<button class="btn">{{ button_label|default('Se connecter') }}</button>
+{{ form_end(form) }}

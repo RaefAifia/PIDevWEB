@@ -1,0 +1,49 @@
+
+{{ form_start(form) }}
+
+        {{ form_widget(form.nom ,   {'attr': {'placeholder': 'nom'}}) }}
+        {{ form_errors(form.nom) }}
+<br/>
+
+        {{ form_widget(form.prenom ,   {'attr': {'placeholder': 'prenom'}}) }}
+        {{ form_errors(form.prenom) }}
+<br/>
+
+        {{ form_widget(form.username ,   {'attr': {'placeholder': 'username'}}) }}
+        {{ form_errors(form.username) }}
+<br/>
+
+
+        {{ form_widget(form.password ,   {'attr': {'placeholder': 'password'}}) }}
+        {{ form_errors(form.password) }}
+<br/>
+
+        {{ form_widget(form.adresse ,   {'attr': {'placeholder': 'adresse'}}) }}
+        {{ form_errors(form.adresse) }}
+<br/>
+
+        {{ form_widget(form.numTel ,   {'attr': {'placeholder': 'numero téléphone'}}) }}
+        {{ form_errors(form.numTel) }}
+<br/>
+
+
+        {{ form_widget(form.email ,  {'attr': {'placeholder': 'email'}}) }}
+        {{ form_errors(form.email) }}
+<br/>
+
+
+
+        {{ form_widget(form.bio,   {'attr': {'placeholder': 'Bio'}}) }}
+        {{ form_errors(form.bio) }}
+<br/>
+
+
+
+
+        {{ form_widget(form.imageFile ,   {'attr': {'placeholder': 'votre image'}}) }}
+        {{ form_errors(form.imageFile) }}
+<br/>
+
+
+<button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}

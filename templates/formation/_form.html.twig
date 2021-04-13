@@ -1,0 +1,28 @@
+{{ form_start(form) }}
+   {#{{ form_widget(form) }} #}
+
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+
+
+
+<table class="table  table-striped">
+    <tr><td> Titre : </td> <td>{{ form_widget(form.titre , { 'attr': { 'maxlength' : 10 } }) }}{{ form_errors(form.titre) }}</td></tr>
+    <tr><td>  Domaine (danse, theatre, musique, littérature, peinture, audiovisuel, sculpture)  : </td>  <td>{{ form_widget(form.domaine) }}{{ form_errors(form.domaine)}}</td></tr>
+    <tr><td>  Date  : </td>  <td>{{ form_widget(form.date) }}{{ form_errors(form.date)}}</td></tr>
+    <tr><td>  Durée : </td>  <td>{{ form_widget(form.duree) }}{{ form_errors(form.duree) }}</td></tr>
+    <tr><td>  Lieu : </td>  <td>{{ form_widget(form.lieu) }}{{ form_errors(form.lieu) }}</td></tr>
+    <tr><td> Prix  :</td>  <td>{{ form_widget(form.prix) }}{{ form_errors(form.prix )}}</td></tr>
+    <tr><td> Niveau (débutant ou intermédiare ou avancé) :</td>  <td>{{ form_widget(form.niveau) }}{{ form_errors(form.niveau) }}</td></tr>
+    <tr><td>  Langue : </td>  <td>{{ form_widget(form.langue) }}{{ form_errors(form.langue) }}</td></tr>
+    <tr><td> Description :</td>  <td > {{ form_widget(form.description, {'attr': {'class': 'td'}}) }} {{ form_errors(form.description) }}</td></tr>
+
+    <tr><td> Image :</td>  <td>{{ form_widget(form.image) }}{{ form_errors(form.image) }}</td></tr>
+
+ <td><button class="btn_4">{{ button_label|default('Save') }}</button></td>
+    <td>  <a href="{{ path('cours_new') }}" class="btn_2">Ajouter des cours à cette formation</a></td>
+
+
+ {#  <tr><td> <a class="btn_1"   href="#">Save</a></td></tr>#}
+</table>
+
+{{ form_end(form) }}

@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title %}
+
+    New Formation{% endblock %}
+
+{% block body %}
+    <div class="center">
+    <h1>Create new Formation</h1>
+        <style>
+            .center {
+                width: 100%;
+                margin-left: auto;
+                margin-right: auto;
+                padding: 100px;
+            }
+        </style>
+    {{ include('formation/_form.html.twig') }}
+
+    <a href="{{ path('formation_index') }}">back to list</a>
+    </div>
+{% endblock %}

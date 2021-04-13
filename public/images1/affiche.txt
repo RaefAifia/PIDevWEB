@@ -1,0 +1,34 @@
+
+    <script defer src="https://friconix.com/cdn/friconix-0.2116.js"> </script>
+    <div class="listing__list">
+        {% for i in activite %}
+            <div class="listing__item " >
+                <div class="listing__item__pic set-bg" data-setbg="/images1/{{ i.image}}" >
+                    <div class="listing__item__pic__tag">{{ i.categorie.nom}}</div>
+                    <a class="listing__item__pic__tag bg-dark"  style="margin-left: 200px"  href="">Reserve</a>
+                </div>
+                <div class="listing__item__text">
+                    <div class="listing__item__text__inside">
+                        <h5 align="center">{{ i.nom }}</h5>
+                        <h6>{{ i.description}}</h6>
+
+                        <h6><i class="fi-xnsuxl-dollar-solid" ></i></b>Price {{ i.prixparpersonne }}</b></h6>
+                    </div>
+                    <ul>
+                        <span class="icon_pin_alt " style="white-space: nowrap"></span>{{ i.pointderencontre }}</ul>
+                </div>
+                <br>
+                <div class="listing__item__text__info">
+                    <div class="listing__item__text__info__left">
+                        <div class="listing__item__text__info__right">
+                         <a   href="{{ path('on', {'id': i.id}) }}" >Show</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    
+
+
+

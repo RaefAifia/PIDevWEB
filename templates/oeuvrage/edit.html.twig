@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    <title> Modifier Oeuvre </title>
+{% endblock %}
+
+ {% block content %}
+     <section class="breadcrumb breadcrumb_bg">
+         <div class="container">
+             <div class="row">
+                 <div class="col-lg-12">
+                     <div class="breadcrumb_iner text-center">
+                         <div class="breadcrumb_iner_item">
+                             <h2>Modifier Oeuvre</h2>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+         </div>
+     </section>
+     <!-- breadcrumb start-->
+ {% endblock %}
+
+{% block body %}
+    <section >
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xl-5">
+                    <div class="section_tittle text-center">
+                    </div>
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-lg-6 col-xl-6">
+                </div>
+
+            </div>
+
+                    <div class="banner_text">
+
+                        <div class="banner_text_iner">
+                            <h2>Modifier Oeuvre</h2>
+                        </div>
+
+                            <div class="row">
+
+                                <div class="col-sm-6 col-lg-4" align-self-center>
+                                    <img src="\PI\IMG\{{ oeuvrage.image }}" class="img-fluid" alt="" style="width: 50%; height:auto">
+                                </div>
+
+                                <div class="col-lg-6 col-xl-6">
+
+                                    <div class="banner_text">
+
+                                        <div class="banner_text_iner">
+
+                                            {{ include('oeuvrage/_form.html.twig', {'button_label': 'Modifier'}) }}
+
+
+
+                                        </div>
+                                </div>
+
+
+
+                                    <div class="col-xl-5">
+                                        {{ include('oeuvrage/_delete_form.html.twig') }}
+                                    </div>
+
+                            </div>
+
+
+                        </div>
+
+
+
+                </div>
+        </div>
+
+
+
+    </section>
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends 'baseBack.html.twig' %}
+
+{% block title %}
+    <title> Détail d'Offre </title>
+{% endblock %}
+
+{% block body %}
+    <div class="main">
+        <!-- MAIN CONTENT -->
+        <div class="main-content">
+            <div class="container-fluid">
+                <!-- OVERVIEW -->
+                <div class="panel panel-headline">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Le détail de l'offre " {{ offre.nom }} "</h3>
+                        <p class="panel-subtitle"></p>
+                    </div>
+                    <div class="panel-body">
+    <h1>Offre</h1>
+
+    <table class="table">
+        <tbody>
+
+            <tr>
+                <th>Nom</th>
+                <td>{{ offre.nom }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ offre.description }}</td>
+            </tr>
+            <tr>
+                <th>Nombre de profiteur</th>
+                <td>{{ offre.nbClient }}</td>
+            </tr>
+
+            <tr>
+                <th>Date</th>
+                <td>{{ offre.date ? offre.date|date('Y-m-d') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('offre_index') }}" class="btn_1">Revenir à la liste </a>
+
+    <a href="{{ path('offre_edit', {'offreId': offre.offreId}) }}"  class="btn_1">Modifier</a>
+
+    {{ include('offre/_delete_form.html.twig') }}
+                    </div>
+    </div>
+    <!-- END OVERVIEW -->
+
+    </div>
+    </div>
+    <!-- END MAIN CONTENT -->
+    </div>
+{% endblock %}

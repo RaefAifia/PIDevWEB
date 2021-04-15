@@ -1,0 +1,25 @@
+{{ form_start(form, {'attr':{'novalidate':'novalidate'}}) }}
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+<div class="row">
+
+
+
+            <div class="banner_text_iner">
+<table class="table  table-striped">
+    <tr><td> Nom d'oeuvre : </td>  <td>{{ form_widget(form.nom) }}{{ form_errors(form.nom) }}</td></tr>
+    <tr><td>  Domaine d'oeuvre : </td>  <td>{{ form_widget(form.domaine) }}{{ form_errors(form.domaine) }}</td></tr>
+    <tr><td> Prix d'oeuvre :</td>  <td>{{ form_widget(form.prix) }}{{ form_errors(form.prix )}}</td></tr>
+    <tr><td> Quantité d'oeuvre :</td>  <td>{{ form_widget(form.quantite) }}{{ form_errors(form.quantite) }}</td></tr>
+    <tr><td> Description d'oeuvre :</td>  <td > {{ form_widget(form.description) }} {{ form_errors(form.description) }}</td></tr>
+  <tr><td> Image d'oeuvre :</td>  <td>{{ form_widget(form.image) }}{{ form_errors(form.image) }}</td></tr>
+
+
+</table>
+
+    </div>
+
+</div>
+
+<button class="btn_1">{{ button_label|default('ajouter') }}</button>
+<a href="{{ path('oeuvrage_indexvendor') }}" class="btn_2"> Revenir à la liste</a>
+{{ form_end(form) }}

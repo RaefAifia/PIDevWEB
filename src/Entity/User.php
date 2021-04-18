@@ -7,6 +7,7 @@ use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 
 /**
@@ -21,7 +22,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @Vich\Uploadable
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
-class User
+class User implements UserInterface
 {
     /**
      * @var int
@@ -31,6 +32,11 @@ class User
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $userId;
+    /**
+     * @Assert\NotBlank()
+     * @Assert\Length(max=4096)
+     */
+    private $plainPassword;
 
     /**
      * @var string
@@ -64,9 +70,9 @@ class User
     /**
      * @var string|null
      *
-     * @ORM\Column(name="role", type="string", length=50, nullable=true, options={"default"="NULL"})
+     * @ORM\Column(name="roles", type="string", length=50, nullable=true, options={"default"="NULL"})
      */
-    private $role = 'NULL';
+    private $roles = 'NULL';
 
     /**
      * @var string
@@ -209,6 +215,8 @@ class User
         return $this;
     }
 
+
+
     public function getUsername(): ?string
     {
         return $this->username;
@@ -221,9 +229,27 @@ class User
         return $this;
     }
 
-    public function getPassword(): ?string
+
+    public function getSalt()
+    {
+        // you *may* need a real salt depending on your encoder
+        // see section on salt below
+        return null;
+    }
+
+
+    public function getPassword()
     {
         return $this->password;
+    }
+
+    public function getRoles()
+    {
+        return array('ROLE_USER');
+    }
+
+    public function eraseCredentials()
+    {
     }
 
     public function setPassword(string $password): self
@@ -233,17 +259,7 @@ class User
         return $this;
     }
 
-    public function getRole(): ?string
-    {
-        return $this->role;
-    }
 
-    public function setRole(?string $role): self
-    {
-        $this->role = $role;
-
-        return $this;
-    }
 
     public function getAdresse(): ?string
     {
@@ -268,6 +284,7 @@ class User
 
         return $this;
     }
+
 
     public function getEmail(): ?string
     {
@@ -404,6 +421,15 @@ class User
     public function __toString()
     {
         return $this->email;
+    }
+    public function getPlainPassword()
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword($password)
+    {
+        $this->plainPassword = $password;
     }
 
 

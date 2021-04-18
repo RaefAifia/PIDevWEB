@@ -14,8 +14,8 @@
                             <table class="table">
                                 <thead>
                                 <tr>
-                                    <th>ReclamationId</th>
-                                    <th>ReclamationNom</th>
+
+                                    <th>Nom de reclamation</th>
                                     <th>Description</th>
                                     <th>Date</th>
                                     <th>Avertissement</th>
@@ -25,7 +25,7 @@
                                 <tbody>
                                 {% for reclamation in reclamations %}
                                     <tr>
-                                        <td>{{ reclamation.reclamationId }}</td>
+
                                         <td>{{ reclamation.reclamationNom }}</td>
                                         <td>{{ reclamation.description }}</td>
                                         <td>{{ reclamation.date ? reclamation.date|date('Y-m-d') : '' }}</td>

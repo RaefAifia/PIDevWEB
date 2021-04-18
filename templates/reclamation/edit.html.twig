@@ -13,9 +13,29 @@
 
 
                             <h1>Edit Reclamation</h1>
+                            {{ form_start(form1) }}
+                            <div>
+                            {{ form_label(form1.reclamationNom) }}
+                            {{ form_errors(form1.reclamationNom) }}
+                            {{ form_widget(form1.reclamationNom) }}
+                            </div>
+                            <div>
+                                {{ form_label(form1.description) }}
+                                {{ form_errors(form1.description) }}
+                                {{ form_widget(form1.description) }}
+                            </div>
+                            <table class="table">
+                                <tbody>
+                            <tr>
+                                <th><label>Concernant</label></th>
+                                <td>{{ reclamation.x }}</td><td>{{ reclamation.concernant }}</td>
+                            </tr>
+                            </tbody>
+                            </table>
 
-                            {{ include('reclamation/_form.html.twig', {'button_label': 'Update'}) }}
 
+                            <button class="btn">{{ button_label|default('Modifier') }}</button>
+                            {{ form_end(form1) }}
                             <a href="{{ path('reclamation_index') }}">back to list</a>
 
                             {{ include('reclamation/_delete_form.html.twig') }}

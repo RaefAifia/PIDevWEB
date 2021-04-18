@@ -24,11 +24,12 @@ class ReclamationType extends AbstractType
             ->add('description')
             ->add('x', ChoiceType::class, [
                 'choices'  => [
-                    'Oeuvre' => null,
-                    'Formation' => true,
-                    'Evenement' => false,
+                    'Oeuvre' => "Oeuvre",
+                    'Formation' => "Formation",
+                    'Evenement' => "Evenement",
                 ],
-            ]);
+            ])
+            ->add('concernant');
 
 
 

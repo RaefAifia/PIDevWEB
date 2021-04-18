@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ReclamationRepository;
+use phpDocumentor\Reflection\Types\Null_;
+use PhpParser\Node\Scalar\String_;
 use Symfony\Component\HttpFoundation\File\File;
 
 /**
@@ -32,6 +34,11 @@ class Reclamation
      * @ORM\Column(name="reclamation_nom", type="string", length=50, nullable=false)
      */
     private $reclamationNom;
+    /**
+     * @var string
+     *
+     */
+    private $concernant;
 
     /**
      * @var string
@@ -195,6 +202,28 @@ class Reclamation
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+    public function getconcernant(): ?string
+    {
+        return $this->concernant;
+    }
+
+    public function setconcernant(?String $concernant): self
+    {
+        $this->concernant = $concernant;
+
+        return $this;
+    }
+    public function getX(): ?string
+    {
+        return $this->x;
+    }
+
+    public function setX(?String $x): self
+    {
+        $this->x = $x;
 
         return $this;
     }

@@ -13,12 +13,9 @@
 
                             <table class="table">
                                 <tbody>
+
                                 <tr>
-                                    <th>ReclamationId</th>
-                                    <td>{{ reclamation.reclamationId }}</td>
-                                </tr>
-                                <tr>
-                                    <th>ReclamationNom</th>
+                                    <th>Nom de réclamation</th>
                                     <td>{{ reclamation.reclamationNom }}</td>
                                 </tr>
                                 <tr>
@@ -29,10 +26,12 @@
                                     <th>Date</th>
                                     <td>{{ reclamation.date ? reclamation.date|date('Y-m-d') : '' }}</td>
                                 </tr>
+
                                 <tr>
-                                    <th>Avertissement</th>
-                                    <td>{{ reclamation.avertissement ? 'Yes' : 'No' }}</td>
+                                    <th>Concernant</th>
+                                    <td>{{ reclamation.x }}</td><td>{{ reclamation.concernant }}</td>
                                 </tr>
+
                                 </tbody>
                             </table>
 

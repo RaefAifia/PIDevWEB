@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * @Route("/user")
@@ -29,7 +30,7 @@ class UserController extends AbstractController
     /**
      * @Route("/new", name="user_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
@@ -41,6 +42,8 @@ class UserController extends AbstractController
             $user->setMailconfirme(0);
             $user->setNumconfirme(0);
             $user->setRole("client");
+            $password = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
+            $user->setPassword($password);
 
             $entityManager = $this->getDoctrine()->getManager();
              $entityManager->persist($user);
@@ -52,51 +55,6 @@ class UserController extends AbstractController
 
         return $this->render('user/new.html.twig', [
             'user' => $user,
-            'form' => $form->createView(),
-        ]);
-    }
-    /**
-     * @Route("/login", name="user_login", methods={"GET","POST"})
-     */
-    public function login(Request $request): Response
-    {
-        $u = new User();
-        $form = $this->createForm(Registration::class, $u);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            $u->setUsername($request->get('username'));
-            $pass=$request->get('password');
-
-
-            $u->setPassword($request->get('password'));
-            $user=$this->getDoctrine()->getRepository(User::class)->findByUsername($u->getUsername());
-
-            if(!empty($user)){
-                foreach($user as $a)
-                {
-                    //echo $a->getPassword();
-                    if($a->getPassword()!=$pass)
-                    {
-
-                        echo "no";
-
-                    }
-                    else{
-                        echo "valider";
-                        return $this->redirectToRoute('user_index');}
-                }
-
-            }else{
-                echo "no";
-            }
-
-        }
-
-
-        return $this->render('user/login.html.twig', [
-            'user' => $u,
             'form' => $form->createView(),
         ]);
     }
@@ -133,7 +91,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/{userId}", name="user_delete", methods={"POST"})
+     * @Route("/{userId}/delete", name="user_delete", methods={"POST"} )
      */
     public function delete(Request $request, User $user): Response
     {

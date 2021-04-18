@@ -3,12 +3,14 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\FavorisORepository;
+use phpDocumentor\Reflection\Types\String_;
 
 /**
  * FavorisO
  *
  * @ORM\Table(name="favoris_o", indexes={@ORM\Index(name="fk_favo", columns={"user_id"}), @ORM\Index(name="fk_favouv", columns={"oeuvrage_id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass=FavorisORepository::class)
  */
 class FavorisO
 {
@@ -69,6 +71,5 @@ class FavorisO
 
         return $this;
     }
-
 
 }

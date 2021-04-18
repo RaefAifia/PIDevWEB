@@ -22,9 +22,14 @@ class OeuvrageType extends AbstractType
 
             ->add('domaine', ChoiceType::class, [
                 'choices' => [
-                    'Croissant' => 'Croissant',
-                    'Décroissant' => 'Décroissant',
-                ],'required' => false])
+                    'Peinture' => 'Peinture',
+                    'Artisanat' => 'Artisanat',
+                   'Décoration'  => 'Décoration'
+                    ,'Sculpture' => 'Sculpture'
+                    ,'Litérature' => 'Litérature'
+                ],'required' => false ,
+
+            ] )
             ->add('prix')
 
             ->add('quantite')

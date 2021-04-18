@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\FavorisO;
 use App\Entity\Oeuvrage;
 use App\Entity\User;
 use App\Form\OeuvrageType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -33,12 +35,28 @@ class OeuvrageController extends AbstractController
         ]);
     }
 
+
+  //  /**
+    // * @Route("/{nom}", name="oeuvrage_search", methods={"GET"})
+    // */
+ //   public function recherche($nom): Response
+   // {
+     //   $oeuvrages = $this->getDoctrine()
+       //     ->getRepository(Oeuvrage::class)
+         //   ->search($nom);
+
+        // return $this->render('oeuvrage/index.html.twig', [
+           //  'oeuvrages' => $oeuvrages,
+        // ]);
+    //}
+
+
     /**
      * @Route("/vendor", name="oeuvrage_indexvendor", methods={"GET"})
      */
     public function indexforvendor( ): Response
     {
-        $userId=1;
+
         $oeuvrages = $this->getDoctrine()
             ->getRepository(Oeuvrage::class)
             ->findBy(['user'=>1]);
@@ -59,7 +77,7 @@ class OeuvrageController extends AbstractController
             ->getRepository(Oeuvrage::class)
             ->findAll();
 
-        return $this->render('oeuvrage/affoeuvre_nv.html.twig', [
+        return $this->render('oeuvrage/Backadminindex.html.twig', [
             'oeuvrages' => $oeuvrages,
         ]);
     }
@@ -120,7 +138,61 @@ class OeuvrageController extends AbstractController
      */
     public function show(Oeuvrage $oeuvrage): Response
     {
+        $favoris = $this->getDoctrine()
+            ->getRepository(FavorisO::class)
+            ->findOneBy(['oeuvrage'=>$oeuvrage ,'user'=> 1 ]);
+
         return $this->render('oeuvrage/show.html.twig', [
+            'oeuvrage' => $oeuvrage,
+            'favoris' => $favoris
+        ]);
+    }
+    /**
+     * @Route("/admin/{oeuvrageId}", name="oeuvrage_showadmin", methods={"GET"})
+     */
+    public function showadmin(Oeuvrage $oeuvrage): Response
+    {
+        return $this->render('oeuvrage/backadminshow.html.twig', [
+            'oeuvrage' => $oeuvrage,
+        ]);
+    }
+
+
+    /**
+     * @Route("admin/{oeuvrageId}/valider", name="oeuvrage_valider", methods={"GET","POST"})
+     */
+    public function valider(Request $request,  Oeuvrage $oeuvrage): Response
+    {
+        if ($this->isCsrfTokenValid('valider'.$oeuvrage->getOeuvrageId(), $request->request->get('_token'))) {
+            $oeuvrage->setIsvalid(1);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->flush();
+        }
+        return $this->redirectToRoute('oeuvrage_indexa');
+
+    }
+
+    /**
+     * @Route("admin/{oeuvrageId}/invalider", name="oeuvrage_invalider", methods={"GET","POST"})
+     */
+    public function invalider(Request $request,  Oeuvrage $oeuvrage): Response
+    {
+        if ($this->isCsrfTokenValid('valider'.$oeuvrage->getOeuvrageId(), $request->request->get('_token'))) {
+            $oeuvrage->setIsvalid(2);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->flush();
+        }
+        return $this->redirectToRoute('oeuvrage_indexa');
+
+    }
+
+
+    /**
+     * @Route("/vendor/{oeuvrageId}", name="oeuvrage_showvendor", methods={"GET"})
+     */
+    public function showvendor(Oeuvrage $oeuvrage): Response
+    {
+        return $this->render('oeuvrage/showforvendor.html.twig', [
             'oeuvrage' => $oeuvrage,
         ]);
     }
@@ -133,9 +205,10 @@ class OeuvrageController extends AbstractController
         $oeuvrage =$this->getDoctrine()
             ->getRepository(Oeuvrage::class)->find($oeuvrageId);
 
-
         $form = $this->createForm(OeuvrageType::class, $oeuvrage);
-        $form->add('image',FileType::class,array('label'=>'inserer une image','data_class' => null));
+        //$form->add('image',FileType::class,array('label'=>'inserer une image','data_class' => null));
+
+
         $form->handleRequest($request);
 
 
@@ -156,9 +229,7 @@ class OeuvrageController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->flush();
 
-
-
-            return $this->redirectToRoute('oeuvrage_index');
+            return $this->redirectToRoute('oeuvrage_indexvendor');
         }
 
         return $this->render('oeuvrage/edit.html.twig', [
@@ -176,6 +247,51 @@ class OeuvrageController extends AbstractController
             $entityManager->remove($oeuvrage);
             $entityManager->flush();
         }
-        return $this->redirectToRoute('oeuvrage_index');
+        return $this->redirectToRoute('oeuvrage_indexvendor');
     }
+
+    /**
+     * @Route("/{oeuvrageId}/favoris", name="oeuvrage_favoris",  methods={"GET","POST"})
+     */
+    public function Favoris (Request $request, Oeuvrage $oeuvrage): Response
+    {
+        $favoris = $this->getDoctrine()
+            ->getRepository(FavorisO::class)
+            ->findOneBy(['oeuvrage'=>$oeuvrage ,'user'=> 1 ]);
+        if  (!$favoris ){
+            $user =  $this->getDoctrine()->getManager()->find(User::class, 1);
+            $response = $this->forward('App\Controller\FavorisOController::newf', [
+                'user'  => $user,
+                'oeuvrage' => $oeuvrage,
+            ]);
+            return $response;
+        }
+        else { $response = $this->forward('App\Controller\FavorisOController::delete', [
+            'favoris' => $favoris,
+            'oeuvrage' => $oeuvrage,
+        ]);
+            return $response;
+
+        }
+
+    }
+
+
+
+    /**
+     * @Route("/listefavoris", name="oeuvrage_listfavoris", methods={"GET"})
+     */
+    public function listfavoris( ): Response
+    {
+
+        $oeuvrages = $this->getDoctrine()
+            ->getRepository(Oeuvrage::class)
+            ->findBy(['user'=>1]);
+
+        return $this->render('oeuvrage/affoeuvre_vendor.html.twig', [
+            'oeuvrages' => $oeuvrages,
+
+        ]);
+    }
+
 }

@@ -19,6 +19,22 @@ class OeuvrageRepository extends ServiceEntityRepository
         parent::__construct($registry, Oeuvrage::class);
     }
 
+    /**
+     *
+     */
+   /*
+    * public function search($nom)
+    {
+        $query = $this->getEntityManager()->createQueryBuilder('p')
+            ->select('o')->from('src\Entity\Oeuvrage','p')->where('p.nom like :nom ')
+            ->setParameter('nom','%'.$nom.'%')
+
+            ->getQuery();
+        $oeuvrage = $query->getResult();
+        return $oeuvrage ;
+    }
+    */
+
     // /**
     //  * @return Oeuvrage[] Returns an array of Oeuvrage objects
     //  */
@@ -35,7 +51,6 @@ class OeuvrageRepository extends ServiceEntityRepository
         ;
     }
     */
-
     /*
     public function findOneBySomeField($value): ?Oeuvrage
     {
@@ -47,4 +62,5 @@ class OeuvrageRepository extends ServiceEntityRepository
         ;
     }
     */
+
 }

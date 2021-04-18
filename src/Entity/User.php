@@ -66,13 +66,17 @@ class User implements UserInterface
      * @ORM\Column(name="password", type="string", length=255, nullable=false)
      */
     private $password;
+    /**
+     * @ORM\Column(type="json")
+     */
+    private $roles = [];
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="roles", type="string", length=50, nullable=true, options={"default"="NULL"})
+     * @ORM\Column(name="role", type="string", length=50, nullable=true, options={"default"="NULL"})
      */
-    private $roles = 'NULL';
+    private $role = 'NULL';
 
     /**
      * @var string
@@ -243,9 +247,19 @@ class User implements UserInterface
         return $this->password;
     }
 
-    public function getRoles()
+    public function getRoles() : array
     {
-        return array('ROLE_USER');
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+    public function setRoles(json $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
     }
 
     public function eraseCredentials()
@@ -269,6 +283,17 @@ class User implements UserInterface
     public function setAdresse(string $adresse): self
     {
         $this->adresse = $adresse;
+
+        return $this;
+    }
+    public function getRole(): ?string
+    {
+        return $this->role;
+    }
+
+    public function setRole(string $role): self
+    {
+        $this->role = $role;
 
         return $this;
     }

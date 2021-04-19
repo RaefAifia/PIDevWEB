@@ -15,16 +15,9 @@ class PanierTempType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('quantite',TextType::class,[
-                'required'=>true,
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Please enter a password',])]
-
-            ])
+            ->add('quantite')
         ;
 
-           # ->add('quantite')
 
     }
 

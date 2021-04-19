@@ -3,7 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Livraison
  *
@@ -23,27 +23,28 @@ class Livraison
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank(message="Veuillez saisir votre nom")
      * @ORM\Column(name="nom", type="string", length=50, nullable=false)
      */
     private $nom;
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank(message="Veuillez saisir votre prenom")
      * @ORM\Column(name="Prenom", type="string", length=50, nullable=false)
      */
     private $prenom;
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank(message="Veuillez saisir votre Num de telephone")
      * @ORM\Column(name="Num_tel", type="string", length=50, nullable=false)
      */
     private $numTel;
 
     /**
      * @var string
+     * @Assert\NotBlank(message="Veuillez saisir votre adresse")
      *
      * @ORM\Column(name="adresse", type="string", length=50, nullable=false)
      */
@@ -54,7 +55,7 @@ class Livraison
      *
      * @ORM\ManyToOne(targetEntity="Commande")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="commande_id", referencedColumnName="commande_id")
+     * @ORM\JoinColumn(name="commande_id", referencedColumnName="commande_id")
      * })
      */
     private $commande;

@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Commande;
+use App\Entity\Livraison;
+use App\Entity\PanierTemp;
 use App\Form\CommandeType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,9 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class CommandeController extends AbstractController
 {
-    /**
-     * @Route("/", name="commande_index", methods={"GET"})
-     */
+
     public function index(): Response
     {
         $commandes = $this->getDoctrine()
@@ -34,22 +34,42 @@ class CommandeController extends AbstractController
     public function new(Request $request): Response
     {
         $commande = new Commande();
+
         $form = $this->createForm(CommandeType::class, $commande);
         $form->handleRequest($request);
 
+        $panierTemps = $this->getDoctrine()
+            ->getRepository(PanierTemp::class)
+            ->findBy(['user'=>1]);
+        $livraisons = $this->getDoctrine()
+            ->getRepository(Livraison::class)
+            ->findBy(['user'=>1]);
+        $prix = 0;
+        foreach ($panierTemps as $p){
+            $prix = $prix + ($p->getQuantite()*$p->getOeuvrage()->getPrix());
+        }
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+            $commande->setDate(new \DateTime());
+            $commande->setPrixtot($prix);
+            $query = $entityManager->createQuery("SELECT u FROM App\Entity\User u WHERE u.userId = 1");
+            $user = $query->getSingleResult();
+            $commande->setUser($user);
             $entityManager->persist($commande);
             $entityManager->flush();
 
-            return $this->redirectToRoute('commande_index');
+            return $this->redirectToRoute('panier_temp_add');
         }
 
         return $this->render('commande/new.html.twig', [
             'commande' => $commande,
+            'panier_temps' => $panierTemps,
+            'livraisons' => $livraisons,
+            'prix' => $prix,
             'form' => $form->createView(),
         ]);
     }
+
 
     /**
      * @Route("/{commandeId}", name="commande_show", methods={"GET"})

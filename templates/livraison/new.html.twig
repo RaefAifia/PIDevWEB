@@ -1,10 +1,54 @@
-{% extends 'base_front.html.twig' %}
+{% extends 'panier.html.twig' %}
 
 
 {% block body %}
-    <center><h1>Ajout Livraison</h1></center>
-    <center>
+<div class="section_padding">
+    <div class="section-top-border">
+    <center><h1>Livraison</h1></center>
+        <section style="padding-top: 5px;padding-bottom: 5px" class="feature_part member_counter single_feature_padding">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 col-sm-6">
+                        <div style="height: 100px;padding-top: 1px" class="single_feature_part">
+                            <div class="single_member_counter">
+                                <p style="font-size: 20px;color: white">Etape 1</p>
+                                <h4>Commander</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6">
+                        <div style="height: 100px;padding-top: 1px" class="single_feature_part">
+                            <div class="single_member_counter">
+                                <p style="font-size: 20px;color: white">Etape 2</p>
+                                <h4>Livraison</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6">
+                        <div style="height: 100px;padding-top: 1px" class="single_feature_part">
+                            <div class="single_member_counter">
+                                <p style="font-size: 20px;color: white">Etape 3</p>
+                                <h4>Confirmer</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6">
+                        <div style="height: 100px;padding-top: 1px" class="single_feature_part">
+                            <div class="single_member_counter">
+                                <p style="font-size: 20px;color: white">Etape 4</p>
+                                <h4>Paiement</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </br>
+        <center>
     {{ include('livraison/_form.html.twig') }}
     </center>
+    </div>
+</div>
 
 {% endblock %}

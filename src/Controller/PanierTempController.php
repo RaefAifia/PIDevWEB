@@ -2,8 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Commande;
+use App\Entity\Livraison;
 use App\Entity\Oeuvrage;
 use App\Entity\PanierTemp;
+use App\Form\CommandeType;
 use App\Form\PanierTempType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,10 +25,16 @@ class PanierTempController extends AbstractController
     {
         $panierTemps = $this->getDoctrine()
             ->getRepository(PanierTemp::class)
-            ->findAll();
+            ->findBy(['user'=>1]);
+
+        $prix = 0;
+        foreach ($panierTemps as $p){
+            $prix = $prix + ($p->getQuantite()*$p->getOeuvrage()->getPrix());
+        }
 
         return $this->render('panier_temp/index.html.twig', [
             'panier_temps' => $panierTemps,
+            'prix' => $prix,
         ]);
     }
 
@@ -54,7 +63,7 @@ class PanierTempController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
-            $query = $entityManager->createQuery("SELECT u FROM App\Entity\User u WHERE u.userId = 8");
+            $query = $entityManager->createQuery("SELECT u FROM App\Entity\User u WHERE u.userId = 1");
             $user = $query->getSingleResult();
             $panierTemp->setUser($user);
             $query = $entityManager->createQuery("SELECT o FROM App\Entity\Oeuvrage o WHERE o.oeuvrageId = :id");
@@ -69,6 +78,48 @@ class PanierTempController extends AbstractController
 
         return $this->render('panier_temp/new.html.twig', [
             'panier_temp' => $panierTemp,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/newc", name="newc", methods={"GET","POST"})
+     */
+    public function newp(Request $request): Response
+    {
+        $commande = new Commande();
+
+        $form = $this->createForm(CommandeType::class, $commande);
+        $form->handleRequest($request);
+
+        $panierTemps = $this->getDoctrine()
+            ->getRepository(PanierTemp::class)
+            ->findBy(['user'=>1]);
+        $livraisons = $this->getDoctrine()
+            ->getRepository(Livraison::class)
+            ->findBy(['user'=>1]);
+        $prix = 0;
+        foreach ($panierTemps as $p){
+            $prix = $prix + ($p->getQuantite()*$p->getOeuvrage()->getPrix());
+        }
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $commande->setDate(new \DateTime());
+            $commande->setPrixtot($prix);
+            $query = $entityManager->createQuery("SELECT u FROM App\Entity\User u WHERE u.userId = 1");
+            $user = $query->getSingleResult();
+            $commande->setUser($user);
+            $entityManager->persist($commande);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('livraison_new');
+        }
+
+        return $this->render('commande/new.html.twig', [
+            'commande' => $commande,
+            'panier_temps' => $panierTemps,
+            'livraisons' => $livraisons,
+            'prix' => $prix,
             'form' => $form->createView(),
         ]);
     }

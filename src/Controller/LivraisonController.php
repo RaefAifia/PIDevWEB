@@ -21,7 +21,7 @@ class LivraisonController extends AbstractController
     {
         $livraisons = $this->getDoctrine()
             ->getRepository(Livraison::class)
-            ->findAll();
+            ->findBy(['user'=>1]);
 
         return $this->render('livraison/index.html.twig', [
             'livraisons' => $livraisons,
@@ -52,17 +52,17 @@ class LivraisonController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $query = $em->createQuery("SELECT u FROM App\Entity\User u WHERE u.userId = 17");
+            $query = $em->createQuery("SELECT u FROM App\Entity\User u WHERE u.userId = 1");
             $user = $query->getSingleResult();
             $livraison->setUser($user);
-            $query = $em->createQuery("SELECT c FROM App\Entity\Commande c WHERE c.commandeId = 2");
+            $query = $em->createQuery("SELECT c FROM App\Entity\Commande c WHERE c.commandeId = 15");
             $commande = $query->getSingleResult();
             $livraison->setCommande($commande);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($livraison);
             $entityManager->flush();
 
-            return $this->redirectToRoute('livraison_index');
+            return $this->redirectToRoute('commande_new');
         }
 
         return $this->render('livraison/new.html.twig', [

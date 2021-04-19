@@ -1,17 +1,17 @@
-{{ form_start(form) }}
+{{ form_start(form, {'attr':{'novalidate':'novalidate'}})  }}
 <div>
     <div class="col-lg-8 col-md-8">
 
     <div class="mt-10">
-            <span class="mt-10">Nom</span>
+            <span class="mt-10">Quantite</span>
             <div>
-                {{ form_widget(form.quantite, { 'attr': {'class': 'mt-10 '} }) }}
+                {{ form_widget(form.quantite, { 'attr': {'class': 'mt-10 '} }) }}{{ form_errors(form.quantite) }}
             </div>
         </div>
 
 
-        <button style="margin-top:10px" class="btn btn-outline-success">{{ button_label|default('Valider') }}</button>
-        <button style="margin-top:10px" class="btn btn-outline-primary"><a href="{{ path('panier_temp_index') }}">Retour</a></button>
+        <button style="margin-top:10px" class="btn_1">{{ button_label|default('Valider') }}</button>
+        <button style="margin-top:10px" class="btn_2"><a href="{{ path('panier_temp_index') }}">Retour</a></button>
     </div>
 </div>
 {{ form_end(form) }}

@@ -1,4 +1,4 @@
-{% extends 'base_front.html.twig' %}
+{% extends 'panier.html.twig' %}
 {% block body %}
     <section class="special_cource padding_top">
         <div class="container">
@@ -9,11 +9,12 @@
                     </div>
                 </div>
             </div>
-            {% for oeuvrage in oeuvrages%}
             <div class="row">
+            {% for oeuvrage in oeuvrages%}
+
                 <div class="col-sm-6 col-lg-4">
                     <div class="single_special_cource">
-                        <img src="{{asset('img/special_cource_1.png')}}" class="special_img" alt="">
+                        <img style="width: 50%" src="/img/{{oeuvrage.image}}" alt="produit" class="special_img">
                         <div class="special_cource_text">
                             {% if oeuvrage.quantite > 0 %}
                             <a href="{{ path('panier_temp_new', {id: oeuvrage.oeuvrageId }) }}" class="btn_4">Ajouter au panier</a>
@@ -27,7 +28,19 @@
                                         <p>Made by:</p>
                                         <h5><a href="#">{{ oeuvrage.user.nom }}</a></h5>
                                         {% else %}
-                                            <h3 style="color: red;">EN RUPTURE DE STOCK</h3>
+                                        <h4>{{ oeuvrage.prix }} DT</h4>
+                                        <h3>{{ oeuvrage.nom }}</h3>
+                                        <p>{{ oeuvrage.description }}</p>
+                                        <div class="author_info">
+                                            <div class="author_img">
+                                                <img src="{{asset('img/author/author_1.png')}}" alt="">
+                                                <div class="author_info_text">
+                                                    <p>Made by:</p>
+                                                    <h5><a href="#">{{ oeuvrage.user.nom }}</a></h5>
+                                            <h4 style="color: red;">EN RUPTURE DE STOCK</h4>
+                                                </div>
+                                            </div>
+                                        </div>
                                         {% endif %}
                                     </div>
                                 </div>
@@ -38,8 +51,9 @@
 
 
                     </div>
+                {% endfor %}
                 </div>
-            {% endfor %}
+
             </div>
     </section>
 {% endblock %}

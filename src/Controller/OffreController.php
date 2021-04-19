@@ -52,13 +52,16 @@ class OffreController extends AbstractController
 
             $nb = $offre->getNbClient();
             $x=$offre-> getX();
-            $oeuvrage=$entityManager->find(Oeuvrage::class, 17);
-            $offre ->setOeuvrage($oeuvrage);
+
 
             if($x === "fidèles clients") {
-               $users =$this->getDoctrine()
+               $cmd =$this->getDoctrine()
                    ->getRepository(Commande::class)
                    ->findfc();
+                $users = array();
+                foreach ($cmd AS $c) {
+                    $users[] = $c->getUser();
+                }
             }
             elseif($x === "nouveaux utilisateurs") {
                $users =$this->getDoctrine()
@@ -120,7 +123,7 @@ class OffreController extends AbstractController
 
         return $this->render('offre/edit.html.twig', [
             'offre' => $offre,
-            'form' => $form->createView(),
+            'forms' => $form->createView(),
         ]);
     }
 

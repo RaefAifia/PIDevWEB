@@ -21,12 +21,12 @@ class CommandeRepository extends ServiceEntityRepository
 
 
     public function findfc() {
-        return $this->getEntityManager()
-            ->createQuery(
-                " SELECT  c
-                FROM App\Entity\Commande c 
-                Group By c.user "
-            )
+        return $this
+            ->createQueryBuilder('c')
+            ->select( 'c')
+            ->groupBy('c.user')
+            ->orderBy('COUNT(c.commandeId)', 'DESC')
+            ->getQuery()
             ->getResult();
 
     }

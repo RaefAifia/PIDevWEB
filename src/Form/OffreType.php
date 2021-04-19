@@ -19,9 +19,7 @@ class OffreType extends AbstractType
             ->add('description' , CKEditorType::class, [
                 'attr' => ['class' => 'form-control']])
             ->add('nbClient')
-            ->add('date', DateTimeType::class,[
-                'input' => 'datetime_immutable'
-                ]
+            ->add('date', DateTimeType::class,
                 )
             ->add('x', ChoiceType::class, [
                 'choices'  => [

@@ -76,15 +76,7 @@ class Offre
      */
     public $x ;
 
-    /**
-     * @var \Oeuvrage
-     *
-     * @ORM\ManyToOne(targetEntity="Oeuvrage")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="oeuvrage_id", referencedColumnName="oeuvrage_id")
-     * })
-     */
-    private $oeuvrage;
+
 
     public function getOffreId(): ?int
     {
@@ -173,16 +165,6 @@ class Offre
         return $this;
     }
 
-    public function getOeuvrage(): ?Oeuvrage
-    {
-        return $this->oeuvrage;
-    }
 
-    public function setOeuvrage(?Oeuvrage $oeuvrage): self
-    {
-        $this->oeuvrage = $oeuvrage;
-
-        return $this;
-    }
 
 }

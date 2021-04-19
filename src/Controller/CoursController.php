@@ -20,18 +20,32 @@ use Symfony\Component\HttpFoundation\File\File;
  */
 class CoursController extends AbstractController
 {
+
+
+    /**
+     * @Route("/{id}", name="formation_cours_index", methods={"GET"})
+     */
+    public function indexCours(CoursRepository $coursRepository,Request $request): Response
+    {
+        $cours=$coursRepository->findByFor($request);
+
+        return $this->render('cours/index.html.twig', [
+            'cours' =>$cours
+        ]);
+    }/*
     /**
      * @Route("/", name="cours_index", methods={"GET"})
      */
-    public function index(CoursRepository $coursRepository): Response
+  /*  public function index(CoursRepository $coursRepository): Response
     {
         return $this->render('cours/index.html.twig', [
             'cours' => $coursRepository->findAll(),
         ]);
-    }
+    }*/
+
 
     /**
-     * @Route("/new", name="cours_new", methods={"GET","POST"})
+     * @Route("/new/{formationId}", name="cours_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
@@ -42,9 +56,11 @@ class CoursController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
-            /*
-                $formation = $entityManager->find(Formation::class, 1);
-            $cour>setFormation($formation);*/
+
+          $query = $entityManager->createQuery("SELECT f FROM App\Entity\Formation f WHERE f.formationId = :formationId");
+          $query->setParameter('formationId',$request->attributes->get('formationId'));
+            $formation = $query->getSingleResult();
+            $cour->setFormation($formation);
 
            $entityManager->persist($cour);
             $entityManager->flush();
@@ -66,7 +82,7 @@ class CoursController extends AbstractController
                 }
 
 
-            return $this->redirectToRoute('cours_index');
+
         }
 
         return $this->render('cours/new.html.twig', [
@@ -119,4 +135,5 @@ class CoursController extends AbstractController
 
         return $this->redirectToRoute('cours_index');
     }
+
 }

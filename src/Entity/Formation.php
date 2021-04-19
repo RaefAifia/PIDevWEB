@@ -35,7 +35,7 @@ class Formation
      * @ORM\Column(name="domaine", type="string", length=50, nullable=false)
      * @Assert\NotBlank(message="")
      * @Assert\Choice({"danse", "theatre", "musique", "littérature", "peinture", "audiovisuel", "sculpture"})
-     *
+     *@Assert\NotBlank(message="vous n'avez rien choisi")
      */
     /*@Assert\Regex("/^{danse,musique}/")
     @Assert\Date
@@ -47,6 +47,7 @@ class Formation
      *
      * @ORM\Column(name="date", type="string", length=100, nullable=false)
      * @Assert\Date
+     *
      */
     private $date;
 
@@ -69,6 +70,7 @@ class Formation
      *
      * @ORM\Column(name="prix", type="float", precision=10, scale=0, nullable=false)
      *@Assert\Type("numeric")
+     *@Assert\NotBlank(message="vous n'avez rien choisi")
      */
     private $prix;
 
@@ -76,7 +78,8 @@ class Formation
      * @var string
      *
      * @ORM\Column(name="niveau", type="string", length=50, nullable=false)
-     *@Assert\Choice({"debutant", "intermédiaire", "avancé"})
+     *@Assert\Choice({"Débutant", "intermédiaire", "avancé"})
+     * @Assert\NotBlank(message="vous n'avez rien choisi")
      */
     private $niveau;
 
@@ -85,6 +88,7 @@ class Formation
      *
      * @ORM\Column(name="langue", type="string", length=50, nullable=false)
      * @Assert\Language
+     * @Assert\NotBlank(message="vous n'avez rien choisi")
      */
     private $langue;
 
@@ -92,6 +96,7 @@ class Formation
      * @var string
      *
      * @ORM\Column(name="description", type="string", length=100, nullable=false)
+     * @Assert\NotBlank(message="vous n'avez rien choisi")
      */
     private $description;
 
@@ -116,7 +121,7 @@ class Formation
      * @var string
      *
      * @ORM\Column(name="titre", type="string", length=50, nullable=false)
-     *
+     *@Assert\NotBlank(message="vous n'avez rien choisi")
      */
     private $titre;
 

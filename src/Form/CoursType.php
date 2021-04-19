@@ -26,7 +26,7 @@ class CoursType extends AbstractType
                 // unmapped means that this field is not associated to any entity property
                 'mapped' => false])
 
-            ->add('formation',EntityType::class, ['class' => Formation::class, 'choice_label'=> 'titre'])
+            //->add('formation',EntityType::class, ['class' => Formation::class, 'choice_label'=> 'titre'])
         ;
     }
 

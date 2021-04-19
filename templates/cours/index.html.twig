@@ -3,21 +3,42 @@
 {% block title %}Cours index{% endblock %}
 
 {% block body %}
-    <h1>Cours index</h1>
+
+<section class="course_details_area section_padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 course_details_left">
+<h4 class="title">Liste des cours</h4>
+<div class="content">
+    <ul class="course_list">
+
+        <li class="justify-content-between align-items-center d-flex">
+            {% for cour in cours %}
+            <h5>{{ cour.titre }}</h5>
+            <a class="btn_2 text-uppercase" href="#">View Details</a>
+        </li>
+       {% endfor %}
+    </ul>
+</div>
+            </div>
+        </div>
+    </div>
+</section>
+{#    <h1>Cours index</h1>
 
     <table class="table">
         <thead>
             <tr>
-                <th>CoursId</th>
+
                 <th>Titre</th>
                 <th>Niveau</th>
                 <th>Description</th>
                 <th>Duree</th>
                 <th>Image</th>
-                <th>actions</th>
+
             </tr>
         </thead>
-        x
+
         {% for cour in cours %}
             <tr>
 
@@ -27,8 +48,10 @@
                 <td>{{ cour.duree }}</td>
                 <td>{{ cour.image }}</td>
                 <td>
-                    <a href="{{ path('cours_show', {'coursId': cour.coursId}) }}">show</a>
-                    <a href="{{ path('cours_edit', {'coursId': cour.coursId}) }}">edit</a>
+                  {% if (cour.formation.) %}
+                    <a class="btn_2" href="{{ path('cours_show', {'coursId': cour.coursId}) }}">show</a>
+                  {% endif %}
+                    <a class="btn_2" href="{{ path('cours_edit', {'coursId': cour.coursId}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -38,6 +61,25 @@
         {% endfor %}
         </tbody>
     </table>
+    <section class="course_details_area ct-golden-section ">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 course_details_area">
+                    <div class="content">
+                        <ul class="course_list">
 
-    <a href="{{ path('cours_new') }}">Create new</a>
+                            <li class="justify-content-between align-items-center d-flex">
+                               {# <p>{{ cour.titre }}</p>
+                                <a class="btn_2 text-uppercase " href="{{path('cours_show',{'id': cour.coursId})}}">Afficher en détails </a>
+
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+<div class="author_img" align="center">
+    </div>  #}
 {% endblock %}

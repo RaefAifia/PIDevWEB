@@ -1,0 +1,72 @@
+{% extends 'baseAdmin.html.twig' %}
+{% block body  %}
+<div class="row" >
+
+    {# <div class="author_info">  <div class="author_img">
+              <a class="btn_1" href="{{ path('formation_index') }}">Retour</a></div> </div>#}
+    <section class="special_cource padding_top">
+
+            <div class="container" >
+                <div class="row justify-content-center">
+                    <div class="col-xl-5">
+
+                                    <div class="section-title">
+    <div class="col-sm-6 col-lg-4" align-self-center>
+
+        <th></th>
+        <img src="/images1/{{ formation.image }}" class="img-fluid"  alt="" style="width: 50%; height:auto; margin:50px">
+    </div>
+
+    <div class="col-sm-6 col-lg-4" align-self-center>
+        <table class="table">
+            <tbody>
+            <tr>
+                <th>Titre</th>
+                <td>{{ formation.titre }}</td>
+            </tr>
+            <tr>
+                <th>Domaine</th>
+                <td>{{ formation.domaine }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ formation.date  }}</td>
+            </tr>
+            <tr>
+                <th>Duree</th>
+                <td>{{ formation.duree }}</td>
+            </tr>
+            <tr>
+                <th>Lieu</th>
+                <td>{{ formation.lieu }}</td>
+            </tr>
+            <tr>
+                <th>Prix</th>
+                <td>{{ formation.prix }}</td>
+            </tr>
+            <tr>
+                <th>Niveau</th>
+                <td>{{ formation.niveau }}</td>
+            </tr>
+            <tr>
+                <th>Langue</th>
+                <td>{{ formation.langue }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ formation.description }}</td>
+            </tr>
+
+
+            </tbody>
+        </table>
+    </div>
+                    </div>
+                </div>
+            </div>
+  <a href="{{ path('valider_formation', {'formationId': formation.formationId}) }}">Valider</a>
+            </div>
+    </section>
+</div>
+
+{% endblock %}

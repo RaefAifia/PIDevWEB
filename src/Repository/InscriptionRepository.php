@@ -36,15 +36,15 @@ class InscriptionRepository extends ServiceEntityRepository
     }
     */
 
-    /*
-    public function findOneBySomeField($value): ?Inscription
+
+    public function findB($uid): ?Inscription
     {
         return $this->createQueryBuilder('i')
-            ->andWhere('i.exampleField = :val')
-            ->setParameter('val', $value)
+            ->andWhere('i.isincrit = 1')
+            ->setParameter('val', $uid)
             ->getQuery()
             ->getOneOrNullResult()
         ;
     }
-    */
+
 }

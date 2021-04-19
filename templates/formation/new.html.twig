@@ -6,8 +6,15 @@
     New Formation{% endblock %}
 
 {% block body %}
+    <tr>
+        <th>Description</th>
+        <td>{{ formation.formationId }}</td>
+    </tr>
     <div class="center">
-    <h1>Create new Formation</h1>
+        <div> <a class="btn_1"  href="{{ path('formation_index') }}">Retour à la list</a></div>
+        <a class="btn-success" href="{{ path('formateur_index') }}">Mes Fomations </a>
+     {#  <td><a href="{{ path('cours_new') }}" class="btn_2">Ajouter des cours à cette formation</a>#}
+    <h1>Créer une nouvelle Formation</h1>
         <style>
             .center {
                 width: 100%;
@@ -18,6 +25,6 @@
         </style>
     {{ include('formation/_form.html.twig') }}
 
-    <a href="{{ path('formation_index') }}">back to list</a>
+
     </div>
 {% endblock %}

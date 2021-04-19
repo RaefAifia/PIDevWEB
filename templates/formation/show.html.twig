@@ -16,7 +16,7 @@
         <div class="col-sm-6 col-lg-4" align-self-center>
 
             <th></th>
-            <img src="/images1/{{ formation.image }}" class="img-fluid"  alt="" style="width: 50%; height:auto; margin:50px">
+       {# #}     <img src="/images1/{{ formation.image }}" class="img-fluid"  alt="" style="width: 50%; height:auto; margin:50px">
         </div>
 
         <div class="col-sm-6 col-lg-4" align-self-center>
@@ -56,31 +56,52 @@
             </tr>
             <tr>
                 <th>Description</th>
-                <td>{{ formation.description }}</td>
+                <td>{{ formation.formationId }}</td>
             </tr>
 
 
         </tbody>
     </table>
+
+          {# <a href="{{ path('inscription_new', {'inscriptionId': formation.formationId}) }}">s'inscrire</a>#}
+            <a  href="{{ path('inscription_new',{'id': formation.formationId})}}" class="genric-btn info-border radius text-uppercase ">s'inscrire à une formation</a>
+
+
+          {# {{ form_start(form) }}
+            {{ form_widget(form.formation,{'attr':{'value':formation.formationId}}) }}
+            <button class="btn">{{ button_label|default('Save') }}</button>
+            {{ form_end(form) }} #}
+
+
             {#<h4 class="title">{{ formation.cours.titre }}</h4>
-
-
+  {# <a href="{{ asset('images1/' ~ formation.image) }}">View image </a> naamalha lel cours files
+   <a href="{{ path('formation_index') }}">back to list</a>
+  <a class="btn_1"href="{{ path('formation_edit', {'formationId': formation.formationId}) }}">Modifier</a></div>#}
+            {% if  formation.user.isFormateur == 1 %}
+    {{ include('formation/_delete_form.html.twig') }}
+    {% endif %}
+            <section class="course_details_area ct-golden-section ">
+                <div class="container">
+            <div class="row">
+                <div class="col-lg-8 course_details_area">
             <div class="content">
                 <ul class="course_list">
+                    <h2 class="title"> les cours associés</h2>
                     <li class="justify-content-between align-items-center d-flex">
-                        <p> les cours de cette formation</p>
-                        <a class="btn_2 text-uppercase" href="#">View Details</a>
+
+
+                        <a class="btn_2 text-uppercase " href="{{path('formation_cours_index',{'id': formation.formationId})}}">voir en détails </a>
                     </li>
                 </ul>
             </div>
-        </div> #}
-
-  {# <a href="{{ asset('images1/' ~ formation.image) }}">View image </a>
-   <a href="{{ path('formation_index') }}">back to list</a>
-  <a class="btn_1"href="{{ path('formation_edit', {'formationId': formation.formationId}) }}">Modifier</a></div>#}
-    {{ include('formation/_delete_form.html.twig') }}
-
         </div>
 
+     </div>
     </div>
+            </section>
+    </div>
+
+    </div>
+
+
 {% endblock %}

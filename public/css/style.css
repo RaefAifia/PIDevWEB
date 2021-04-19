@@ -169,7 +169,7 @@ p {
 h2 {
   font-size: 44px;
   line-height: 28px;
-  color: #0c2e60;
+  color: #000000;
   font-weight: 600;
   line-height: 1.222;
 }
@@ -277,7 +277,7 @@ a:focus, .button:focus, button:focus, .btn:focus {
   text-align: center;
   width: 80px;
   height: 2px;
-  background-color: #ff663b;
+
 }
 
 @media (max-width: 576px) {
@@ -560,6 +560,7 @@ ul {
     padding: 10px 50px;
     margin-top: 30px;
     margin: 30px;
+
   }
 }
 
@@ -578,7 +579,7 @@ ul {
   text-transform: capitalize;
   background-size: 200% auto;
   font-size: 15px;
-  font-weight: 500;
+  font-weight: 400;
 }
 
 /* line 75, E:/172 Etrain Education/172_Etrain_Education_html/sass/_button.scss */
@@ -607,8 +608,10 @@ ul {
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   /* line 60, E:/172 Etrain Education/172_Etrain_Education_html/sass/_button.scss */
   .btn_2 {
-    padding: 14px 30px;
-    margin-top: 30px;
+    padding: 7px 10px;
+    margin-top: 10px;
+
+    margin-bottom: 10px;
   }
 }
 
@@ -4040,7 +4043,7 @@ ul {
 /* line 61, E:/172 Etrain Education/172_Etrain_Education_html/sass/_special_cource.scss */
 .special_cource .single_special_cource .special_cource_text h4 {
   float: right;
-  color: #ff663b;
+  color: #a65959;
   font-weight: 600;
 }
 
@@ -5091,6 +5094,10 @@ h6 {
 /* line 117, E:/172 Etrain Education/172_Etrain_Education_html/sass/_elements.scss */
 h1, h2, h3, h4, h5, h6 {
   line-height: 1.2em;
+  margin-top: 40px;
+  padding-bottom: 10px;
+  margin-bottom: 13px;
+  padding-top: 30px;
 }
 
 /* line 127, E:/172 Etrain Education/172_Etrain_Education_html/sass/_elements.scss */

@@ -4,7 +4,8 @@
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
 
-
+        {{ encore_entry_link_tags('app') }}
+        {{ encore_entry_script_tags('app') |replace({'src=': 'defer src='}) | raw }}
         {% block header %}
 
    <!--::header part start::-->
@@ -252,6 +253,11 @@
         {% endblock %}
     </head>
     <body>
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
         {% block body %}
 
         {% endblock %}

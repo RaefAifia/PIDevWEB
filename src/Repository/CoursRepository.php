@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Cours;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @method Cours|null find($id, $lockMode = null, $lockVersion = null)
@@ -19,22 +20,31 @@ class CoursRepository extends ServiceEntityRepository
         parent::__construct($registry, Cours::class);
     }
 
-    // /**
-    //  * @return Cours[] Returns an array of Cours objects
-    //  */
-    /*
-    public function findByExampleField($value)
+     /**
+    * @return Cours[] Returns an array of Cours objects
+    */
+
+   /* public function findByFormation()
     {
         return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
+            ->andWhere('c.formation = :id')
             ->setParameter('val', $value)
             ->orderBy('c.id', 'ASC')
             ->setMaxResults(10)
             ->getQuery()
             ->getResult()
         ;
+    }*/
+
+
+    public function findByFor(Request $request){
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery("SELECT c FROM App\Entity\Cours c JOIN c.formation f where f.formationId = :id ");
+
+        $query->setParameter('id',$request->attributes->get('id'));
+       return  $query->getResult();
+
     }
-    */
 
     /*
     public function findOneBySomeField($value): ?Cours

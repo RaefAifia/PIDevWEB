@@ -2,8 +2,10 @@
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 
+
+use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Formation;
 /**
  * Inscription
  *
@@ -44,6 +46,9 @@ class Inscription
      * })
      */
     private $formation;
+
+
+
 
     /**
      * @var \User
@@ -106,6 +111,12 @@ class Inscription
         $this->user = $user;
 
         return $this;
+    }
+
+    public function __toString():String
+    {
+        // TODO: Implement __toString() method.
+        return (string)$this->formation;
     }
 
 

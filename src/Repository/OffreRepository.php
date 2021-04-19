@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Offre;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use http\Env\Request;
 
 /**
  * @method Offre|null find($id, $lockMode = null, $lockVersion = null)
@@ -18,6 +19,7 @@ class OffreRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Offre::class);
     }
+
 
     // /**
     //  * @return Offre[] Returns an array of Offre objects

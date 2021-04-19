@@ -1,0 +1,97 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    <title> détail d'un oeuvre </title>
+{% endblock %}
+
+ {% block content %}
+     <section class="breadcrumb breadcrumb_bg">
+         <div class="container">
+             <div class="row">
+                 <div class="col-lg-12">
+                     <div class="breadcrumb_iner text-center">
+                         <div class="breadcrumb_iner_item">
+                             <h2>Détail d'oeuvre </h2>
+
+                         </div>
+                     </div>
+                 </div>
+             </div>
+         </div>
+     </section>
+     <!-- breadcrumb start-->
+ {% endblock %}
+
+{% block body %}
+    <section >
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xl-5">
+                    <div class="section_tittle text-center">
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6 col-lg-4" align-self-center>
+                    <img src="\PI\IMG\{{ oeuvrage.image }}" class="img-fluid" alt="" style="width: 50%; height:auto">
+
+                </div>
+
+
+
+                <div class="col-lg-6 col-xl-6">
+
+                    <div class="banner_text">
+
+                        <div class="banner_text_iner">
+
+
+                            <table class="table">
+                                <tbody>
+
+                                <tr>
+                                    <th>Nom</th>
+                                    <td>{{ oeuvrage.nom }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Domaine</th>
+                                    <td>{{ oeuvrage.domaine }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Prix</th>
+                                    <td>{{ oeuvrage.prix }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Quantite</th>
+                                    <td>{{ oeuvrage.quantite }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Description</th>
+                                    <td>{{ oeuvrage.description }}</td>
+                                </tr>
+
+
+                                </tbody>
+                            </table>
+
+                            <a href="{{ path('oeuvrage_indexvendor') }}" class="btn_1">Revenir à la liste</a>
+
+                            <a href="{{ path('oeuvrage_edit', {'oeuvrageId': oeuvrage.oeuvrageId}) }}" class="btn_2">Modifier</a>
+
+                            {{ include('oeuvrage/_delete_form.html.twig') }}
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+{% endblock %}
+
+

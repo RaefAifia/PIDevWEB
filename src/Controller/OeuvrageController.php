@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\FavorisO;
+use App\Entity\FiltreOeuvre;
 use App\Entity\Oeuvrage;
 use App\Entity\User;
 use App\Form\OeuvrageType;
+use App\Form\SearchType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,15 +26,28 @@ class OeuvrageController extends AbstractController
     /**
      * @Route("/", name="oeuvrage_index", methods={"GET"})
      */
-    public function index(): Response
+    public function index(Request $request): Response
     {
+        $data = new FiltreOeuvre();
+        $form = $this->createForm(SearchType::class, $data);
+        $form->handleRequest($request);
+        [$min,$max] = $this->getDoctrine()
+            ->getRepository(Oeuvrage::class)
+            ->findMinMax($data);
+
+        // $produits = $repository->findSearch($data);
         $oeuvrages = $this->getDoctrine()
             ->getRepository(Oeuvrage::class)
-            ->findBy(['isvalid'=>1]);
+            ->findsearch($data);
 
         return $this->render('oeuvrage/index.html.twig', [
             'oeuvrages' => $oeuvrages,
+            'form' => $form->createView(),
+            'min' => $min,
+            'max' => $max
         ]);
+
+
     }
 
 
@@ -56,7 +71,6 @@ class OeuvrageController extends AbstractController
      */
     public function indexforvendor( ): Response
     {
-
         $oeuvrages = $this->getDoctrine()
             ->getRepository(Oeuvrage::class)
             ->findBy(['user'=>1]);
@@ -277,10 +291,12 @@ class OeuvrageController extends AbstractController
     }
 
 
+/*
+ *
 
-    /**
+
      * @Route("/listefavoris", name="oeuvrage_listfavoris", methods={"GET"})
-     */
+
     public function listfavoris( ): Response
     {
 
@@ -293,5 +309,6 @@ class OeuvrageController extends AbstractController
 
         ]);
     }
+*/
 
 }

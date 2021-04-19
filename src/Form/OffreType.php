@@ -8,6 +8,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class OffreType extends AbstractType
 {
@@ -22,6 +23,14 @@ class OffreType extends AbstractType
                 'input' => 'datetime_immutable'
                 ]
                 )
+            ->add('x', ChoiceType::class, [
+                'choices'  => [
+                    'fidèles clients' => "fidèles clients",
+                    'nouveaux utilisateurs' => "nouveaux utilisateurs",
+                    'anciens utilisateurs' => "anciens utilisateurs",
+
+                ],
+            ])
 
         ;
     }

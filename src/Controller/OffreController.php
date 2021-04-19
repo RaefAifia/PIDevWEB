@@ -2,9 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Commande;
+use App\Entity\Oeuvrage;
 use App\Entity\Offre;
 use App\Entity\User;
 use App\Form\OffreType;
+use App\Repository\CommandeRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -32,6 +35,9 @@ class OffreController extends AbstractController
     /**
      * @Route("/new", name="offre_new", methods={"GET","POST"})
      */
+    /*
+     *
+     */
     public function new(Request $request): Response
     {
         $offre = new Offre();
@@ -40,13 +46,47 @@ class OffreController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
-            $user = $entityManager->find(User::class, 1);
-            $offre->setUser($user);
-            $entityManager->persist($offre);
-            $entityManager->flush();
+            //$user = $entityManager->find(User::class, 1);
 
+           // $offre->setUser($user);
+
+            $nb = $offre->getNbClient();
+            $x=$offre-> getX();
+            $oeuvrage=$entityManager->find(Oeuvrage::class, 17);
+            $offre ->setOeuvrage($oeuvrage);
+
+            if($x === "fidèles clients") {
+               $users =$this->getDoctrine()
+                   ->getRepository(Commande::class)
+                   ->findfc();
+            }
+            elseif($x === "nouveaux utilisateurs") {
+               $users =$this->getDoctrine()
+                   ->getRepository(User::class)
+                   ->findBy(
+                       array(),
+                       array('userId' => 'DESC'),
+                         $nb);
+            }
+            elseif($x === "anciens utilisateurs") {
+                $users =$this->getDoctrine()
+                    ->getRepository(User::class)
+                    ->findBy(
+                        array(),
+                        array('userId' => 'ASC'),
+                        $nb);
+            }
+                for ($i =0 ; $i < $nb ; ++$i) {
+                     $u = $users[$i] ;
+                      $offre ->setUser($u);
+                     $entityManager->persist($offre);
+                     $entityManager->flush();
+                   $entityManager->clear(Offre::class);
+            }
             return $this->redirectToRoute('offre_index');
         }
+
+
 
         return $this->render('offre/new.html.twig', [
             'offre' => $offre,

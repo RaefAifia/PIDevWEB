@@ -48,7 +48,7 @@
                                 <a href="course-details.html">
                                     <h3> {{ oeuvrage.nom }}</h3>
                                 </a>
-                                <p>{{ oeuvrage.description  }}</p>
+                                <p>{{ oeuvrage.description |raw  }}</p>
                                 <h4>{{ oeuvrage.prix }} DT </h4>
                                 {% if oeuvrage.quantite==0 %}
                                     <span class="label-danger ">hors stock</span>
@@ -65,7 +65,7 @@
 
                                 <div class="author_info">
                                     <div class="author_img">
-                                        <a href="{{ path('oeuvrage_show', {'oeuvrageId': oeuvrage.oeuvrageId}) }}" class="btn_4" >{{ button_label|default('afficher') }} </a>
+                                        <a href="{{ path('oeuvrage_showvendor', {'oeuvrageId': oeuvrage.oeuvrageId}) }}" class="btn_4" >afficher </a>
                                         <a href="{{ path('oeuvrage_edit', {'oeuvrageId': oeuvrage.oeuvrageId}) }}" class="btn_4" >Modifier</a>
                                     </div>
 

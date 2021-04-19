@@ -26,7 +26,7 @@ class FavorisORepository extends ServiceEntityRepository
 
                 "SELECT f 
                 FROM App\Entity\FavorisO f 
-                WHERE f.user = '$user')"
+                WHERE f.user = '$user'"
             )
             ->getResult();
 

@@ -27,7 +27,6 @@
 {% block body %}
 
 <section>
-
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-xl-5">
@@ -37,38 +36,58 @@
             </div>
         </div>
         <div class="row">
-            {% for oeuvrage in oeuvrages %}
+            <div class="col-lg-4">
+                <div class="blog_right_sidebar">
+                    {{ include('oeuvrage/filtre.html.twig')  }}
+                </div>
+            </div>
 
-            <div class="col-sm-6 col-lg-4" align-self-center>
-                <div class="single_special_cource">
+            <div class="col-lg-8 mb-5 mb-lg-0">
 
-                    <img src="\PI\IMG\{{ oeuvrage.image }}" class="img-fluid" alt="" style="width: 50%; height:auto">
+                <section class="special_cource padding_top">
+                    <div class="container">
+                        <div class="row">
+                            {% for oeuvrage in oeuvrages %}
 
-                    <div class="special_cource_text">
-                    <a href="course-details.html">
-                            <h3> {{ oeuvrage.nom }}</h3>
-                        </a>
-                        <p>{{ oeuvrage.description  }}</p>
-                        <h4>{{ oeuvrage.prix }} DT </h4>
-                        {% if oeuvrage.quantite==0 %}
-                            <span class="label-danger ">hors stock</span>
-                        {% else %}
-                        <h4> {{ oeuvrage.quantite }} oeuvres </h4>
-                        {% endif %}
+                            <div class=" col-lg-4 col-sm-6">
+                                <div class="single_special_cource">
 
-                        <div class="author_info">
-                            <div class="author_img">
-                                <a href="{{ path('oeuvrage_show', {'oeuvrageId': oeuvrage.oeuvrageId}) }}" class="btn_4" >{{ button_label|default('afficher') }} </a>
+                                    <a href="{{ path('oeuvrage_show', {'oeuvrageId': oeuvrage.oeuvrageId}) }}"> <img src="\PI\IMG\{{ oeuvrage.image }}" class="special_img" alt="" style=" height:150px" >
+                                    </a>
+                                    <div class="special_cource_text">
+                                        <a >
+                                        <h4>{{oeuvrage.prix}} DT</h4>
+                                        </a>
+                                        <a href="{{ path('oeuvrage_show', {'oeuvrageId': oeuvrage.oeuvrageId}) }}"  >
+                                            <h3> {{ oeuvrage.nom }}</h3>
+                                        </a>
+                                        <p>{{ oeuvrage.description |raw }}</p>
+                                        {% if oeuvrage.quantite==0 %}
+                                            <span class="label-danger ">hors stock</span>
+                                        {% else %}
+                                            <span style="font-size: 18px; font-style: italic;  color: #ac3e3e;"> {{ oeuvrage.quantite }} oeuvres </span>
+                                        {% endif %}
 
-                                <a href="#" class="btn_4" >Ajouter au panier</a>
+
+                                        <div class="author_info">
+                                            <div class="author_img" >
+                                                  <a href="#" class="btn_4" >Ajouter au panier</a>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
                             </div>
+
+                            {% endfor %}
 
                         </div>
                     </div>
-
+                </section>
                 </div>
-            </div>
-            {% endfor %}
+
 
         </div>
     </div>

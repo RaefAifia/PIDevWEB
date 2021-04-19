@@ -3,9 +3,10 @@
 <div class="panel-body">
 <table class="table  table-striped">
     <tr><td> Nom d'offre : </td>  <td>{{ form_widget(form.nom) }}{{ form_errors(form.nom) }}</td></tr>
- <tr><td> Nombre des profiteurs :</td>  <td>{{ form_widget(form.nbClient) }}{{ form_errors(form.nbClient) }}</td></tr>
     <tr><td> Description d'offre :</td>  <td > {{ form_widget(form.description) }} {{ form_errors(form.description) }}</td></tr>
     <tr><td> Deadline :</td>  <td>{{ form_widget(form.date) }} {{ form_errors(form.date) }}</td></tr>
+    <tr><td> Nombre des profiteurs :</td>  <td>{{ form_widget(form.nbClient) }}{{ form_errors(form.nbClient) }}</td></tr>
+    <tr><td> Choisir le type des profiteurs :</td>  <td>{{ form_widget(form.x) }} {{ form_errors(form.x) }}</td></tr>
 
 
 </table>

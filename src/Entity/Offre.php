@@ -70,6 +70,22 @@ class Offre
      */
     private $user;
 
+    /**
+     *
+     * @var String
+     */
+    public $x ;
+
+    /**
+     * @var \Oeuvrage
+     *
+     * @ORM\ManyToOne(targetEntity="Oeuvrage")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="oeuvrage_id", referencedColumnName="oeuvrage_id")
+     * })
+     */
+    private $oeuvrage;
+
     public function getOffreId(): ?int
     {
         return $this->offreId;
@@ -146,6 +162,27 @@ class Offre
 
         return $this;
     }
+    public function getX(): ?string
+    {
+        return $this->x;
+    }
 
+    public function setX(?String $x): self
+    {
+        $this->x = $x;
+        return $this;
+    }
+
+    public function getOeuvrage(): ?Oeuvrage
+    {
+        return $this->oeuvrage;
+    }
+
+    public function setOeuvrage(?Oeuvrage $oeuvrage): self
+    {
+        $this->oeuvrage = $oeuvrage;
+
+        return $this;
+    }
 
 }

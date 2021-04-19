@@ -27,15 +27,67 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-xl-5">
-            <div class="section_tittle text-center">
+            <div class="section_tittle text-center"  >
 
+                 {%  if favoris==null   %}
+                    <a method="post" href="{{ path('oeuvrage_favoris', {'oeuvrageId': oeuvrage.oeuvrageId}) }}" id='heart' class='buttonheart' ></a>
+
+                {% else %}
+               <a method="post" href="{{ path('oeuvrage_favoris', {'oeuvrageId': oeuvrage.oeuvrageId}) }}" id='heart' class='buttonheart' ></a>
+                    <style>
+                        .buttonheart{
+                            width: 30px;
+                            height: 10px;
+                            top:50%;
+                            position: absolute;
+                            left: 150%;
+                            border-radius: 5px;
+                            cursor: pointer;
+                            transition: background 0.5s ease;
+                        }
+                        .buttonheart:hover{
+
+                        }
+                        .activate#heart:before,.activate#heart:after{
+                            background: dimgrey !important;
+                        }
+                        #heart {
+                            width: 22px;
+                            height: 20px;
+                            transition: background 0.5s ease;
+                        }
+
+                        #heart:before,
+                        #heart:after {
+                            transition: background 0.5s ease;
+                            position: absolute;
+                            content: "";
+                            left: 50px;
+                            top: 0;
+                            background: #863535;
+                            width: 50px;
+                            height: 80px;
+                            border-radius: 50px 50px 0 0;
+                            transform: rotate(-45deg);
+                            transform-origin: 0 100%;
+                        }
+                        #heart:after {
+                            left: 0;
+                            transform: rotate(45deg);
+                            transform-origin :100% 100%;
+                        }
+                    </style>
+                  {% endif %}
             </div>
+
         </div>
+
     </div>
 
     <div class="row">
-        <div class="col-sm-6 col-lg-4" align-self-center>
-         <img src="\PI\IMG\{{ oeuvrage.image }}" class="img-fluid" alt="" style="width: 50%; height:auto">
+        <div class="col-sm-6 col-lg-4" >
+
+         <img src="\PI\IMG\{{ oeuvrage.image }}" class="special_img" alt="" style="width: 100%; height:auto">
 
         </div>
 
@@ -61,15 +113,19 @@
                                  </tr>
                                  <tr>
                                      <th>Prix</th>
-                                     <td>{{ oeuvrage.prix }}</td>
+                                     <td>{{ oeuvrage.prix }} DT</td>
                                  </tr>
                                  <tr>
                                      <th>Quantite</th>
-                                     <td>{{ oeuvrage.quantite }}</td>
+                                     {% if oeuvrage.quantite ==0  %}
+                                         <td STYLE="color: #8f1f00">hors stock</td>
+                                     {%  else %}
+                                     <td>{{ oeuvrage.quantite }} oeuvres</td>
+                                     {% endif %}
                                  </tr>
                                  <tr>
                                      <th>Description</th>
-                                     <td>{{ oeuvrage.description }}</td>
+                                     <td>{{ oeuvrage.description |raw }}</td>
                                  </tr>
 
 
@@ -78,21 +134,23 @@
 
                              <a href="{{ path('oeuvrage_index') }}" class="btn_1">Revenir à la liste</a>
 
-                             <a href="{{ path('oeuvrage_edit', {'oeuvrageId': oeuvrage.oeuvrageId}) }}" class="btn_2">Modifier</a>
                              <a href="{{ path('oeuvrage_edit', {'oeuvrageId': oeuvrage.oeuvrageId}) }}" class="btn_2">Ajouter au panier</a>
 
-                             {{ include('oeuvrage/_delete_form.html.twig') }}
                          </div>
 
                      </div>
 
 
          </div>
+
+
+
+
+
          </div>
 </div>
 
      </section>
 
  {% endblock %}
-
 

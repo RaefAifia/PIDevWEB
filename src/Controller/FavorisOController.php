@@ -34,7 +34,7 @@ class FavorisOController extends AbstractController
             $oeuvrages[$f->getFavorisOId()] = $f->getOeuvrage();
         }
 
-        return $this->render('oeuvrage/index.html.twig', [
+        return $this->render('oeuvrage/listfav.html.twig', [
             'oeuvrages' => $oeuvrages,
         ]);
     }
@@ -97,7 +97,7 @@ class FavorisOController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($favoris);
             $entityManager->flush();
-        return $this->redirectToRoute('oeuvrage_show', [
+            return $this->redirectToRoute('oeuvrage_show', [
             'oeuvrageId' => $oeuvrage->getOeuvrageId(),
 
         ]);

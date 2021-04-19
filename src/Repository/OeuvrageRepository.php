@@ -2,9 +2,13 @@
 
 namespace App\Repository;
 
+
+use App\Entity\FiltreOeuvre;
 use App\Entity\Oeuvrage;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
+
 
 /**
  * @method Oeuvrage|null find($id, $lockMode = null, $lockVersion = null)
@@ -19,9 +23,62 @@ class OeuvrageRepository extends ServiceEntityRepository
         parent::__construct($registry, Oeuvrage::class);
     }
 
+
+
+    public function findsearch(FiltreOeuvre $search): array
+   {
+       return $this->getSearchQuery($search)->getQuery()->getResult();
+   }
+
     /**
-     *
+     * @return integer[]
      */
+    public function findMinMax(FiltreOeuvre $search): array
+    {
+        $results = $this->getSearchQuery($search, true)
+            ->select('MIN(o.prix) as min', 'MAX(o.prix) as max')
+            ->getQuery()
+            ->getScalarResult();
+        return [(int)$results[0]['min'], (int)$results[0]['max']];
+    }
+
+
+    private function getSearchQuery(FiltreOeuvre $search, $ignorePrice = false): QueryBuilder
+    {
+        $query = $this
+            ->createQueryBuilder('o')
+            ->select( 'o')
+            ->andWhere('o.isvalid = 1');
+
+        if (!empty($search->q)) {
+            $query = $query
+                ->andWhere('o.nom LIKE :q')
+                ->setParameter('q', "%{$search->q}%");
+        }
+
+        if (!empty($search->min) && $ignorePrice === false) {
+            $query = $query
+                ->andWhere('o.prix >= :min')
+                ->setParameter('min',$search->min);
+        }
+
+        if (!empty($search->max) && $ignorePrice === false) {
+            $query = $query
+                ->andWhere('o.prix <= :max')
+                ->setParameter('max',$search->max);
+        }
+
+        if (!empty($search->domaine)) {
+            $query = $query
+                ->andWhere('o.domaine IN (:domaines)')
+                ->setParameter('domaines', $search->domaine);
+        }
+
+
+        return $query;
+    }
+
+
    /*
     * public function search($nom)
     {

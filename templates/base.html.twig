@@ -12,6 +12,7 @@
     {% block css %}
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="{{ asset ('css/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ asset ('css/bootsnav.min.css') }}">
         <!-- animate CSS -->
         <link rel="stylesheet" href="{{ asset ('css/animate.css') }}">
         <!-- owl carousel CSS -->
@@ -26,6 +27,8 @@
         <link rel="stylesheet" href="{{ asset ('css/slick.css') }}">
         <!-- style CSS -->
         <link rel="stylesheet" href="{{ asset ('css/style.css') }}">
+        <link rel="stylesheet" href="{{ asset ('assetX/styles/app.css') }}">
+
     {% endblock %}
 </head>
 
@@ -65,9 +68,10 @@
                                 <a class="nav-link" href="{{ path('oeuvrage_index') }}">Oeuvres</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="contact.html">Profil</a>
+                                <a class="nav-link" href="{{ path('favoris_o_index') }}">Profil</a>
                             </li>
                             <li class="d-none d-lg-block">
+
                                 <a class="btn_1" href="#">S'inscrire</a>
                             </li>
                         </ul>
@@ -199,6 +203,7 @@
 <!-- jquery plugins here-->
 <!-- jquery -->
 {% block js %}
+
 <script src="{{ asset ('js/jquery-1.12.1.min.js') }}"></script>
 <!-- popper js -->
 <script src="{{ asset('js/popper.min.js') }}"></script>
@@ -219,7 +224,11 @@
 <script src="{{ asset ('js/waypoints.min.js') }}"></script>
 <!-- custom js -->
 <script src="{{ asset('js/custom.js') }}"></script>
-
+    <script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/mojs/latest/mo.min.js'></script>
+    <script src="{{ asset('js/favoris.js') }}"></script>
+    <script src="{{ asset ('assetX/app.js') }}"></script>
+    <script src="{{ asset ('assetX/bootstrap.js') }}"></script>
 {% endblock %}
 </body>
 

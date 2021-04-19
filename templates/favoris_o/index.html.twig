@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}FavorisO index{% endblock %}
+
+{% block body %}
+    <h1>FavorisO index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>FavorisOId</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for favoris_o in favoris_os %}
+            <tr>
+                <td>{{ favoris_o.favorisOId }}</td>
+                <td>{{ favoris_o.oeuvrage.nom }}</td>
+                <td>
+                    <a href="{{ path('favoris_o_show', {'favorisOId': favoris_o.favorisOId}) }}">show</a>
+                    <a href="{{ path('favoris_o_edit', {'favorisOId': favoris_o.favorisOId}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="2">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('favoris_o_new') }}">Create new</a>
+{% endblock %}

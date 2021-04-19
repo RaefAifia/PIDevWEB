@@ -7,6 +7,7 @@ use App\Entity\Oeuvrage;
 use App\Entity\Offre;
 use App\Entity\User;
 use App\Form\OffreType;
+use App\Form\OffreTypeEdit;
 use App\Repository\CommandeRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,6 +29,20 @@ class OffreController extends AbstractController
             ->findAll();
 
         return $this->render('offre/index.html.twig', [
+            'offres' => $offres,
+        ]);
+    }
+    /**
+     * @Route("/client", name="offre_indexclient", methods={"GET"})
+     */
+    public function listoffre(): Response
+    {    $entityManager = $this->getDoctrine()->getManager();
+        $user = $entityManager->find(User::class, 1);
+        $offres = $this->getDoctrine()
+            ->getRepository(Offre::class)
+            ->findBy(['user'=>$user]);
+
+        return $this->render('offre/offreclient.html.twig', [
             'offres' => $offres,
         ]);
     }
@@ -106,24 +121,33 @@ class OffreController extends AbstractController
             'offre' => $offre,
         ]);
     }
+    /**
+     * @Route("/client/{offreId}", name="offre_showclient", methods={"GET"})
+     */
+    public function showclient(Offre $offre): Response
+    {
+        return $this->render('offre/showoffreclient.html.twig', [
+            'offre' => $offre,
+        ]);
+    }
 
     /**
      * @Route("/{offreId}/edit", name="offre_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Offre $offre): Response
     {
-        $form = $this->createForm(OffreType::class, $offre);
+        $form = $this->createForm(OffreTypeEdit::class, $offre);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
 
+            $this->getDoctrine()->getManager()->flush();
             return $this->redirectToRoute('offre_index');
         }
 
         return $this->render('offre/edit.html.twig', [
             'offre' => $offre,
-            'forms' => $form->createView(),
+            'form' => $form->createView(),
         ]);
     }
 

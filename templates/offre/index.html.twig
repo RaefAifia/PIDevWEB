@@ -14,18 +14,21 @@
                      <div class="panel-heading">
                          <h3 class="panel-title">Liste des offres</h3>
                          <p class="panel-subtitle"></p>
+                         <form method="post" >
+                             <input type="text"   class="form-control rounded" name="AfficherClasse" onkeyup="myFunction()" placeholder="Chercher un offre"  id="myInput" >
+                         </form>
                      </div>
                      <!-- changer lllllllllll -->
 
 
-                     <table class="table">
+                     <table class="table" id="mytable">
                          <thead>
-                         <tr>
+                         <tr style="color:#a65959">
 
                              <th>Nom</th>
                              <th>Description</th>
                              <th>Nombre des profiteurs</th>
-
+                             <th>Nom du profiteur</th>
                              <th>Deadline</th>
                              <th>actions</th>
                          </tr>
@@ -35,8 +38,9 @@
                              <tr>
 
                                  <td>{{ offre.nom }}</td>
-                                 <td>{{ offre.description }}</td>
+                                 <td>{{ offre.description |raw }}</td>
                                  <td>{{ offre.nbClient }}</td>
+                                 <td>{{ offre.user }}</td>
 
                                  <td>{{ offre.date ? offre.date|date('Y-m-d') : '' }}</td>
                                  <td>
@@ -49,6 +53,39 @@
                                  <td colspan="5" style="color: darkred">Pas d'offre ! Veuillez créer un </td>
                              </tr>
                          {% endfor %}
+                         <script>
+                             function myFunction() {
+                                 var input, filter, table, tr, td, i,j, txtValue, td1 ,td2, txtValue1, txtValue2 ;
+                                 input = document.getElementById("myInput");
+                                 filter = input.value.toUpperCase();
+                                 table = document.getElementById("mytable");
+                                 tr = table.getElementsByTagName("tr");
+//   alert(td.length);
+                                 for (i = 0; i < tr.length; i++) {
+                                     td= tr[i].getElementsByTagName("td")[0];
+                                     td1= tr[i].getElementsByTagName("td")[1];
+                                     td2= tr[i].getElementsByTagName("td")[3];
+
+                                     if (td) {
+                                         txtValue = td.textContent || td.innerText;
+                                         txtValue1 = td1.textContent || td1.innerText;
+                                         txtValue2 = td2.textContent || td2.innerText;
+                                         if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                                             tr[i].style.display = "";  }
+                                         else if  (txtValue1.toUpperCase().indexOf(filter) > -1) {
+                                             tr[i].style.display = "";  }
+                                         else if  (txtValue2.toUpperCase().indexOf(filter) > -1) {
+                                             tr[i].style.display = "";  }
+                                        else {
+                                             tr[i].style.display = "none";
+                                         }
+                                     }
+
+                                 }
+                             }
+
+
+                         </script>
                          </tbody>
                      </table>
                      <div class="panel-body">

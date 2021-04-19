@@ -47,7 +47,7 @@ class ReclamationController extends AbstractController
             $reclamation ->setDate(new \DateTime('now'));
             $reclamation ->setUser($user = $this->getUser());
             $reclamation ->setAvertissement(0);
-
+            $user = $this->getUser();
             $x=$reclamation-> getX();
             if($x==="Oeuvre"){
                 $repository = $this->getDoctrine()->getRepository(Oeuvrage::class);
@@ -67,11 +67,13 @@ class ReclamationController extends AbstractController
                     return $this->redirectToRoute('reclamation_index');}
             }
             elseif($x==="Formation"){
-                $repository = $this->getDoctrine()->getRepository(Formation::class);
-                $repository2 = $this->getDoctrine()->getRepository(Inscription::class);
+                $repository3 = $this->getDoctrine()->getRepository(Formation::class);
+                $repository4 = $this->getDoctrine()->getRepository(Inscription::class);
 
-                $Formation= $repository-> findOneBy(["titre" => $reclamation ->getconcernant()]);
-                $Inscription= $repository2-> findOneBy(["formation" => $Formation]);
+                $Formation= $repository3-> findOneBy(["titre" => $reclamation ->getconcernant()]);
+
+                $Inscription= $repository4-> findOneBy(["formation" => $Formation , "user"=> $user]);
+
                 if(!$Inscription){ $this->addFlash('error', 'Vous devez vous inscrire avant de réclamer');}
                 else{
                 $reclamation-> setFormation($Formation)    ;
@@ -80,11 +82,11 @@ class ReclamationController extends AbstractController
                     return $this->redirectToRoute('reclamation_index');}
             }
             elseif($x==="Evenement"){
-                $repository = $this->getDoctrine()->getRepository(Evenement::class);
-                $repository1 = $this->getDoctrine()->getRepository(Reservation::class);
+                $repository5 = $this->getDoctrine()->getRepository(Evenement::class);
+                $repository6 = $this->getDoctrine()->getRepository(Reservation::class);
 
-                $Evenement= $repository-> findOneBy(["titre" => $reclamation ->getconcernant()]);
-                $Reservation= $repository1-> findOneBy(["evenement" => $Evenement]);
+                $Evenement= $repository5-> findOneBy(["titre" => $reclamation ->getconcernant()]);
+                $Reservation= $repository6-> findOneBy(["evenement" => $Evenement ,"user"=> $user]);
                 if(!$Reservation){
                     $this->addFlash('error', 'Vous devez réserver l"évenement avant de réclamer');
                 }else{

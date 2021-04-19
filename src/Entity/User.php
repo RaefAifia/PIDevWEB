@@ -21,6 +21,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 /**
  * @Vich\Uploadable
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+
  */
 class User implements UserInterface
 {
@@ -255,12 +256,7 @@ class User implements UserInterface
 
         return array_unique($roles);
     }
-    public function setRoles(json $roles): self
-    {
-        $this->roles = $roles;
 
-        return $this;
-    }
 
     public function eraseCredentials()
     {

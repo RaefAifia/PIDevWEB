@@ -29,7 +29,7 @@ class UserType extends AbstractType
             ->add('imageFile', VichImageType::class, [
             'delete_label' => ' ',
                 'download_label' => ' ',
-                'download_uri' => true,])
+                'download_uri' => false,])
             ->add('bio')
 
 

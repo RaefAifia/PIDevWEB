@@ -42,6 +42,7 @@ class UserController extends AbstractController
             $user->setMailconfirme(0);
             $user->setNumconfirme(0);
             $user->setRole("client");
+
             $password = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
             $user->setPassword($password);
 

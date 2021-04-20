@@ -5,38 +5,116 @@
 
     <div class="section_padding">
         <div class="section-top-border">
-            <center><h3 class="mb-30">Livraisons</h3></center>
-            <center><div class="progress-table-wrap">
-                    <div class="progress-table">
-                        <div class="table-head">
-                            <div class="serial">Livraison ID</div>
-                            <div class="serial">Commande ID</div>
-                            <div class="serial">User ID</div>
-                            <div class="serial">Destination</div>
-                            <div class="serial">Num Tel</div>
-                            <div class="serial">Etat</div>
-                        </div>
-                        {% for livraison in livraisons %}
-                            <div class="table-row">
-                                <div style="position: relative; left: 5%" class="serial" >{{ livraison.livraisonId }}</div>
-                                <div style="position: relative; left: 5%" class="serial" >{{ livraison.commande.commandeId }}</div>
-                                <div style="position: relative; left: 5%" class="serial">{{ livraison.user.userId }}</div>
-                                <div style="position: relative; left: 2%" class="serial">{{ livraison.adresse }}</div>
-                                <div style="position: relative; left: 3%" class="serial">{{ livraison.numTel }}</div>
-                                <div style="position: relative; left: 6%" class="percentage">
-                                    <div class="progress">
-                                        <div class="progress-bar color-5" role="progressbar" style="width: 10%" aria-valuenow="10" aria-valuemin="10"
-                                             aria-valuemax="10"></div>
-                                    </div>
-                                    <a style="position: relative;right:30%"class="btn" href="{{ path('livraison_showadmin', {'livraisonId': livraison.livraisonId}) }}"> Affecter Au livreur</a>
-                                </div>
-                            </div>
-                        {% else %}
-                            <p style="font-size: 20px;color: black">Pas de Livraisons</p>
-                        {% endfor %}
-                    </div>
-                </div></center>
+
+
+    <div class="btn_1" style="position:relative; top: -100px; margin-left: 80px; width: 1200px;">
+        <h1 style="color: white">Livraisons </h1>
+        <br>
+
+        <br>
+        <br>
+        <input id="search" class="form-control form-control-sidebar"  type="search" placeholder="Chercher" aria-label="search">
+
+        <br>
+
+        <table class="table">
+            <thead>
+            <tr style="color: white">
+
+
+                <th>Livraison ID</th>
+                <th>Nom</th>
+                <th>Prenm</th>
+                <th>Destination</th>
+                <th>Num Tel</th>
+                <th>Etat</th>
+                <th>actions</th>
+            </tr>
+            </thead>
+            <tbody id="allQQQ">
+            {% for livraison in livraisons %}
+
+                <tr style="color: white">
+                    <td>{{ livraison.livraisonId }}</td>
+                    <td>{{ livraison.nom }}</td>
+                    <td>{{ livraison.Prenom }}</td>
+                    <td>{{ livraison.adresse }}</td>
+                    <td>{{ livraison.numTel }}</td>
+                    <td>{{ livraison.numTel }}</td>
+                    <td>
+                            <a class="btn btn-info" href="{{ path('livraison_showadmin', {'livraisonId': livraison.livraisonId}) }}">Affecter Au livreur</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="11">Pas de Livraisons</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+            <tbody id="search12">
+            </tbody>
+        </table>
+    </div>
         </div>
     </div>
+    <script
+            src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+    </script>
+    <script>
+        $( document ).ready(function() {
+            $("#search").keyup(function(e){
+
+                var value = $(this).val();
+                $.ajax({
+
+                    url : "{{ path('admrecherchelivr') }}",
+                    type : 'GET',
+                    data: {
+                        'livraison' : value
+                    },
+                    success : function(retour){
+                        if(retour){
+                            $("#search12").empty();
+
+                            $.each(JSON.parse(retour), function(i, r) {
+                                $("#allQQQ").hide();
+                                    $("#search12").append('<tr style="color: white">' +
+                                        '<td> '+r.livraisonId+' </td>' +
+                                        '<td>'+r.nom+' </td>' +
+                                        '<td>'+r.prenom+' </td>'+
+                                        '<td>'+r.adresse+' </td>' +
+                                        '<td>'+r.numTel+' </td>' +
+                                        '<td>'+r.numTel+' </td>' +
+                                        '<td><a class="btn btn-info" href="admin/'+r.livraisonId+'">Affecter au Livreur</a> </td></tr>');
+                            });
+
+                        }
+                        else
+                        {
+                            $("#allQQQ").show();
+                            $("#search12").empty();
+                            $("#search12").fadeIn('fast');
+                        }
+                    },
+                });
+                return false;
+            });
+        });
+
+    </script>
 
 {% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

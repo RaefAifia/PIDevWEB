@@ -4,9 +4,14 @@ namespace App\Controller;
 
 use App\Entity\Livraison;
 use App\Form\LivraisonType;
+use App\Repository\LivraisonRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Encoder\XmlEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -30,14 +35,10 @@ class LivraisonController extends AbstractController
     /**
      * @Route("/admin", name="livraison_indexadmin", methods={"GET"})
      */
-    public function indexadmin(): Response
+    public function indexadmin(LivraisonRepository $livraisonRepository): Response
     {
-        $livraisons = $this->getDoctrine()
-            ->getRepository(Livraison::class)
-            ->findAll();
-
         return $this->render('livraison/indexadmin.html.twig', [
-            'livraisons' => $livraisons,
+            'livraisons' => $livraisonRepository->findAll(),
         ]);
     }
 
@@ -55,20 +56,52 @@ class LivraisonController extends AbstractController
             $query = $em->createQuery("SELECT u FROM App\Entity\User u WHERE u.userId = 1");
             $user = $query->getSingleResult();
             $livraison->setUser($user);
-            $query = $em->createQuery("SELECT c FROM App\Entity\Commande c WHERE c.commandeId = 15");
+            $query = $em->createQuery("SELECT c FROM App\Entity\Commande c WHERE c.commandeId = 20");
             $commande = $query->getSingleResult();
             $livraison->setCommande($commande);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($livraison);
             $entityManager->flush();
 
-            return $this->redirectToRoute('commande_new');
+            return $this->redirectToRoute('panier_new');
         }
 
         return $this->render('livraison/new.html.twig', [
             'livraison' => $livraison,
             'form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/admrecherchelivr", name="admrecherchelivr")
+     */
+    public function searchLivAction(Request $request,LivraisonRepository $repository){
+        $em = $this->getDoctrine()->getManager();
+
+
+        $searchParameter = $request->get('livraison');
+        if(strlen($searchParameter)==0)
+            $entities = $em->getRepository(Livraison::class)->findAll();
+        else
+
+            //call repository function
+
+            $entities = $repository->findByExpField($searchParameter);
+
+
+
+        $encoders = [new XmlEncoder(), new JsonEncoder()];
+        $normalizers = [new ObjectNormalizer()];
+
+        $serializer = new Serializer($normalizers, $encoders);
+        $jsonContent = $serializer->serialize($entities, 'json',['ignored_attributes'=>['Commande','User']
+
+        ]);
+
+        $response = new Response(json_encode($jsonContent));
+        $response->headers->set('Content-Type', 'application/json; charset=utf-8');
+
+        return $response;
     }
 
     /**
@@ -102,7 +135,7 @@ class LivraisonController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('livraison_index');
+            return $this->redirectToRoute('livraison_indexadmin');
         }
 
         return $this->render('livraison/edit.html.twig', [

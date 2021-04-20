@@ -3,111 +3,77 @@
 
 {% block body %}
 
-    <div class="section_padding" style="padding-bottom: 5px">
-        <div class="section-top-border">
-            <center><h3 class="mb-30">Confirmation de commande</h3></center>
-            <div style="padding-top: 5px;padding-bottom: 5px" class="feature_part member_counter single_feature_padding">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-3 col-sm-6">
-                            <div style="height: 100px;padding-top: 1px" class="single_feature_part">
-                                <div class="single_member_counter">
-                                    <p style="font-size: 20px;color: white">Etape 1</p>
-                                    <h4>Commander</h4>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-sm-6">
-                            <div style="height: 100px;padding-top: 1px" class="single_feature_part">
-                                <div class="single_member_counter">
-                                    <p style="font-size: 20px;color: white">Etape 2</p>
-                                    <h4>Livraison</h4>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-sm-6">
-                            <div style="height: 100px;padding-top: 1px" class="single_feature_part">
-                                <div class="single_member_counter">
-                                    <p style="font-size: 20px;color: white">Etape 3</p>
-                                    <h4>Confirmer</h4>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-sm-6">
-                            <div style="height: 100px;padding-top: 1px" class="single_feature_part">
-                                <div class="single_member_counter">
-                                    <p style="font-size: 20px;color: white">Etape 4</p>
-                                    <h4>Paiement</h4>
-                                </div>
+    <div class="section_padding">
+        <br class="section-top-border">
+        <center><h3 class="mb-30">Ma Panier</h3></center>
+        <section style="padding-top: 5px;padding-bottom: 5px" class="feature_part member_counter single_feature_padding">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 col-sm-6">
+                        <div style="height: 100px;padding-top: 1px" class="single_feature_part">
+                            <div class="single_member_counter">
+                                <p style="font-size: 20px;color: white">Etape 1</p>
+                                <h4>Commander</h4>
                             </div>
                         </div>
                     </div>
-
+                    <div class="col-lg-3 col-sm-6">
+                        <div style="height: 100px;padding-top: 1px" >
+                            <div class="single_member_counter">
+                                <p style="font-size: 20px;color: white">Etape 2</p>
+                                <h4>Livraison</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6">
+                        <div style="height: 100px;padding-top: 1px" >
+                            <div class="single_member_counter">
+                                <p style="font-size: 20px;color: white">Etape 3</p>
+                                <h4>Confirmer</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6">
+                        <div style="height: 100px;padding-top: 1px" >
+                            <div class="single_member_counter">
+                                <p style="font-size: 20px;color: white">Etape 4</p>
+                                <h4>Paiement</h4>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
             </div>
-        </div>
+        </section>
+        <center>{{ include('commande/_form.html.twig') }}</center>
+        <center><p style="font-size: 20px;color: red">Total a payer: {{ prix }}</center></p>
+        </br>
+        <center><div class="progress-table-wrap">
+                <div class="progress-table">
+                    <div class="table-head">
+                        <div class="serial">Nom Oeuvre</div>
+                        <div class="country">Image</div>
+                        <div class="serial">Quantite</div>
+                        <div class="serial">Prix Unitaire</div>
+                        <div class="serial">Prix Total</div>
+                    </div>
+                    {% for panier_temp in panier_temps %}
+                        <div class="table-row">
+                            <div style="position: relative; left: 4%" class="serial" >{{ panier_temp.oeuvrage.nom }}</div>
+                            <div style="position: relative; left: 11%"class="country"><img style="width: 20%" src="/img/{{panier_temp.oeuvrage.image}}" alt="produit"></div>
+                            <div style="position: relative; left: 5%" class="serial" >{{ panier_temp.quantite }}</div>
+                            <div style="position: relative; left: 4%" class="serial">{{ panier_temp.oeuvrage.prix }}</div>
+                            <div style="position: relative; left: 4%" class="serial">{{ panier_temp.quantite*panier_temp.oeuvrage.prix }}</div>
+
+                            <div><a class="btn btn-outline-primary" style="position: relative;left:20%; margin-top: 20px" href="{{ path('panier_temp_edit', {'id': panier_temp.id}) }}"> Modifier</a></div>
+                            {{ include('panier_temp/_delete_form.html.twig') }}
+                        </div>
+                    {% else %}
+                        <h4 style="font-size: 30px;color: red; padding-top: 10px">Panier Vide</h4>
+                        <a style="margin-top: 30px" href="{{ path('panier_temp_add') }}" class="btn_4">Ajouter un oeuvre</a>
+                    {% endfor %}
+                </div>
+            </div></center>
     </div>
-    </section>
-
-
-    <center>
-        {{ include('commande/_form.html.twig') }}
-    </center>
-    <center><p style="font-size: 20px;color: red">Total a payer: {{ prix }}</center></p>
-    <center>
-        {% for livraison in livraisons %}
-            <table class="table">
-
-                <tbody>
-                <tr>
-                    <th>Nom</th>
-                    <td>{{ livraison.nom }}</td>
-                </tr>
-                <tr>
-                    <th>Prenom</th>
-                    <td>{{ livraison.prenom }}</td>
-                </tr>
-                <tr>
-                    <th>NumTel</th>
-                    <td>{{ livraison.numTel }}</td>
-                </tr>
-                <tr>
-                    <th>Adresse</th>
-                    <td>{{ livraison.adresse }}</td>
-                </tr>
-                </tbody>
-            </table>
-
-        {% else %}
-            <p style="font-size: 30px;color: red">Pas de Livraisons</p>
-        {% endfor %}
-        </div>
-        </div></center>
-    <center><div class="progress-table-wrap">
-            <div class="progress-table">
-                <div class="table-head">
-                    <div class="serial">Nom Oeuvre</div>
-                    <div class="country">Image</div>
-                    <div class="serial">Quantite</div>
-                    <div class="serial">Prix Unitaire</div>
-                    <div class="serial">Prix Total</div>
-                </div>
-                {% for panier_temp in panier_temps %}
-                    <div class="table-row">
-                        <div style="position: relative; left: 4%" class="serial" >{{ panier_temp.oeuvrage.nom }}</div>
-                        <div style="position: relative; left: 11%"class="country"><img style="width: 20%" src="/img/{{panier_temp.oeuvrage.image}}" alt="produit"></div>
-                        <div style="position: relative; left: 5%" class="serial" >{{ panier_temp.quantite }}</div>
-                        <div style="position: relative; left: 4%" class="serial">{{ panier_temp.oeuvrage.prix }}</div>
-                        <div style="position: relative; left: 4%" class="serial">{{ panier_temp.quantite*panier_temp.oeuvrage.prix }}</div>
-
-
-                    </div>
-
-                {% else %}
-                    <h4 style="font-size: 30px;color: red; padding-top: 10px">Panier Vide</h4>
-                    <a style="margin-top: 30px" href="{{ path('panier_temp_add') }}" class="btn_4">Ajouter un oeuvre</a>
-                {% endfor %}
-            </div>
-        </div></center>
-
+    </div>
 {% endblock %}

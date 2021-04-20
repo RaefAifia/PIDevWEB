@@ -58,7 +58,7 @@ class CommandeController extends AbstractController
             $entityManager->persist($commande);
             $entityManager->flush();
 
-            return $this->redirectToRoute('panier_temp_add');
+            return $this->redirectToRoute('livraison_new');
         }
 
         return $this->render('commande/new.html.twig', [

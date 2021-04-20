@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+
+
+{% block body %}
+
+<div class="btn_1" style="position: relative; margin-top: -42%; margin-left: 40px; width: 850px;">
+    <h1 style="color: white">Edit Evenement</h1>
+    {{ include('evenement/_form.html.twig', {'button_label': 'Update'}) }}
+</div>
+    <br>
+    <br>
+{% endblock %}

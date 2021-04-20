@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+
+
+{% block body %}
+
+    <div style="position:relative; top: -450px; margin-left: 80px;" >
+        {% for blog in blogs %}
+
+            <div  style="width: 520px; margin-top: 10px; margin-left: 10px;" class="btn_1">
+                <div class="btn-block">
+                    <div class="icon"><i class="bx bxl-dribbble"></i></div>
+                    <h3 style="color: white" class="title">Titre:{{blog.titre}}
+                       </h3>
+
+
+                    <img  height="300px" width="500px" src="{{ asset('uploads/images/') }}{{blog.image  }}">
+                    <br>
+                    <br>
+                    <h4 style="color: white">Description:{{blog.description}}
+                        <a id="like" style="margin-left: 80%" class="btn btn-info" href="{{ path('blog_detail', {'blogId': blog.blogId }) }}"> Detail</a>
+
+
+                    </h4>
+
+                </div>
+
+            </div>
+
+
+        {% endfor %}
+    </div>
+
+{% endblock %}

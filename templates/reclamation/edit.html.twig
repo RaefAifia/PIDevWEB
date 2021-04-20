@@ -13,16 +13,16 @@
 
 
                             <h1>Edit Reclamation</h1>
-                            {{ form_start(form1) }}
+                            {{ form_start(form) }}
                             <div>
-                            {{ form_label(form1.reclamationNom) }}
-                            {{ form_errors(form1.reclamationNom) }}
-                            {{ form_widget(form1.reclamationNom) }}
+                            {{ form_label(form.reclamationNom) }}
+                            {{ form_errors(form.reclamationNom) }}
+                            {{ form_widget(form.reclamationNom) }}
                             </div>
                             <div>
-                                {{ form_label(form1.description) }}
-                                {{ form_errors(form1.description) }}
-                                {{ form_widget(form1.description) }}
+                                {{ form_label(form.description) }}
+                                {{ form_errors(form.description) }}
+                                {{ form_widget(form.description) }}
                             </div>
                             <table class="table">
                                 <tbody>
@@ -35,7 +35,7 @@
 
 
                             <button class="btn">{{ button_label|default('Modifier') }}</button>
-                            {{ form_end(form1) }}
+                            {{ form_end(form) }}
                             <a href="{{ path('reclamation_index') }}">back to list</a>
 
                             {{ include('reclamation/_delete_form.html.twig') }}

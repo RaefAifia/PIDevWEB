@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Relations;
 use App\Entity\User;
 use App\Form\Registration;
 use App\Form\UserType;
@@ -23,7 +24,7 @@ class UserController extends AbstractController
     public function index(UserRepository $userRepository): Response
     {
         return $this->render('user/index.html.twig', [
-            'users' => $userRepository->findAll(),
+            'users' => $userRepository->findBy(["validite"=>1]),
         ]);
     }
 
@@ -65,8 +66,13 @@ class UserController extends AbstractController
      */
     public function show(User $user): Response
     {
+        $relation = $this->getDoctrine()
+            ->getRepository(Relations::class)
+            ->findOneBy(['followee'=>$user ,'follower'=> $this->getUser() ]);
+
         return $this->render('user/show.html.twig', [
             'user' => $user,
+            'relation' =>$relation,
         ]);
     }
 
@@ -103,5 +109,29 @@ class UserController extends AbstractController
         }
 
         return $this->redirectToRoute('user_index');
+    }
+    /**
+     * @Route("/{userId}/relation", name="user_sabonner",  methods={"GET","POST"})
+     */
+    public function Relation (Request $request, User $user): Response
+    {
+        $relation = $this->getDoctrine()
+            ->getRepository(Relations::class)
+            ->findOneBy(['followee'=>$user ,'follower'=> $this->getUser() ]);
+        if  (!$relation ){
+            $response = $this->forward('App\Controller\RelationsController::newR', [
+                'user'  => $user,
+
+            ]);
+            return $response;
+        }
+        else { $response = $this->forward('App\Controller\RelationsController::deleteR', [
+            'relation' =>$relation,
+            'user' => $user,
+        ]);
+            return $response;
+
+        }
+
     }
 }

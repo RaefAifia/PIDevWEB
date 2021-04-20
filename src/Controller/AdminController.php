@@ -2,10 +2,15 @@
 
 namespace App\Controller;
 
+use App\Entity\Evenement;
+use App\Entity\Formation;
+use App\Entity\Oeuvrage;
+use App\Entity\Reclamation;
 use App\Entity\User;
 use App\Form\Registration;
 
 use App\Form\UserType;
+use App\Repository\ReclamationRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use CMEN\GoogleChartsBundle\GoogleCharts\Charts\Material\ColumnChart;
@@ -63,7 +68,7 @@ class AdminController extends AbstractController
 
         $users = $userRepository->findAll();
         $categNom = ["Formateur" , "Vendeur" , "Client"];
-        $categColor = ["#a65959" , "#414e4d" , "#343e3d"];
+        $categColor = ["#343e3d",  "#414e4d" , "#a65959" ];
 
         $categFormateur = count($userRepository->findBy(["isFormateur" =>1]) )  ;
         $categVendeur = count($userRepository->findBy(["isVendeur" =>1]) ) ;
@@ -76,6 +81,66 @@ class AdminController extends AbstractController
             'categCount' => json_encode($categCount),
 
         ]);
+    }
+
+    /**
+     * @Route("/Admin/reclamation", name="admin_reclamation", methods={"GET"})
+     */
+    public function reclamation(ReclamationRepository $reclamationRepository): Response
+    {
+
+        return $this->render('Admin/adminreclamations.html.twig', [
+            'reclamations' => $reclamationRepository->findAll(),
+        ]);
+    }
+    /**
+     * @Route("/Admin/reclamation/{reclamationId}", name="admin_reclamation_show", methods={"GET"})
+     */
+    public function reclamation_show(Reclamation $reclamation): Response
+    {
+        $repository0 = $this->getDoctrine()->getRepository(Formation::class);
+        $repository1 = $this->getDoctrine()->getRepository(Evenement::class);
+
+        $repository = $this->getDoctrine()->getRepository(Oeuvrage::class);
+        if($reclamation->getOeuvrage()!=null){
+            $Oeuvrage = $repository-> find($reclamation->getOeuvrage());
+            $reclamation->setX("Oeuvre");
+            $reclamation ->setconcernant($Oeuvrage);
+        }
+        if($reclamation->getFormation()!=null){
+            $Formation = $repository0-> find($reclamation->getFormation());
+            $reclamation->setX("Formation");
+            $reclamation ->setconcernant($Formation);
+        }
+        if($reclamation->getEvenement()!=null){
+            $Evenement = $repository1-> find($reclamation->getEvenement());
+            $reclamation->setX("Evenement");
+            $reclamation ->setconcernant($Evenement);
+        }
+
+        return $this->render('Admin/adminreclamation.html.twig', [
+            'reclamation' => $reclamation,
+        ]);
+    }
+    /**
+     * @Route("/Admin/reclamation/{reclamationId}", name="admin_reclamation_avert", methods={"GET" ,"POST"})
+     */
+    public function reclamation_avert(Request $request, Reclamation $reclamation) : Response
+    {
+        echo($reclamation->getAvertissement());
+        if ($this->isCsrfTokenValid('Avertissement'.$reclamation->getReclamationId(), $request->request->get('_token'))){
+            $reclamation->setAvertissement(1);
+
+        $this->getDoctrine()->getManager()->flush();}
+
+
+        return $this->redirectToRoute('admin_reclamation_show', [
+            'reclamationId' => $reclamation->getReclamationId(),
+        ]);
+
+
+
+
     }
 
 

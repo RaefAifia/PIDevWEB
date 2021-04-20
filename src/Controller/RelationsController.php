@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Relations;
+use App\Entity\User;
 use App\Form\RelationsType;
 use App\Repository\RelationsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -28,23 +29,22 @@ class RelationsController extends AbstractController
     /**
      * @Route("/new", name="relations_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function newR( $user): Response
     {
         $relation = new Relations();
-        $form = $this->createForm(RelationsType::class, $relation);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($relation);
-            $entityManager->flush();
+        $id=$user->getUserId();
+        echo($id);
+        $relation->setFollower( $this->getUser());
+        $relation->setFollowee($user);
 
-            return $this->redirectToRoute('relations_index');
-        }
 
-        return $this->render('relations/new.html.twig', [
-            'relation' => $relation,
-            'form' => $form->createView(),
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($relation);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('user_show', [
+            'userId' => $user->getUserId(),
         ]);
     }
 
@@ -90,5 +90,19 @@ class RelationsController extends AbstractController
         }
 
         return $this->redirectToRoute('relations_index');
+    }
+    /**
+     * @Route("/delete", name="relations_delete", methods={"POST"})
+     */
+    public function deleteR( $relation, $user): Response
+    {
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($relation);
+        $entityManager->flush();
+        return $this->redirectToRoute('user_show', [
+            'userId' => $user->getUserId(),
+
+        ]);
     }
 }

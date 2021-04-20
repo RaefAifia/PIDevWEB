@@ -22,6 +22,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @Vich\Uploadable
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
 
+
  */
 class User implements UserInterface
 {
@@ -89,6 +90,7 @@ class User implements UserInterface
     /**
      * @var string
      * @Assert\Type("numeric")
+
      * @ORM\Column(name="num_tel", type="string", length=50, nullable=false)
      */
     private $numTel;

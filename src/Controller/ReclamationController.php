@@ -11,6 +11,7 @@ use App\Entity\Panier;
 use App\Entity\Reclamation;
 use App\Entity\Reservation;
 use App\Form\ReclamationType;
+use App\Form\ReclamationType1;
 use App\Repository\ReclamationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Form;
@@ -29,7 +30,7 @@ class ReclamationController extends AbstractController
     public function index(ReclamationRepository $reclamationRepository): Response
     {
         return $this->render('reclamation/index.html.twig', [
-            'reclamations' => $reclamationRepository->findAll(),
+            'reclamations' => $reclamationRepository->findBy(["user" => $this->getUser()]),
         ]);
     }
 
@@ -142,7 +143,7 @@ class ReclamationController extends AbstractController
      */
     public function edit(Request $request, Reclamation $reclamation): Response
     {
-        $form = $this->createForm(ReclamationType::class, $reclamation);
+        $form = $this->createForm(ReclamationType1::class, $reclamation);
         $form->handleRequest($request);
         $repository0 = $this->getDoctrine()->getRepository(Formation::class);
         $repository1 = $this->getDoctrine()->getRepository(Evenement::class);

@@ -88,8 +88,8 @@
             <div class="sidebar-scroll">
                 <nav>
                     <ul class="nav">
-                        <li><a href="index.html" class="active"><i class="lnr lnr-home"></i> <span>Dashboard</span></a></li>
-                        <li><a href="elements.html" class=""><i class="lnr lnr-code"></i> <span>Elements</span></a></li>
+                        <li><a href="{{ path('admin_stats') }}" class="active"><i class="lnr lnr-home"></i> <span>Dashboard</span></a></li>
+                        <li><a href="{{ path('admin_reclamation') }}" class=""><i class="lnr lnr-code"></i> <span>Les Réclamation</span></a></li>
                         <li><a href="charts.html" class=""><i class="lnr lnr-chart-bars"></i> <span>Charts</span></a></li>
                         <li><a href="panels.html" class=""><i class="lnr lnr-cog"></i> <span>Panels</span></a></li>
                         <li><a href="notifications.html" class=""><i class="lnr lnr-alarm"></i> <span>Notifications</span></a></li>
@@ -103,7 +103,7 @@
                                 </ul>
                             </div>
                         </li>
-                        <li><a href="adminutilisateurs.html.twig" class=""><i class="lnr lnr-dice"></i> <span>Les utilisateurs</span></a></li>
+                        <li><a href="{{ path('admin_index') }}" class=""><i class="lnr lnr-dice"></i> <span>Les utilisateurs</span></a></li>
                         <li><a href="typography.html" class=""><i class="lnr lnr-text-format"></i> <span>Les oeuvres</span></a></li>
                         <li><a href="typography.html" class=""><i class="lnr lnr-text-format"></i> <span>Les formations</span></a></li>
                         <li><a href="typography.html" class=""><i class="lnr lnr-text-format"></i> <span>Les évenements</span></a></li>

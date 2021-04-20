@@ -1,5 +1,5 @@
 
-{{ form_start(form) }}
+{{ form_start(form , {'attr' :{'novalidate':'novalidate'}}) }}
 <div class="form-group">
         <label for="inputUsername">Nom</label>
         {{ form_widget(form.nom ) }}

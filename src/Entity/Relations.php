@@ -15,7 +15,17 @@ use App\Repository\RelationsRepository;
  * @ORM\Entity(repositoryClass="App\Repository\RelationsRepository")
  */
 class Relations
+
+
 {
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="relation_id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $relationId;
     /**
      * @var \User
      *
@@ -29,9 +39,7 @@ class Relations
     /**
      * @var \User
      *
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\OneToOne(targetEntity="User")
+     * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="follower_id", referencedColumnName="user_id")
      * })

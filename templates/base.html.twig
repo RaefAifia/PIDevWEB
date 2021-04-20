@@ -5,8 +5,8 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    {% block title %}<title>Etrain</title>{% endblock %}
-    <link rel="icon" href= "{{ asset('images/favicon.png') }}">
+    {% block title %}<title>Fanny</title>{% endblock %}
+
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
     <!-- animate CSS -->
@@ -60,12 +60,24 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="contact.html.twig">Oeuvres</a>
                             </li>
+                            {% if(app.user==null) %}
                             <li class="nav-item">
-                                <a class="nav-link" href="/user/new.html.twig">Profil</a>
+                                <a class="nav-link" href="{{ path('app_login') }}">Profil</a>
                             </li>
+
                             <li class="d-none d-lg-block">
-                                <a class="btn_1" href="#">S'inscrire</a>
+                                <a class="btn_1" href="{{ path('app_login') }}">S'inscrire</a>
                             </li>
+                                {% else %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('user_show', {'userId':app.user.userId}) }}">Profil</a>
+                                </li>
+
+                                <li class="d-none d-lg-block">
+                                    <a class="btn_1" href="{{ path('app_logout') }}">Déconnecter</a>
+                                </li>
+                            {% endif %}
+
                         </ul>
                     </div>
                 </nav>

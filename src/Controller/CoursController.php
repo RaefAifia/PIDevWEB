@@ -27,12 +27,39 @@ class CoursController extends AbstractController
      */
     public function indexCours(CoursRepository $coursRepository,Request $request): Response
     {
-        $cours=$coursRepository->findByFor($request);
+        $cours = $coursRepository->findByFor($request);
 
         return $this->render('cours/index.html.twig', [
+            'cours' => $cours
+        ]);
+    }
+
+        /**
+         * @Route("/backoffice/{id}", name="formation_cours_Admin", methods={"GET","POST"})
+         */
+        public function indexCoursAdmin(CoursRepository $coursRepository,Request $request): Response
+    {
+        $cours=$coursRepository->findByFor($request);
+
+        return $this->render('BackOffice/adminCours.html.twig', [
             'cours' =>$cours
         ]);
-    }/*
+
+
+    }
+    /**
+     * @Route("/backoffice/show/{id}", name="formation_cours_AdminSH", methods={"GET","POST"})
+     */
+    public function CoursAdmin(Cours $cour): Response
+    {
+
+        return $this->render('BackOffice/AdminShCours.html.twig', [
+            'cour' =>$cour
+        ]);
+
+
+    }
+    /*
     /**
      * @Route("/", name="cours_index", methods={"GET"})
      */
@@ -80,19 +107,20 @@ class CoursController extends AbstractController
                 } catch (FileException $e) {
                     // ... handle exception if something happens during file upload
                 }
-
-
-
+           // dd($formation);
+            $this->addFlash('success', 'Cours ajouté ! Vous pouvez associer autres cours à cette formation maintenant !');
+            return $this->redirectToRoute('formation_cours_index',array('id' => $formation->getFormationId()));
         }
 
         return $this->render('cours/new.html.twig', [
             'cour' => $cour,
             'form' => $form->createView(),
+
         ]);
     }
 
     /**
-     * @Route("/{coursId}", name="cours_show", methods={"GET"})
+     * @Route("/afficher/{coursId}", name="cours_show", methods={"GET","POST"})
      */
     public function show(Cours $cour): Response
     {

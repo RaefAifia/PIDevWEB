@@ -30,7 +30,7 @@ class FormationType extends AbstractType
             ->add('niveau',ChoiceType::class, [
                 'choices' => [
                     'Débutant' => 'Débutant',
-                    'intermédiare' => 'intermédiaire',
+                    'intermédiaire' => 'intermédiaire',
                     'avancé' => 'avancé',
                 ]])
 

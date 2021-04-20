@@ -19,7 +19,7 @@
        </section>
    {% endblock %}
 {% block body %}
-    {# ena zedt  section okhra  #}
+    {# ena zedt  section okhra
     <section>
         <div class="container">
             <div class="row justify-content-center">
@@ -29,7 +29,9 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+        </div>
+    </section>#}
+            <section class="row">
                 <div class="col-lg-4">
                     <div class="blog_right_sidebar">
                         {{ include('formation/_filter.html.twig')  }}
@@ -38,49 +40,48 @@
 
                 <div class="col-lg-8 mb-5 mb-lg-0">
 
-    <section class="special_cource padding_top section_padding">
+    <section class="special_cource padding_top ">
         <div class="container">
-             <div class="row justify-content-center">
+
                 <div class="col-xl-5">
                      <div class="section_tittle text-center">
 
-                         <h2>Les formations Artistiques</h2>
-                     <a class="btn_1" href="{{ path('formation_new') }}">Ajouter Formation?</a>
+                         <h2>Les Formations Artistiques</h2>
+                     <a class="btn_1" href="{{ path('formation_new') }}">Devenir un Formateur?</a>
                 </div>
-              </div>
+
 
         </div>
 
-
-
+            <h1> <button type="button" onclick="sortTable()" Trier par date ></button></h1>
 
 
             <div class="row">
+             {% for formation in formations %}
 
-
-                {% for formation in formations %}
-
-                    <div class="col-sm-6 col-lg-4">
+                <div class=" col-lg-4 col-sm-6">
                         <div class="single_special_cource">
-                            <img src="/images1/{{ formation.image }}" class="img-fluid" alt="" style="width: 50%; height:auto">
+                            <img src="/images1/{{ formation.image }}" class="special_img" alt="" style=" height:150px "> {# class="img-fluid" alt="" style="width: 50%; height:auto #}
                             <div class="special_cource_text">
 
 
-                              {# <a href="course-details.html" class="btn_4">Web Development</a> ken nheb naamel click aala esm formation#}
+                               <a href="{{ path('formation_show', {'formationId': formation.formationId}) }}" class="btn_4">{{ formation.titre}}</a> {#ken nheb naamel click aala esm formation#}
 
-                                <h2>{{ formation.titre}}</h2>
-                                <h4 class="text-primary">{{ formation.prix}} DT </h4>
-
-                                <h5>{{ formation.description  }}</h5>
+                                <a>
+                                <h4 >{{ formation.prix}} DT </h4>
+                                </a>
+                                <h5>{{ formation.description |raw }}</h5>
 
 
                                 <div class="author_info">
                                      <div class="author_img">
-                                       <a href="{{ path('formation_show', {'formationId': formation.formationId}) }}" class="btn_4">Afficher</a>
 
+
+                                          {#    <h2>{{ formation.titre}}</h2>
+                                          <a href="{{ path('formation_show', {'formationId': formation.formationId}) }}" class="btn_4">Afficher</a>
                                          {% if  formation.user.isFormateur == 1 %}
                                       <a href="{{ path('formation_edit', {'formationId': formation.formationId}) }}" class="btn_4">Modifier</a>
-                                             {% endif %}
+                                             {% endif %} #}
 
                                     </div>
 
@@ -90,6 +91,44 @@
                         </div>
                     </div>
                 {% endfor %}
+                <script>
+                    function sortTable() {
+                        var table, rows, switching, i, x, y, shouldSwitch,dir;
+                        table = document.getElementById("myT");
+                        switching = true;
+                        // Set the sorting direction to ascending:
+
+
+                        while (switching) {
+
+                            switching = false;
+                            rows = table.rows;
+
+                            for (i = 1; i < (rows.length - 1); i++) {
+
+                                shouldSwitch = false;
+
+                                x = rows[i].getElementsByTagName("TD")[4];
+                                y = rows[i + 1].getElementsByTagName("TD")[4];
+
+
+
+                                if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+
+                                    shouldSwitch = true;
+                                    break;
+                                } }
+
+                            if (shouldSwitch) {
+
+                                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                                switching = true;
+                            }
+
+
+                        }
+                    }
+                </script>
 
             </div>
         </div>
@@ -102,18 +141,9 @@
     </div>
     </div>
     </section>
-    {#   {% if oeuvrage.quantite==0 %}
-                                    <span class="label-danger ">hors stock</span>
-                                {% else %}
-                                    <h4> {{ oeuvrage.quantite }} </h4>
-                                {% endif %}  #}
 
-        {#   {% else %}
-            <tr>
-                <a href="{{ path('formation_show', {'formationId': formation.formationId}) }}">show</a>
-                <a href="{{ path('formation_edit', {'formationId': formation.formationId}) }}">edit</a>
-                <td colspan="13">no records found</td>
-            </tr>   #}
+{% endblock %}
+
 
 
 
@@ -125,4 +155,3 @@
 
 
 
-{% endblock %}

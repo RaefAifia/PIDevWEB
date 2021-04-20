@@ -2,19 +2,19 @@
 {#  {{ form_widget(form) }} #}
 {% form_theme form 'bootstrap_4_layout.html.twig' %}
 <table class="table  table-striped">
-    <tr><td> Titre : </td> <td>{{ form_widget(form.titre , { 'attr': { 'maxlength' : 10 } }) }}{{ form_errors(form.titre) }}</td></tr>
-    <tr><td>  Date : </td>  <td>{{ form_widget(form.date | DateTime) }}{{ form_errors(form.date) }}</td></tr>
+    <tr><td> Titre : </td> <td>{{ form_widget(form.titre , { 'attr': { 'maxlength' : 100 } }) }}{{ form_errors(form.titre) }}</td></tr>
 
-    <tr><td>  Durée : </td>  <td>{{ form_widget(form.duree) }}{{ form_errors(form.duree) }}</td></tr>
+
+    <tr><td>  Durée : </td>  <td>{{ form_widget(form.duree) }}{{ form_errors(form.duree,{ 'attr': { 'placeholder' : 'veuillez mentionner en heure/jour/semaine' }}) }}</td></tr>
 
     <tr><td> Niveau :</td>  <td>{{ form_widget(form.niveau) }}{{ form_errors(form.niveau) }}</td></tr>
     <tr><td> Description :</td>  <td > {{ form_widget(form.description, {'attr': {'class': 'td'}}) }} {{ form_errors(form.description) }}</td></tr>
 
-    <tr><td> Image :</td>  <td>{{ form_widget(form.image) }}{{ form_errors(form.image) }}</td></tr>
+    <tr><td> Document :</td>  <td>{{ form_widget(form.image) }}{{ form_errors(form.image,{ 'attr': { 'placeholder' : 'télécharger vos documents' }}) }}</td></tr>
 
 
 
-   <td> <button  class="btn_4">{{ button_label|default('Save') }}</button></td>
+   <td> <button  class="btn_4">{{ button_label|default('Enregistrer') }}</button></td>
 </table>
 {#<td>  <a href="{{ path('cours_new') }}" class="btn_2">Ajouter d'autres cours ? </a></td>     <tr><td> Réecrire titre de la formation :</td>  <td>{{ form_widget(form.formation) }}{{ form_errors(form.formation) }}</td></tr>#}
 

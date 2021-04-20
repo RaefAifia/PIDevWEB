@@ -11,13 +11,13 @@
                     <div class="col-xl-5">
 
                                     <div class="section-title">
-    <div class="col-sm-6 col-lg-4" align-self-center>
+    <div class="col- col-lg-4" align-self-center>
 
         <th></th>
         <img src="/images1/{{ formation.image }}" class="img-fluid"  alt="" style="width: 50%; height:auto; margin:50px">
     </div>
 
-    <div class="col-sm-6 col-lg-4" align-self-center>
+    <div class="col-col-lg-4" align-self-center>
         <table class="table">
             <tbody>
             <tr>
@@ -56,15 +56,40 @@
                 <th>Description</th>
                 <td>{{ formation.description }}</td>
             </tr>
+<tr>
+
+    <td>
+        {% if formation.isvalid == 0 %}
+        <form  method="post" action="{{ path('v_formation', {'formationId': formation.formationId}) }}" onsubmit="return confirm('Voulez vous vraimenent valider cette formation ? ');">
+            <input type="hidden" name="_token" value="{{ csrf_token('validerF' ~ formation.formationId) }}">
+            <button class="btn btn-success" >valider</button>
+        </form> </td>
+    <td> <form method="post" action="{{ path('formation_delete', {'formationId': formation.formationId}) }}" onsubmit="return confirm('Voulez vous vraimenent invalider cette formation ? ');">
+            <input type="hidden" name="_token" value="{{ csrf_token('Invalider' ~ formation.formationId) }}">
+            <button class="btn btn-danger">Invalider</button>
+        </form></td>
+
+</tr>
+            {% endif %}
+            <a class="btn btn-info" href="{{path('formation_cours_Admin',{'id': formation.formationId})}}">Voir les cours associés </a>
+        {#  <a class="btn btn-success" href="{{ path('valider_formation', {'formationId': formation.formationId}) }}">Valider</a>
+        <a class="btn btn-danger " href="{{ path('formation_delete', {'formationId': formation.formationId}) }}">Invalider</a></td>#}
+
+
+
+
 
 
             </tbody>
         </table>
     </div>
-                    </div>
+
+
+                                    </div>
+
                 </div>
             </div>
-  <a href="{{ path('valider_formation', {'formationId': formation.formationId}) }}">Valider</a>
+
             </div>
     </section>
 </div>

@@ -4,12 +4,35 @@
 {% endblock %}
 
 {% block body %}
-    <div class="author_img" align="top"  margin-top="100px" ><a class="btn_2"  href="{{ path('formation_index') }}">back to list</a></div>
-    <h1> Edit Formation</h1>
-
-    {{ include('formation/_form.html.twig', {'button_label': 'Update'}) }}
+  {#  <div class="author_img" align="top"  margin-top="100px" ><a class="btn_2"  href="{{ path('formateur_index') }}">Retour</a></div>#}
+    <h1> Modifier la Formation</h1>
 
 
 
-    {{ include('formation/_delete_form.html.twig') }}
+
+  <style>
+    .genric-btn danger-border{
+      margin-left: 200%;
+    }
+  </style>
+  <table>
+    <div class="row">
+
+    <div class="col-sm-6 col-lg-4" align-self-center>
+    <div class="col-sm-6 col-lg-4" align-self-center>
+      <img src="\images1\{{ formation.image }}" class="img-fluid" alt="" style="width: 50%; height:auto">
+    </div>
+    </div>
+    </div>
+    <tr>
+
+      {{ include('formation/_form.html.twig', {'button_label': 'Modifier'}) }}
+
+<td><a href="{{ path('cours_new',{'formationId': formation.formationId }) }}" class="btn_2">Ajouter des cours à cette formation</a>
+  <a class="btn_2 text-capitalize" href="{{path('formation_cours_index',{'id': formation.formationId})}}">Voir les cours associés </a></td>
+    </tr>
+
+    {{ include('formation/_delete_form.html.twig',{'button_label': 'Supprimer'}) }}
+  </table>
+
 {% endblock %}

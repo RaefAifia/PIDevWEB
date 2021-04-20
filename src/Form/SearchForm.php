@@ -26,6 +26,8 @@ class SearchForm extends AbstractType
     ])
 
             ->add('domaine',ChoiceType::class, [
+                'required'   => false,
+                'label' => false,
                 'choices' => [
                     'danse' => 'danse',
                     'theatre' => 'theatre',
@@ -53,6 +55,8 @@ class SearchForm extends AbstractType
 
 
             ->add('niveau',ChoiceType::class, [
+                'required'   => false,
+                'label' => false,
                 'choices' => [
                     'Débutant' => 'Débutant',
                     'intermédiare' => 'intermédiaire',

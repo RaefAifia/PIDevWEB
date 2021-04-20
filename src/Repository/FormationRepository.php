@@ -66,6 +66,16 @@ class FormationRepository extends ServiceEntityRepository
 
         return $q->getQuery()->getResult();
     }
+    public function tri() {
+        return $this
+            ->createQueryBuilder('f')
+            ->select( 'f')
+
+            ->orderBy('f.date', 'ASC')
+            ->getQuery()
+            ->getResult();
+
+    }
 
 /*
      /**

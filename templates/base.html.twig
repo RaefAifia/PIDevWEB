@@ -4,8 +4,8 @@
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
 
-        {{ encore_entry_link_tags('app') }}
-        {{ encore_entry_script_tags('app') |replace({'src=': 'defer src='}) | raw }}
+        {#   {{ encore_entry_link_tags('app') }}
+        {{ encore_entry_script_tags('app') |replace({'src=': 'defer src='}) | raw }}  #}
         {% block header %}
 
    <!--::header part start::-->
@@ -25,7 +25,7 @@
                         <div class="collapse navbar-collapse main-menu-item justify-content-end"
                              id="navbarSupportedContent">
                             <ul class="navbar-nav align-items-center">
-                                <li class="nav-item active">
+                                <li class="nav-item ">
                                     <a class="nav-link" href="index.html">Accueil</a>
                                 </li>
                                 <li class="nav-item">
@@ -33,12 +33,22 @@
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ path('formation_index') }}">Formations</a>
+                             {#    {% if formation.user.isFormateur==1 %}
+                                <li lass="nav-item dropdown active">
+                                    <a class="nav-link dropdown-toggle" href="blog.html" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Formations</a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="{{ path('formation_index') }}">Single blog</a>
+
+                                    </div>
+
+                                    </li>#}
                                 </li>
 
                                 <li class="nav-item">
                                     <a class="nav-link" href="blog.html">Evenements</a>
                                 </li>
-                                <li class="nav-item active">
+                                <li class="nav-item ">
                                     {#   <a class="nav-link dropdown" href="blog.html" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Pages
                                     </a> #}

@@ -8,6 +8,13 @@
     {{ include('cours/_form.html.twig', {'button_label': 'Update'}) }}
 
     <a href="{{ path('cours_index') }}">back to list</a>
+<table>
 
-    {{ include('cours/_delete_form.html.twig') }}
+    <tr>
+        <th>
+            {{ include('cours/_delete_form.html.twig') }}
+        </th>
+    </tr>
+</table>
+
 {% endblock %}

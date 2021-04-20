@@ -1,0 +1,192 @@
+
+{% extends 'baseAdmin.html.twig' %}
+
+{% block body  %}
+    {#   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<body>
+
+<!-- WRAPPER -->
+<div id="wrapper">
+
+    <!-- LEFT SIDEBAR -->
+    <div id="sidebar-nav" class="sidebar">
+        <div class="sidebar-scroll">
+            <nav>
+                <ul class="nav">
+                    <li><a href="index.html" class=""><i class="lnr lnr-home"></i> <span>Dashboard</span></a></li>
+                    <li><a href="elements.html" class=""><i class="lnr lnr-code"></i> <span>Elements</span></a></li>
+                    <li><a href="charts.html" class="active"><i class="lnr lnr-chart-bars"></i> <span>Charts</span></a></li>
+                    <li><a href="panels.html" class=""><i class="lnr lnr-cog"></i> <span>Panels</span></a></li>
+                    <li><a href="notifications.html" class=""><i class="lnr lnr-alarm"></i> <span>Notifications</span></a></li>
+                    <li>
+                        <a href="#subPages" data-toggle="collapse" class="collapsed"><i class="lnr lnr-file-empty"></i> <span>Pages</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
+                        <div id="subPages" class="collapse ">
+                            <ul class="nav">
+                                <li><a href="page-profile.html" class="">Profile</a></li>
+                                <li><a href="page-login.html" class="">Login</a></li>
+                                <li><a href="page-lockscreen.html" class="">Lockscreen</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li><a href="tables.html" class=""><i class="lnr lnr-dice"></i> <span>Tables</span></a></li>
+                    <li><a href="typography.html" class=""><i class="lnr lnr-text-format"></i> <span>Typography</span></a></li>
+                    <li><a href="icons.html" class=""><i class="lnr lnr-linearicons"></i> <span>Icons</span></a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <!-- END LEFT SIDEBAR -->
+    <!-- MAIN -->
+    <div class="main">
+        <!-- MAIN CONTENT -->
+        <div class="main-content">
+            <div class="container-fluid">
+                <h3 class="page-title">Charts</h3>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="panel">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Line Chart</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div id="demo-line-chart" class="ct-chart"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="panel">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Bar Chart</h3>
+
+                            </div>
+                            <div class="panel-body">
+                                <div id="demo-bar-chart" class="ct-chart"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <script src="https://rendro.github.io/easy-pie-chart/javascripts/jquery.easy-pie-chart.js"></script>
+        <script src="https://code.highcharts.com/highcharts.js"></script>
+        <script src="https://code.highcharts.com/highcharts-more.js"></script>
+        <script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+        <script>
+            var debutant = {{ Debutant }};
+            var inter = {{ inter }};
+            var avance = {{ avance }};
+            var total =debutant+ inter+avance;
+            // var autre = NbNonconformite - (NbKObloquant + NbKOmineurs + NbKOmajeurs);
+            var chartDebut = debutant * 100 / total;
+            var chartInter = inter * 100 / total;
+            var chartAvance = avance * 100 / total;
+
+
+
+            $(document).ready(function () {
+                var ctx = document.getElementById('mycanvas').getContext('2d');
+                var chart = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: [
+                            "{{ 'debutant'|trans }} " + chartDebut.toFixed(2) + " %",
+                            "{{ 'intermediaire'|trans }} " + chartInter.toFixed(2) + " %",
+                            "{{ 'avance'|trans }} " + chartAvance.toFixed(2) + " %",
+                            // "N-C Bl " + pKobloquant.toFixed(0) + " %",
+                            // "N-C Ma " + pKoMajeur.toFixed(0) + " %",
+                            // "N-C Mi " + pKoMineurs.toFixed(0) + " %",
+                        ],
+                        datasets: [{
+                            label: "My First dataset",
+                            backgroundColor: ['#dc1e1e', '#ff9500', '#ffe100'],
+                            data: [chartDebut.toFixed(2), chartInter.toFixed(2), chartAvance.toFixed(2)],
+                        }],
+                    },
+                    options: {
+                        // responsive: true,
+                        legend: {
+                            position: 'right',
+                            labels: {
+                                fontSize: 15,
+                                boxWidth : 30,
+                                fontStyle: 'bold'
+
+                            }
+
+                        },
+                        title: {
+                            display: false,
+                            text: "Répartition des non conformités",
+                            position: "bottom",
+                            fontSize: 10,
+                            fontWeight: 'bold',
+                            fontColor: '#333'
+                        },
+                    }
+                });
+            });
+
+
+
+
+
+        </script>
+        <!-- END MAIN CONTENT -->
+    </div>
+    <!-- END MAIN -->
+    <div class="clearfix"></div>
+    <footer>
+        <div class="container-fluid">
+            <p class="copyright">Shared by <i class="fa fa-love"></i><a href="https://bootstrapthemes.co">BootstrapThemes</a>
+            </p>
+        </div>
+    </footer>
+</div>
+
+
+
+
+    <div class="row">
+<div class="catregraph">
+    <div class="chart-container-cercle" style="width: 550px;
+            height: 250px !important">
+        <canvas id="mycanvas"></canvas>
+
+    </div>
+</div>
+
+
+    </div>
+
+</body>  #}
+
+        <div class="container">
+            <h1>Statistiques</h1>
+            <canvas id="categories" width="400" height="100"></canvas>
+
+
+        </div>
+
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" integrity="sha512-s+xg36jbIujB2S2VKfpGmlC3T5V2TF3lY48DX7u2r9XzGzgPsa6wTpOQA7J9iffvdeBN0q9tKzRxVxw1JviZPg==" crossorigin="anonymous"></script>
+        <script>
+            let categories = document.querySelector("#categories")
+            let categGraph = new Chart(categories, {
+                type: "pie",
+                data: {
+                    labels: {{ categNom|raw }},
+                    datasets: [{
+                        label: "les domaines",
+                        data: {{ categCount|raw }},
+                        backgroundColor: {{ categColor|raw }}
+                    }]
+                }
+            })
+        </script>
+
+
+{% endblock %}
+

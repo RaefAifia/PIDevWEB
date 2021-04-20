@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Cours;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use App\Entity\Formation;
 use App\Entity\Distributeur;
@@ -17,7 +18,12 @@ class CoursType extends AbstractType
     {
         $builder
             ->add('titre')
-            ->add('niveau')
+            ->add('niveau',ChoiceType::class, [
+                'choices' => [
+                    'Débutant' => 'Débutant',
+                    'intermédiare' => 'intermédiaire',
+                    'avancé' => 'avancé',
+                ]])
             ->add('description')
             ->add('duree')
             ->add('image', FileType::class, [

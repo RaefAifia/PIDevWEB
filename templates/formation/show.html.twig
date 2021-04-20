@@ -56,15 +56,22 @@
             </tr>
             <tr>
                 <th>Description</th>
-                <td>{{ formation.formationId }}</td>
+                <td>{{ formation.description }}</td>
             </tr>
+<tr>
+    <th>
+        <a class="btn_2 text-capitalize" href="{{path('formation_cours_index',{'id': formation.formationId})}}">Voir les cours associés </a>
+    </th>
+ {# {% for inscription in inscription %}
+   {% if inscription.findIsinscrit()==false %}  {% endif %}
+{% endfor %} #}
+    <td>  <a  href="{{ path('inscription_new',{'id': formation.formationId})}}" class="btn_2 ">S'inscrire à cette formation</a>
 
+    </td>
+</tr>
 
         </tbody>
     </table>
-
-          {# <a href="{{ path('inscription_new', {'inscriptionId': formation.formationId}) }}">s'inscrire</a>#}
-            <a  href="{{ path('inscription_new',{'id': formation.formationId})}}" class="genric-btn info-border radius text-uppercase ">s'inscrire à une formation</a>
 
 
           {# {{ form_start(form) }}
@@ -77,28 +84,8 @@
   {# <a href="{{ asset('images1/' ~ formation.image) }}">View image </a> naamalha lel cours files
    <a href="{{ path('formation_index') }}">back to list</a>
   <a class="btn_1"href="{{ path('formation_edit', {'formationId': formation.formationId}) }}">Modifier</a></div>#}
-            {% if  formation.user.isFormateur == 1 %}
-    {{ include('formation/_delete_form.html.twig') }}
-    {% endif %}
-            <section class="course_details_area ct-golden-section ">
-                <div class="container">
-            <div class="row">
-                <div class="col-lg-8 course_details_area">
-            <div class="content">
-                <ul class="course_list">
-                    <h2 class="title"> les cours associés</h2>
-                    <li class="justify-content-between align-items-center d-flex">
 
 
-                        <a class="btn_2 text-uppercase " href="{{path('formation_cours_index',{'id': formation.formationId})}}">voir en détails </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-     </div>
-    </div>
-            </section>
     </div>
 
     </div>

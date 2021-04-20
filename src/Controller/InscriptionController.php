@@ -51,7 +51,7 @@ class InscriptionController extends AbstractController
             $inscription->setIsinscrit(1);
 
             $query = $entityManager->createQuery("SELECT f FROM App\Entity\Formation f WHERE f.formationId = :id");
-            $query->setParameter('id',$request->attributes->get('id'));
+            $query->setParameter('id',$request->attributes->get('id')); //à eviter
             $formation = $query->getSingleResult();
             $inscription->setFormation($formation);
 
@@ -59,7 +59,7 @@ class InscriptionController extends AbstractController
             $entityManager->persist($inscription);
             $entityManager->flush();
 
-            return $this->redirectToRoute('inscription_index');
+            return $this->redirectToRoute('formation_cours_index',array('id' => $formation->getFormationId()));
         }
 
         return $this->render('inscription/new.html.twig', [
@@ -114,9 +114,9 @@ class InscriptionController extends AbstractController
 
         return $this->redirectToRoute('inscription_index');
     }
-    public function findIsinscrit(InscriptionRepository $rep, Request $request): Boolean
+    public function findIsinscrit(InscriptionRepository $rep): Boolean
     {
-        if ($inscription=$rep->findbyisincrit(1)){
+        if ($inscription=$rep->findB(2)){
 
             return true;
         }

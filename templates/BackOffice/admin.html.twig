@@ -60,15 +60,26 @@
     </script> #}
 
 
-    {#  <input  class="form-control form-control-sm"   type="text" id="recherche" placeholder="Search ..">#}
+    {#  <input  class="form-control form-control-sm"   type="text" id="recherche" placeholder="Search ..">
+    <button type="button" class="btn btn-warning"><i class="fa fa-warning"></i> Warning</button>
+     <a class="btn_4"  href="{{ path('formation_index') }}">toutes les formations</a>#}
+
+    <a class="btn btn-warning" href="{{ path('nonValid') }}"><i class="fa fa-warning"></i>En attente</a>
+
+
+    <a href="{{ path('Valid') }}"class="btn btn-success"><i class="fa fa-check-circle"></i>Validées</a>
+    <a href="{{ path('tri') }}"class="btn btn-info"><i class="fa fa-check-circle"></i>Trier par date </a>
+
 <section id="team" class="team section-bg">
      <div class="container" >
+         <h1> <button type="button" onclick="sortTable()" Trier par date ></button></h1>
     <div class="row justify-content-center">
-        <div class="col-xl-5">
+        <div class="col-5">
     <div class="section-title">
 
-        <p></p>
+
     </div>
+
             <form method="post" >
                 <input type="text"  class="form-control" name="AfficherClasse" onkeyup="myFunction()" placeholder="recherche"  id="myInput" >
             </form>
@@ -76,7 +87,7 @@
 
         <div class="tableau">
 
-            <table class="table" id="mytable">
+            <table class="table" id="mytable"  >
         <tr>
 
             <th>Titre</th>
@@ -132,12 +143,48 @@
 
 
         </script>
+        <script>
+            function sortTable() {
+                var table, rows, switching, i, x, y, shouldSwitch,dir;
+                table = document.getElementById("myT");
+                switching = true;
+                // Set the sorting direction to ascending:
+
+
+                while (switching) {
+
+                    switching = false;
+                    rows = table.rows;
+
+                    for (i = 1; i < (rows.length - 1); i++) {
+
+                        shouldSwitch = false;
+
+                        x = rows[i].getElementsByTagName("TD")[4];
+                        y = rows[i + 1].getElementsByTagName("TD")[4];
+
+
+
+                        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+
+                            shouldSwitch = true;
+                            break;
+                        } }
+
+                    if (shouldSwitch) {
+
+                        rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                        switching = true;
+                    }
+
+
+                }
+            }
+        </script>
         </tbody>
     </table>
 
-    <a class="btn_4" href="{{ path('nonValid') }}">Afficher les formation non validees</a>
-    <a class="btn_4" href="{{ path('Valid') }}">Afficher les formation validees</a>
-    <a class="btn_4"  href="{{ path('formation_index') }}">toutes les formations</a>
+
     </div>
     </div>
 

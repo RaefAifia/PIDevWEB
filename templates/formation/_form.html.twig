@@ -9,7 +9,7 @@
 
 
 <table class="table  table-striped">
-    <tr><td> Titre : </td> <td>{{ form_widget(form.titre , { 'attr': { 'maxlength' : 10000 } }) }}{{ form_errors(form.titre) }}</td></tr>
+    <tr><td> Titre : </td> <td>{{ form_widget(form.titre , { 'attr': { 'maxlength' : 1000 } }) }}{{ form_errors(form.titre) }}</td></tr>
     <tr><td>  Domaine : </td>  <td>{{ form_widget(form.domaine) }}{{ form_errors(form.domaine)}}</td></tr>
     <tr><td>  Date: </td>  <td>{{ form_widget(form.date) }}{{ form_errors(form.date)}}</td></tr>
     <tr><td>  Durée: </td>  <td>{{ form_widget(form.duree,{ 'attr': { 'placeholder' : 'veuillez mentionner en heure/jour/semaine' }} ) }}{{ form_errors(form.duree) }}</td></tr>
@@ -21,11 +21,18 @@
 
     <tr><td> Image :</td>  <td>{{ form_widget(form.image) }}{{ form_errors(form.image) }}</td></tr>
 
- <td><button class="btn_4">{{ button_label|default('Enregistrer',{'formationId': formation.formationId}) }}</button></td>
 
+<tr>
+<th>
+    <form method="post" action="{{ button_label|default('Enregistrer',{'formationId': formation.formationId}) }}" onsubmit="return confirm('Voulez Vous ajouter des cours à cette formation? ');">
+        <input type="hidden" name="_token" value="{{ csrf_token('Enregistrer' ~ formation.formationId) }}">
 
+        <button class="btn btn-dark" >Enregistrer</button>
+    </form></th>
+    <td></td>
+</tr>
 
- {#
+ {#  <td><button class="btn_4">{{ button_label|default('Enregistrer',{'formationId': formation.formationId}) }}</button></td>
   <tr><td> <a class="btn_1"   href="#">Save</a></td></tr>
    <td><a href="{{ path('cours_new', {'id': formation.formationId}) }}" class="btn_2">Ajouter des cours à cette formation</a></td> #}
 </table>

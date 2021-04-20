@@ -576,7 +576,7 @@ ul {
   -o-transition: all .4s ease-in-out;
   -webkit-transition: all .4s ease-in-out;
   transition: all .4s ease-in-out;
-  text-transform: capitalize;
+  text-transform: capitalize !important;;
   background-size: 200% auto;
   font-size: 15px;
   font-weight: 400;

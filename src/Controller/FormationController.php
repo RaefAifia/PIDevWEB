@@ -23,12 +23,95 @@ class FormationController extends AbstractController
 {
 
     /**
+     * @param FormationRepository $repository
+     * @return Response
+     * @Route ("/backoffice/charts",name="charts",methods={"POST","GET"})
+     */
+
+    public function stat(FormationRepository $repository){
+        $debutant = 0;
+        $inter = 0;
+        $avance = 0;
+//
+       // $formation = $repository->findAll();
+     //   $categNom = ["Débutant", "intermédiaire", "avancé"];
+        $categNom = ["danse" , "theatre" , "musique", "peinture" , "littérature","audiovisuel","sculpture"];
+        $categColor = ["#a65959" , "#414e4d" , "#343e3d","#A0D7A8", "#EFBC9B", "#DAF7A6", "#a00000","#EFBC9B","#EFBC9B"];
+
+        $categDanse = count($repository->findBy(["domaine" =>"danse"]) )  ;
+          $categTheatre = count($repository->findBy(["domaine" =>"theatre"]) ) ;
+          $categMusique = count($repository->findBy(["domaine" => "musique"]) ) ;
+        $categPeint = count($repository->findBy(["domaine" =>"peinture"]) )  ;
+        $categLit = count($repository->findBy(["domaine" =>"littérature"]) ) ;
+        $categA = count($repository->findBy(["domaine" => "audiovisuel"]) ) ;
+        $categScul = count($repository->findBy(["domaine" =>"sculpture"]) ) ;
+
+          $categCount = [$categDanse , $categTheatre , $categMusique,$categPeint,$categLit,$categA,$categScul ];
+
+
+//        foreach ($formation as $indicateur) {
+//            if($indicateur->getNiveau()=='Débutant'){
+//                $debutant=$debutant+1;
+//            }
+//            elseif ($indicateur->getNiveau()=='avancé'){
+//                $avance=$avance+1;
+//            }
+//            else {$inter=$inter+1;}
+//        }
+//        $nivCount = [$debutant , $inter , $avance ];
+        // dd($debutant);
+        return $this->render('BackOffice/charts.html.twig',[
+
+            'categNom' => json_encode($categNom),
+            'categColor' => json_encode($categColor),
+            //'nivCount' => json_encode($nivCount),
+            'categCount' => json_encode($categCount),
+
+
+        ]);
+    }
+
+//    /**
+// * @param Request $request
+// * @return Response
+// * @Route ("/backoffice/charts",name="charts",methods={"POST","GET"})
+// */
+//    public function charts (Request $request){
+//        $debutant = 0;
+//        $inter = 0;
+//        $avance = 0;
+//
+//        $em = $this->getDoctrine()->getManager();
+//        $formation = $em->getRepository(Formation::class)->findAll();
+//        foreach ($formation as $indicateur) {
+//            if($indicateur->getNiveau()=='Débutant'){
+//                $debutant=$debutant+1;
+//            }
+//            elseif ($indicateur->getNiveau()=='avancé'){
+//                $avance=$avance+1;
+//            }
+//            else {$inter=$inter+1;}
+//        }
+//     //   dd($debutant);
+//        return $this->render('BackOffice/charts.html.twig',[
+//                'Debutant' => $debutant,
+//                'inter'=> $inter,
+//                'avance'=> $avance
+//
+//            ]
+//        );
+//
+////
+//    }
+
+    /**
      * @Route("/admin", name="admin")
      */
-    public function indexAdmin(): Response
+    public function indexAdmin(FormationRepository $formationRepository): Response
     {
         return $this->render('BackOffice/admin.html.twig', [
-            'controller_name' => 'FormationController',
+
+            'formations' => $formationRepository->findAll(),
         ]);
     }
     /**
@@ -87,20 +170,21 @@ class FormationController extends AbstractController
     }
 
     /**
-     * @Route("/", name="formateur_index", methods={"GET"})
+     * @Route("/formateur/{user}", name="formateur_index", methods={"GET"})
      */
 
-   public function indexFormateur(FormationRepository $formationRepository,Request $request): Response
+   public function indexFormateur(FormationRepository $formationRepository,Request $request,$user): Response
     {
         $entityManager = $this->getDoctrine()->getManager();
-        $query = $entityManager->createQuery("SELECT * FROM App\Entity\Formation f WHERE f.user = :id");
+      /*  $query = $entityManager->createQuery("SELECT f FROM App\Entity\Formation f WHERE f.user = :id");
         $query->setParameter('id',$request->attributes->get('id'));
-        $UID = $query->getSingleResult();
+        $UID = $query->getSingleResult();*/
 
 
-        return $this->render('formation/index.html.twig', [
-            'formations' => $formationRepository->findByuser($UID),
-
+        return $this->render('formation/showFormateur.html.twig', [
+          //  'formations' => $formationRepository->findByuser($UID),
+            'formations' => $formationRepository->findBy(['user'=>$user]),
+            'formations' => $formationRepository->findByisvalid(0),
         ]);
     }
     /**
@@ -138,7 +222,10 @@ class FormationController extends AbstractController
                 // ... handle exception if something happens during file upload
             }
             $this->addFlash('success', 'Formation ajoutée ! Vous pourvez associer des cours à cette formation maintenant !');
-           return $this->redirectToRoute('cours_new',array('formationId' => $formation->getFormationId()));
+            if ($this->isCsrfTokenValid('Enregistrer'.$formation->getFormationId(), $request->request->get('_token'))) {
+
+           return $this->redirectToRoute('cours_new',array('formationId' => $formation->getFormationId()));}
+            else{return $this->redirectToRoute('formateur_index',array('user' => $user->getUserId()));}
         }
 
         return $this->render('formation/new.html.twig', [
@@ -167,18 +254,18 @@ class FormationController extends AbstractController
         return $this->render('formation/show.html.twig', [
             'formation' => $formation,
             'form' => $form->createView(),
+            'inscription'=>$inscription,
 
         ]);
     }
 
 
     /**
-     * @Route("/{formationId}/edit", name="formation_edit", methods={"GET","POST"})
+     * @Route("/formateur/{formationId}/edit", name="formation_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Formation $formation): Response
     {
         $form = $this->createForm(FormationType::class, $formation);
-
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -218,6 +305,19 @@ class FormationController extends AbstractController
         return $this->redirectToRoute('formation_index');
     }
     /**
+     * @Route("/{formationId}", name="formation_delete", methods={"POST"})
+     */
+    public function invaliderF(Request $request, Formation $formation): Response
+    {
+        if ($this->isCsrfTokenValid('Invalider'.$formation->getFormationId(), $request->request->get('_token'))) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($formation);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('nonValid');
+    }
+    /**
      * @Route("/backoffice/all",name="formationRecherche")
      */
 
@@ -233,7 +333,7 @@ class FormationController extends AbstractController
         );
     }
     /**
-     * @Route("/backoffice/{formationId}", name="valider_formation", methods={"POST"})
+     * @Route("/backoffice/{formationId}/valider", name="v_formation", methods={"POST","GET"})
      */
     public function validerF(Request $request, Formation $formation): Response
     {
@@ -243,9 +343,29 @@ class FormationController extends AbstractController
 
             $entityManager->flush();
         }
+       // dd($formation);
+        return $this->redirectToRoute('Valid');
+    }
 
-        return $this->redirectToRoute('nonValid');
+    /**
+     * @param Request $request
+     * @return Response
+     * @Route ("/backoffice/nonValid/tri",name="tri", methods={"POST","GET"})
+     */
+    public function tridDate(Request $request)
+    {
+       // $search =$request->query->get('formation');
+        $em = $this->getDoctrine()->getManager();
+        $formation=$em->getRepository(Formation::class)->tri();
+
+    //dd($formation);
+        return $this->render('BackOffice/admin.html.twig',[
+                'formations' => $formation]
+        );
     }
 
 
-}
+
+    }
+
+

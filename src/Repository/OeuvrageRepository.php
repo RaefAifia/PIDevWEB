@@ -23,7 +23,15 @@ class OeuvrageRepository extends ServiceEntityRepository
         parent::__construct($registry, Oeuvrage::class);
     }
 
+    public function countvendor() {
+        return $this
+            ->createQueryBuilder('o')
+            ->select( 'o')
+            ->groupBy('o.user')
+            ->getQuery()
+            ->getResult();
 
+    }
 
     public function findsearch(FiltreOeuvre $search): array
    {

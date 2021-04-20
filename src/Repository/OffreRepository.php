@@ -19,7 +19,15 @@ class OffreRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Offre::class);
     }
+    public function findtri() {
+        return $this
+            ->createQueryBuilder('o')
+            ->select( 'o')
+            ->orderBy('o.date', 'ASC')
+            ->getQuery()
+            ->getResult();
 
+    }
 
     // /**
     //  * @return Offre[] Returns an array of Offre objects

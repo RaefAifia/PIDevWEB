@@ -33,6 +33,19 @@ class OffreController extends AbstractController
         ]);
     }
     /**
+     * @Route("/tri", name="tri_offre", methods={"GET"})
+     */
+    public function indextri(): Response
+    {
+        $offres = $this->getDoctrine()
+            ->getRepository(Offre::class)
+            ->findtri();
+
+        return $this->render('offre/index.html.twig', [
+            'offres' => $offres,
+        ]);
+    }
+    /**
      * @Route("/client", name="offre_indexclient", methods={"GET"})
      */
     public function listoffre(): Response

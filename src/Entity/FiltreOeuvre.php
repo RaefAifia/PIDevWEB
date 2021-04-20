@@ -2,7 +2,7 @@
 
 
 namespace App\Entity;
-
+use Symfony\Component\Validator\Constraints as Assert;
 
 class FiltreOeuvre
 {
@@ -23,6 +23,7 @@ class FiltreOeuvre
 
     /**
      * @var null|integer
+
      */
     public $min ;
 

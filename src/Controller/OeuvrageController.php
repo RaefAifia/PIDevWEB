@@ -7,6 +7,8 @@ use App\Entity\FiltreOeuvre;
 use App\Entity\Oeuvrage;
 use App\Entity\User;
 use App\Form\OeuvrageType;
+use App\Repository\OeuvrageRepository;
+use App\Repository\UserRepository;
 use App\Form\SearchType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -173,7 +175,7 @@ class OeuvrageController extends AbstractController
 
 
     /**
-     * @Route("admin/{oeuvrageId}/valider", name="oeuvrage_valider", methods={"GET","POST"})
+     * @Route("/admin/{oeuvrageId}/valider", name="oeuvrage_valider", methods={"GET","POST"})
      */
     public function valider(Request $request,  Oeuvrage $oeuvrage): Response
     {
@@ -187,7 +189,54 @@ class OeuvrageController extends AbstractController
     }
 
     /**
-     * @Route("admin/{oeuvrageId}/invalider", name="oeuvrage_invalider", methods={"GET","POST"})
+     * @Route("/chart/o" , name="admin_chart")
+     */
+    public function stat(OeuvrageRepository $oeuvrageRepository){
+
+       // $users = $userRepository->findAll();
+        $categNom = ["Peinture" , "Artisanat" , "Décoration", "Sculpture" , "Litérature"];
+        $categColor = ["#a65959" , "#414e4d" , "#5E8486", "#A0D7A8", "#EFBC9B", "#DAF7A6"];
+
+        $categPeint = count($oeuvrageRepository->findBy(["domaine" =>"Peinture"]) )  ;
+        $categArt = count($oeuvrageRepository->findBy(["domaine" =>"Artisanat"]) ) ;
+        $categDec = count($oeuvrageRepository->findBy(["domaine" => "Décoration"]) ) ;
+        $categScul = count($oeuvrageRepository->findBy(["domaine" =>"Sculpture"]) ) ;
+        $categLit = count($oeuvrageRepository->findBy(["domaine" => "Litérature"]) ) ;
+        $categCount = [ $categPeint , $categArt , $categDec , $categScul ,$categLit ];
+
+        //////
+
+
+      //  $categColor = ["#a65959" , "#414e4d" , "#343e3d", ];
+
+        $oeuvrages =$this->getDoctrine()
+                 ->getRepository(Oeuvrage::class)
+                 ->countvendor();
+        //dd($oeuvrages);
+        $listvend = array();
+        $listvendCount = array();
+       // foreach ( $oeuvrages AS $o) {
+         //   $listvend = $o->getUser()->getUsername();
+           // $listvendCount = count($oeuvrageRepository->findBy(["user" =>$o->getUser()->getUserId()]) );
+            //           }
+        for ($i =0 ; $i < count($oeuvrages) ; ++$i) {
+            $listvend[$i]  =   $oeuvrages[$i]->getUser()->getUserName() ;
+            $listvendCount[$i]  =   count($oeuvrageRepository->findBy(["user" => $oeuvrages[$i]->getUser()->getUserId()]) );
+
+        }
+
+        return $this->render('oeuvrage/Chartoeuvre.html.twig', [
+            'categNom' => json_encode($categNom),
+            'categColor' => json_encode($categColor),
+            'categCount' => json_encode($categCount),
+            'listvend' => json_encode($listvend),
+            'listvendcount' => json_encode($listvendCount),
+
+        ]);
+    }
+
+    /**
+     * @Route("/admin/{oeuvrageId}/invalider", name="oeuvrage_invalider", methods={"GET","POST"})
      */
     public function invalider(Request $request,  Oeuvrage $oeuvrage): Response
     {
@@ -287,7 +336,6 @@ class OeuvrageController extends AbstractController
             return $response;
 
         }
-
     }
 
 

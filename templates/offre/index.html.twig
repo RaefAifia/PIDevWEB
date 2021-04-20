@@ -16,10 +16,16 @@
                          <p class="panel-subtitle"></p>
                          <form method="post" >
                              <input type="text"   class="form-control rounded" name="AfficherClasse" onkeyup="myFunction()" placeholder="Chercher un offre"  id="myInput" >
-                         </form>
-                     </div>
-                     <!-- changer lllllllllll -->
 
+                         </form>
+
+                     </div>
+                 <div class="panel-heading">
+
+                         <p class="panel-subtitle"></p>
+                     <a href="{{ path('tri_offre') }}"class="btn btn-danger"><i class="fa fa-check-square"></i> Bientôt expiré</a>
+                     <!-- changer lllllllllll -->
+                 </div>
 
                      <table class="table" id="mytable">
                          <thead>

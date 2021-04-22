@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+
+
+
+{% block body %}
+    <section class="banner_part">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 col-xl-6">
+                    <div class="banner_text">
+                        <div class="banner_text_iner">
+
+
+                            <h1>Edit Reclamation</h1>
+                            {{ form_start(form) }}
+                            <div>
+                            {{ form_label(form.reclamationNom) }}
+                            {{ form_errors(form.reclamationNom) }}
+                            {{ form_widget(form.reclamationNom) }}
+                            </div>
+                            <div>
+                                {{ form_label(form.description) }}
+                                {{ form_errors(form.description) }}
+                                {{ form_widget(form.description) }}
+                            </div>
+                            <table class="table">
+                                <tbody>
+                            <tr>
+                                <th><label>Concernant</label></th>
+                                <td>{{ reclamation.x }}</td><td>{{ reclamation.concernant }}</td>
+                            </tr>
+                            </tbody>
+                            </table>
+
+
+                            <button class="btn">{{ button_label|default('Modifier') }}</button>
+                            {{ form_end(form) }}
+                            <a href="{{ path('reclamation_index') }}">back to list</a>
+
+                            {{ include('reclamation/_delete_form.html.twig') }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+

@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <section class="banner_part">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 col-xl-6">
+                    <div class="banner_text">
+                        <div class="banner_text_iner">
+
+
+                            <h1>Reclamation</h1>
+
+                            <table class="table">
+                                <tbody>
+
+                                <tr>
+                                    <th>Nom de réclamation</th>
+                                    <td>{{ reclamation.reclamationNom }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Description</th>
+                                    <td>{{ reclamation.description }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Date</th>
+                                    <td>{{ reclamation.date ? reclamation.date|date('Y-m-d') : '' }}</td>
+                                </tr>
+
+                                <tr>
+                                    <th>Concernant</th>
+                                    <td>{{ reclamation.x }}</td><td>{{ reclamation.concernant }}</td>
+                                </tr>
+
+                                </tbody>
+                            </table>
+
+                            <a href="{{ path('reclamation_index') }}">back to list</a>
+
+                            <a href="{{ path('reclamation_edit', {'reclamationId': reclamation.reclamationId}) }}">edit</a>
+
+                            {{ include('reclamation/_delete_form.html.twig') }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

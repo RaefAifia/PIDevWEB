@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+
+
+{% block body %}
+
+    <section class="special_cource padding_top">
+        <div class="row justify-content-center">
+            <div class="col-xl-5">
+                <div class="section_tittle text-center">
+
+                    <h2>Nos artistes</h2>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+    <section>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xl-5">
+                    <div class="section_tittle text-center">
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                {% for user in users %}
+                    <div class="col-sm-6 col-lg-4">
+                        <div class="single_special_cource">
+                            <img src="\images\profil\{{ user.image }}" class="img-fluid" alt="" style="width: 50%; height:auto">
+
+                            <div class="special_cource_text">
+
+
+                                <a href="course-details.html">
+                                    <h3> {{ user.username}}</h3>
+                                </a>
+
+
+                                <div class="author_info">
+                                    <div class="author_img">
+                                        <a href="{{ path('user_show', {'userId': user.userId}) }}" class="btn_4">Afficher</a>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                {% endfor %}
+
+
+            </div>
+        </div>
+
+    </section>
+</section>
+{% endblock %}

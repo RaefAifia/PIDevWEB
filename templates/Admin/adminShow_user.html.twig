@@ -1,0 +1,93 @@
+{% extends 'baseBack.html.twig' %}
+
+
+
+{% block body %}
+	<h1>Afficher utilisateur</h1>
+
+	<table class="table">
+		<tbody>
+		<tr>
+			<th>UserId</th>
+			<td>{{ user.userId }}</td>
+		</tr>
+		<tr>
+			<th>Nom</th>
+			<td>{{ user.nom }}</td>
+		</tr>
+		<tr>
+			<th>Prenom</th>
+			<td>{{ user.prenom }}</td>
+		</tr>
+		<tr>
+			<th>Username</th>
+			<td>{{ user.username }}</td>
+		</tr>
+		<tr>
+			<th>Password</th>
+			<td>{{ user.password }}</td>
+		</tr>
+		<tr>
+			<th>Role</th>
+			<td>{{ user.role }}</td>
+		</tr>
+		<tr>
+			<th>Adresse</th>
+			<td>{{ user.adresse }}</td>
+		</tr>
+		<tr>
+			<th>NumTel</th>
+			<td>{{ user.numTel }}</td>
+		</tr>
+		<tr>
+			<th>Email</th>
+			<td>{{ user.email }}</td>
+		</tr>
+		<tr>
+			<th>Image</th>
+			<td>{{ user.image }}</td>
+		</tr>
+		<tr>
+			<th>Bio</th>
+			<td>{{ user.bio }}</td>
+		</tr>
+		<tr>
+			<th>IsFormateur</th>
+			<td>{{ user.isFormateur ? 'Yes' : 'No' }}</td>
+		</tr>
+		<tr>
+			<th>IsRecruteur</th>
+			<td>{{ user.isRecruteur ? 'Yes' : 'No' }}</td>
+		</tr>
+		<tr>
+			<th>IsVendeur</th>
+			<td>{{ user.isVendeur ? 'Yes' : 'No' }}</td>
+		</tr>
+		<tr>
+			<th>Cv</th>
+			<td>{{ user.cv }}</td>
+		</tr>
+		<tr>
+			<th>Validite</th>
+			<td>{{ user.validite ? 'Yes' : 'No' }}</td>
+		</tr>
+		<tr>
+			<th>Mailconfirme</th>
+			<td>{{ user.mailconfirme ? 'Yes' : 'No' }}</td>
+		</tr>
+		<tr>
+			<th>Numconfirme</th>
+			<td>{{ user.numconfirme ? 'Yes' : 'No' }}</td>
+		</tr>
+		<tr>
+			<th>Avertissement</th>
+			<td>{{ user.avertissement }}</td>
+		</tr>
+		</tbody>
+
+	</table>
+
+
+
+
+{% endblock %}

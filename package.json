@@ -6,7 +6,9 @@
   "directories": {
     "test": "tests"
   },
-  "dependencies": {},
+  "dependencies": {
+
+  },
   "devDependencies": {
     "@symfony/ux-chartjs": "file:vendor/symfony/ux-chartjs/Resources/assets"
   },

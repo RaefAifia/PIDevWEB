@@ -127,9 +127,11 @@ class AdminController extends AbstractController
      */
     public function reclamation_avert(Request $request, Reclamation $reclamation) : Response
     {
-        echo($reclamation->getAvertissement());
+
         if ($this->isCsrfTokenValid('Avertissement'.$reclamation->getReclamationId(), $request->request->get('_token'))){
             $reclamation->setAvertissement(1);
+            $user1 = $reclamation->getUser();
+            $user1->setAvertissement($user1->getAvertissement()+1);
 
         $this->getDoctrine()->getManager()->flush();}
 

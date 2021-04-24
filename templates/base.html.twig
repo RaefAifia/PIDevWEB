@@ -91,6 +91,11 @@
         {{ message }}
     </div>
 {% endfor %}
+{% for message in app.flashes('success') %}
+    <div class="alert alert-success">
+        {{ message }}
+    </div>
+{% endfor %}
 {% block body %}
 <section class="banner_part">
     <div class="container">

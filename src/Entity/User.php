@@ -35,8 +35,9 @@ class User implements UserInterface
      */
     private $userId;
     /**
-     * @Assert\NotBlank()
      * @Assert\Length(max=4096)
+     * @Assert\NotBlank
+
      */
     private $plainPassword;
 
@@ -51,7 +52,6 @@ class User implements UserInterface
      * @var string
      *
      * @ORM\Column(name="prenom", type="string", length=50, nullable=false)
-     * @Assert\NotBlank
      */
     private $prenom;
 
@@ -90,7 +90,7 @@ class User implements UserInterface
     /**
      * @var string
      * @Assert\Type("numeric")
-
+     * @Assert\NotBlank
      * @ORM\Column(name="num_tel", type="string", length=50, nullable=false)
      */
     private $numTel;
@@ -321,6 +321,7 @@ class User implements UserInterface
         return $this;
     }
 
+
     public function getImage(): ?string
     {
         return $this->image;
@@ -454,6 +455,5 @@ class User implements UserInterface
     {
         $this->plainPassword = $password;
     }
-
 
 }

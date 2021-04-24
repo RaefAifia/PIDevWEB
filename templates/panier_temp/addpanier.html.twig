@@ -9,6 +9,20 @@
                     </div>
                 </div>
             </div>
+            {% for flashMessage in app.session.flashbag.get('red') %}
+
+                <div class="alert alert-danger">
+                    <center>{{ flashMessage }}</center>
+                </div>
+
+            {% endfor %}
+            {% for flashMessage in app.session.flashbag.get('green') %}
+
+                <div class="alert alert-success">
+                    <center>{{ flashMessage }}</center>
+                </div>
+
+            {% endfor %}
             <div class="row">
             {% for oeuvrage in oeuvrages%}
 

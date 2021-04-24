@@ -8,7 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Livraison
  *
  * @ORM\Table(name="livraison", indexes={@ORM\Index(name="user_id", columns={"user_id"}), @ORM\Index(name="commande_id", columns={"commande_id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\LivraisonRepository")
  */
 class Livraison
 {
@@ -55,7 +55,7 @@ class Livraison
      *
      * @ORM\ManyToOne(targetEntity="Commande")
      * @ORM\JoinColumns({
-     * @ORM\JoinColumn(name="commande_id", referencedColumnName="commande_id")
+     *      @ORM\JoinColumn(name="commande_id", referencedColumnName="commande_id")
      * })
      */
     private $commande;

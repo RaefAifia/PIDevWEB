@@ -7,6 +7,8 @@ use App\Entity\Livraison;
 use App\Entity\Panier;
 use App\Entity\PanierTemp;
 use App\Form\CommandeType;
+use App\Repository\CommandeRepository;
+use App\Repository\PanierRepository;
 use App\Form\PanierType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -35,8 +37,9 @@ class PanierController extends AbstractController
     /**
      * @Route("/new", name="panier_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, CommandeRepository $commandeRepository): Response
     {
+
         $panier = new Panier();
         $form = $this->createForm(PanierType::class, $panier);
         $form->handleRequest($request);
@@ -45,32 +48,39 @@ class PanierController extends AbstractController
             ->findBy(['user'=>1]);
         $livraisons = $this->getDoctrine()
             ->getRepository(Livraison::class)
-            ->findBy(['user'=>1]);
+            ->findliv();
+
         $prix = 0;
         foreach ($panierTemps as $p){
             $prix = $prix + ($p->getQuantite()*$p->getOeuvrage()->getPrix());
         }
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $query = $em->createQuery("SELECT c FROM App\Entity\Commande c WHERE c.commandeId = 17");
-            $commande = $query->getSingleResult();
-            $panier->setCommande($commande);
-            $query = $em->createQuery("SELECT p FROM App\Entity\User p WHERE p.userId = 1");
-            $oeuvrage = $query->getResult();
-            $panier->getOeuvrage($oeuvrage);
-            $query = $em->createQuery("SELECT q FROM App\Entity\PanierTemp q WHERE q.quantite = 1");
-            $quantite = $query->getResult();
-            $panier->setQuantite($quantite);
-            $em->persist($panier);
-            $em->flush();
+            $commande = $this->getDoctrine()->getRepository(Commande::class)
+                ->findnvc();
+
+
+                foreach ($panierTemps as $panierTemp){
+
+                    $panier = new Panier();
+                    $panier->setCommande($commande);
+                    $panier->setOeuvrage($panierTemp->getOeuvrage());
+                    $panier->setQuantite($panierTemp->getQuantite());
+
+                    $em->persist($panier);
+                    $em->flush();
+                        }
+                $panierTemps = $this->getDoctrine()->getRepository(PanierTemp::class)
+                    ->deletepant();
+
 
             return $this->redirectToRoute('panier_temp_index');
         }
 
         return $this->render('panier/new.html.twig', [
             'panier' => $panier,
-            'panier_temps' => $panierTemps,
             'livraisons' => $livraisons,
+            'panier_temps' => $panierTemps,
             'prix' => $prix,
             'form' => $form->createView(),
         ]);

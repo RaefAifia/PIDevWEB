@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Livraison;
 use App\Form\LivraisonType;
 use App\Repository\LivraisonRepository;
+use App\Repository\CommandeRepository;
+use App\Entity\Commande;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -45,19 +47,18 @@ class LivraisonController extends AbstractController
     /**
      * @Route("/new", name="livraison_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, CommandeRepository $commandeRepository): Response
     {
         $livraison = new Livraison();
         $form = $this->createForm(LivraisonType::class, $livraison);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $query = $em->createQuery("SELECT u FROM App\Entity\User u WHERE u.userId = 1");
             $user = $query->getSingleResult();
             $livraison->setUser($user);
-            $query = $em->createQuery("SELECT c FROM App\Entity\Commande c WHERE c.commandeId = 20");
-            $commande = $query->getSingleResult();
+            $commande = $this->getDoctrine()->getRepository(Commande::class)
+                ->findnvc();
             $livraison->setCommande($commande);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($livraison);

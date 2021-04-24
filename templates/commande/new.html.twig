@@ -45,6 +45,21 @@
 
             </div>
         </section>
+        <br>
+        {% for flashMessage in app.session.flashbag.get('green') %}
+
+            <div class="alert alert-success">
+                <center>{{ flashMessage }}</center>
+            </div>
+
+        {% endfor %}
+        {% for flashMessage in app.session.flashbag.get('red') %}
+
+            <div class="alert alert-danger">
+                <center>{{ flashMessage }}</center>
+            </div>
+
+        {% endfor %}
         <center>{{ include('commande/_form.html.twig') }}</center>
         <center><p style="font-size: 20px;color: red">Total a payer: {{ prix }}</center></p>
         </br>

@@ -5,11 +5,13 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
+use App\Entity\Oeuvrage;
 /**
  * PanierTemp
  *
  * @ORM\Table(name="panier_temp", uniqueConstraints={@ORM\UniqueConstraint(name="oeuvrage_id", columns={"oeuvrage_id", "user_id"})}, indexes={@ORM\Index(name="user_id", columns={"user_id"}), @ORM\Index(name="IDX_FFB5A0B349DBAF18", columns={"oeuvrage_id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\PanierTempRepository")
  */
 class PanierTemp
 {

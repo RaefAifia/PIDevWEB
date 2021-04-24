@@ -41,15 +41,16 @@ class CommandeController extends AbstractController
         $panierTemps = $this->getDoctrine()
             ->getRepository(PanierTemp::class)
             ->findBy(['user'=>1]);
-        $livraisons = $this->getDoctrine()
-            ->getRepository(Livraison::class)
-            ->findBy(['user'=>1]);
         $prix = 0;
         foreach ($panierTemps as $p){
             $prix = $prix + ($p->getQuantite()*$p->getOeuvrage()->getPrix());
         }
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+            if(!$panierTemps){
+                $this->addFlash('red', 'Panier Vide !');
+                return $this->redirectToRoute('panier_temp_add');
+            }else{
             $commande->setDate(new \DateTime());
             $commande->setPrixtot($prix);
             $query = $entityManager->createQuery("SELECT u FROM App\Entity\User u WHERE u.userId = 1");
@@ -59,12 +60,11 @@ class CommandeController extends AbstractController
             $entityManager->flush();
 
             return $this->redirectToRoute('livraison_new');
-        }
+        }}
 
         return $this->render('commande/new.html.twig', [
             'commande' => $commande,
             'panier_temps' => $panierTemps,
-            'livraisons' => $livraisons,
             'prix' => $prix,
             'form' => $form->createView(),
         ]);

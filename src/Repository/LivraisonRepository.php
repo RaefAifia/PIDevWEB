@@ -3,7 +3,7 @@
 
 namespace App\Repository;
 
-
+use App\Entity\User;
 use App\Entity\Livraison;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -20,6 +20,16 @@ class LivraisonRepository extends ServiceEntityRepository
         parent::__construct($registry, Livraison::class);
     }
 
+    public function findliv()
+    {
+        $query = $this
+            ->createQueryBuilder('c')
+            ->select( 'c')
+            ->addOrderBy('c.livraisonId', 'DESC')
+            ->setMaxResults(1);
+        return $query->getQuery()->getResult();
+
+    }
 
     public function findByExpField($value)
     {

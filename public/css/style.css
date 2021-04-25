@@ -2146,7 +2146,7 @@ ul {
 /**************menu part start*****************/
 /* line 2, E:/172 Etrain Education/172_Etrain_Education_html/sass/_menu.scss */
 .main_menu {
-  position: relative;
+  position: absolute;
   left: 0;
   top: 0;
   width: 100%;

@@ -1,5 +1,25 @@
 {% extends 'base.html.twig' %}
+{% block content %}
+    <div class="row align-items-sm-center align-items-lg-stretch">
+        <div class="col-md-5 col-lg-5 text-center">
+            <div class="learning_member_text">
+                <div class="row justify-content-center " style="margin-top: 150px">
 
+
+
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-7 col-lg-7">
+            <div class="img-rounded">
+
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}
 {% block body %}
     <section class="banner_part">
         <div class="container">
@@ -28,8 +48,8 @@
                                         <td>{{ reclamation.date ? reclamation.date|date('Y-m-d') : '' }}</td>
 
                                         <td>
-                                            <a href="{{ path('reclamation_show', {'reclamationId': reclamation.reclamationId}) }}">show</a>
-                                            <a href="{{ path('reclamation_edit', {'reclamationId': reclamation.reclamationId}) }}">edit</a>
+                                            <a href="{{ path('reclamation_show', {'reclamationId': reclamation.reclamationId}) }}">Consulter</a>
+                                            <a href="{{ path('reclamation_edit', {'reclamationId': reclamation.reclamationId}) }}">Modifier</a>
                                         </td>
                                     </tr>
                                 {% else %}
@@ -40,7 +60,7 @@
                                 </tbody>
                             </table>
 
-                            <a href="{{ path('reclamation_new') }}">Create new</a>
+                            <a href="{{ path('reclamation_new') }}">Créer une réclamation</a>
                         </div>
 
 

@@ -43,9 +43,17 @@ class UserController extends AbstractController
     public function index(UserRepository $userRepository): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $queryBuilder = $userRepository
+            ->createQueryBuilder('c');
 
+        $result = $queryBuilder->select('c')
+            ->where('c.isFormateur =1  or c.isVendeur =1 ')
+            ->andWhere('c.validite=1')
+
+            ->getQuery()
+            ->getResult();
         return $this->render('user/index.html.twig', [
-            'users' => $userRepository->findBy(["validite"=>1]),
+            'users' => $result,
         ]);
     }
 

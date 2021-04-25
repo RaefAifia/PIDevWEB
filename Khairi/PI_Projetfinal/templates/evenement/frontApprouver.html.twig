@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+
+
+{% block body %}
+
+    <div style="position:relative; top: -450px; margin-left: 80px;" >
+    {% for evenement in evenements %}
+
+        <div  style="width: 520px; margin-top: 10px; margin-left: 10px;" class="btn_1">
+            <div class="btn-block">
+                <div class="icon"><i class="bx bxl-dribbble"></i></div>
+                <h3 style="color: white" class="title">Titre:{{evenement.titre}}
+                    {% if evenement in islike %}
+                        <a class="btn btn-danger" style="position: relative; left:220px; top: 4px;" href="{{ path('evenement_reserver_voirTicket', {'id': evenement.evenementId }) }}">Ticket</a>
+                    {% endif %}</h3>
+
+
+                <img  height="300px" width="500px" src="{{ asset('uploads/images/') }}{{evenement.image  }}">
+  <br>
+                <br>
+                <h4 style="color: white">Description:{{evenement.description}}
+
+
+                </h4>
+                <h5 style="color: white">Nombre de place:{{evenement.capacite}} </h5>
+                    <h4 style="color: white" class="description">Date :{{ evenement.dateEvenement ? evenement.dateEvenement|date('Y-m-d') : '' }}
+                        {% if evenement in islike %}
+                        <a style="margin-left: 80%" class="btn btn-info" href="{{ path('evenement_reserver_delete', {'id': evenement.evenementId }) }}">Anuuler</a>
+
+                        {% else %}
+                        {% if evenement.capacite > 0 %}
+                            <a id="like" style="margin-left: 80%" class="btn btn-info" href="{{ path('evenement_reserver', {'id': evenement.evenementId }) }}"> Reserver</a>
+                        {% else %}
+                            <a id="like" style="margin-left: 80%" class="btn btn-info" > 0 Place</a>
+                          {% endif %}
+                        {% endif %}
+                        </h4>
+
+
+
+
+            </div>
+
+        </div>
+
+    {% endfor %}
+    </div>
+
+{% endblock %}

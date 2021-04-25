@@ -70,11 +70,20 @@ class FormationRepository extends ServiceEntityRepository
         return $this
             ->createQueryBuilder('f')
             ->select( 'f')
-
             ->orderBy('f.date', 'ASC')
             ->getQuery()
             ->getResult();
 
+    }
+    public function mesFormations($formationId)
+    {
+        return $this
+            ->createQueryBuilder('f')
+            ->select('')
+            ->where("f.user=:user")
+            ->setParameter('formation', $formationId)
+            ->getQuery()
+            ->getSingleScalarResult();
     }
 
 /*

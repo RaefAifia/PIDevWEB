@@ -134,6 +134,12 @@ class Formation
      * })
      */
     private $user;
+    public function setFormationId(int $formationId): self
+    {
+        $this->formationId = $formationId;
+
+        return $this;
+    }
 
     public function getFormationId(): ?int
     {

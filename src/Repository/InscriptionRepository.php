@@ -2,9 +2,12 @@
 
 namespace App\Repository;
 
+use App\Entity\Formation;
 use App\Entity\Inscription;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use PhpParser\Node\Expr\Cast\Int_;
+use PhpParser\Node\Scalar\String_;
 
 /**
  * @method Inscription|null find($id, $lockMode = null, $lockVersion = null)
@@ -33,18 +36,39 @@ class InscriptionRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult()
         ;
-    }
+    }   //  ->where("i.formationId=".$formationId)
     */
+    public function nbInscit($formationId)
+    {
+        return $this
+        ->createQueryBuilder('i')
+            ->select( 'count(i.inscriptionId)')
+              ->where("i.formation=:formation")
+            ->setParameter('formation', $formationId)
+            ->getQuery()
+            ->getSingleScalarResult();
+       // dump($this);
 
+    }
 
-    public function findB($uid): ?Inscription
+    public function findB($formation,$user)//select count(inscription_id) as nb from inscription where user_id=? and formation_id=?"
     {
         return $this->createQueryBuilder('i')
-            ->andWhere('i.isincrit = 1')
-            ->setParameter('val', $uid)
+            ->select( 'count(i.inscriptionId)')
+            ->where("i.formation=:formation")
+            ->andWhere('i.user=:user')
+            ->setParameters(['formation'=> $formation,'user'=>$user])
             ->getQuery()
-            ->getOneOrNullResult()
+            ->getSingleScalarResult()
         ;
+    }
+
+    public function __toString():String
+    {
+        $formation= new Formation();
+
+        return $this->nbInscit($formation->getFormationId());
+        // TODO: Implement __toString() method.
     }
 
 }

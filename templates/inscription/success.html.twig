@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Paiement réussi !</h1>
+    <center>
+        <a class="btn_2 text-capitalize" href="{{path('formation_cours_index',{'id': formation.formationId})}}">Accéder aux cours </a>
+    </center>
+
+{% endblock %}

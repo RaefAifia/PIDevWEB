@@ -6,27 +6,113 @@ use App\Entity\Inscription;
 use App\Entity\User;
 use App\Entity\Formation;
 use App\Form\InscriptionType;
+use App\Repository\FormationRepository;
 use App\Repository\InscriptionRepository;
 use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
- * @Route("/formation")
+ * @Route("/inscription")
  */
 class InscriptionController extends AbstractController
 {
     /**
-     * @Route("/", name="inscription_index", methods={"GET"})
+     * @Route("/paiement", name="paiement", methods={"GET","POST"})
      */
-    public function index(InscriptionRepository $inscriptionRepository): Response
+    public function index()
+    {$formation= new Formation();
+        return $this->render('inscription/paiement.html.twig',[
+                'formation' => $formation,
+            ]
+
+        );
+    }
+
+
+    /**
+     * @Route("/success/{formationId}", name="success", methods={"GET"})
+     */
+    public function success(Formation $formation)
     {
-        return $this->render('inscription/index.html.twig', [
-            'inscriptions' => $inscriptionRepository->findAll(),
+        //return $this->redirectToRoute('formation_cours_index',array('id' => $formation->getFormationId()));
+       return $this->render('inscription/success.html.twig', [
+            'formation' => $formation,
         ]);
     }
+    /**
+     * @Route("/error", name="error", methods={"GET"})
+     */
+    public function error(): Response
+    {
+        return $this->render('inscription/error.html.twig');
+    }
+
+    /**
+     * @Route("/create-checkout-session", name="checkout",methods={"GET","POST"})
+     * @param $request
+     */
+    public function checkout(Request $request,FormationRepository $formationRepository)
+    {
+
+
+     // dump($request->query->get('formationId'));
+ $formationId= $request->query->get('formationId');
+//     //  $formationId= $_GET['formationId'];
+//       // dump($formationId);
+$entityManager = $this->getDoctrine()->getManager();
+//dump("SELECT f FROM App\Entity\Formation f WHERE f.formationId =" .$formationId);
+    $query = $entityManager->createQuery("SELECT f FROM App\Entity\Formation f WHERE f.formationId ="  .$formationId);
+     $formation = $query->getSingleResult();
+        $prix=$formation->getPrix();
+//      $formation=$formation->setFormationId($formationId);
+// $formation=$formationRepository->findBy($formationId);
+
+
+//        for ($i = 0; $i <= count($formations); $i++) {
+//            $formation=$formations[$i];
+//            $prix=$formation->getPrix();
+//
+//       }
+
+        /*
+         // $prix=array('prix' => $formation->getPrix());
+
+            //  $prix=$prix+$formation->getPrix();*/
+
+
+
+          \Stripe\Stripe::setApiKey('sk_test_51IjMKsJAixYnURnKfkzrJEukR34BHYai7dmnJsj7FoVbf2OMMMGfPghW4CpCHwDrp3oSFLw9neSr97kBKNLi21q900e8QJI3kp');
+
+          $session = \Stripe\Checkout\Session::create([
+              'payment_method_types' => ['card'],
+              'line_items' => [[
+                  'price_data' => [
+                      'currency' => 'eur',
+                      'product_data' => [
+                          'name' => 'Formation à payer',
+                      ],
+                      'unit_amount' => $prix*100,
+                  ],
+                  'quantity' => 1,
+              ]],
+              'mode' => 'payment',
+              'success_url' => $this->generateUrl('success', ['formationId' => $formationId], UrlGeneratorInterface::ABSOLUTE_URL),
+              'cancel_url' => $this->generateUrl('error', [], UrlGeneratorInterface::ABSOLUTE_URL),
+          ]);
+
+          return new JsonResponse([ 'id' => $session->id ]);
+
+          /*return $this->render('inscription/index.html.twig', [
+              'inscriptions' => $inscriptionRepository->findAll(),
+          ]);*/
+    }
+
+
 
     /**
      *
@@ -51,7 +137,7 @@ class InscriptionController extends AbstractController
             $inscription->setIsinscrit(1);
 
             $query = $entityManager->createQuery("SELECT f FROM App\Entity\Formation f WHERE f.formationId = :id");
-            $query->setParameter('id',$request->attributes->get('id')); //à eviter
+            $query->setParameter('id',$request->attributes->get('id'));
             $formation = $query->getSingleResult();
             $inscription->setFormation($formation);
 
@@ -59,7 +145,8 @@ class InscriptionController extends AbstractController
             $entityManager->persist($inscription);
             $entityManager->flush();
 
-            return $this->redirectToRoute('formation_cours_index',array('id' => $formation->getFormationId()));
+           // return $this->redirectToRoute('formation_cours_index',array('id' => $formation->getFormationId()));
+            return $this->redirectToRoute('paiement',array('formationId' => $formation->getFormationId()));
         }
 
         return $this->render('inscription/new.html.twig', [

@@ -3,8 +3,58 @@
 
 {% block title %}Formation{% endblock %}
 
-{% block body %}
+{% block header %}
+    <!--::header part start::-->
+    <header class="main_menu home_menu">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-12">
+                    <nav class="navbar navbar-expand-lg navbar-light">
+                        <a class="navbar-brand" href="index.html"> <img src="{{ asset ('img/logo.png') }}" alt="logo"> </a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse"
+                                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                                aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
 
+{#                        <div class="collapse navbar-collapse main-menu-item justify-content-end"#}
+{#                             id="navbarSupportedContent">#}
+{#                            <ul class="navbar-nav align-items-center">#}
+{#                                <li class="nav-item">#}
+{#                                    <a class="nav-link" href="index.html" style="color: #ffffff">Accueil</a>#}
+{#                                </li>#}
+
+{#                                <li class="nav-item">#}
+{#                                    <a class="nav-link" href="cource.html" style="color: #ffffff">Formations</a>#}
+{#                                </li>#}
+
+{#                                <li class="nav-item">#}
+{#                                    <a class="nav-link" href="blog.html" style="color: #ffffff">Evenements</a>#}
+{#                                </li>#}
+
+{#                                <li class="nav-item">#}
+{#                                    <a class="nav-link" href="{{ path('oeuvrage_index') }}" style="color: #ffffff">Oeuvres</a>#}
+{#                                </li>#}
+{#                                <li class="nav-item">#}
+{#                                    <a class="nav-link" href="{{ path('favoris_o_index') }}" style="color: #ffffff">Profil</a>#}
+{#                                </li>#}
+{#                                <li class="d-none d-lg-block">#}
+
+{#                                    <a class="btn_1" href="#">S'inscrire</a>#}
+{#                                </li>#}
+{#                            </ul>#}
+{#                        </div>#}
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- Header part end-->
+
+{% endblock %}
+
+{% block body %}
+{#   {{ dump(isincrit)}}#}
 
     <div class="row" >
 
@@ -58,16 +108,29 @@
                 <th>Description</th>
                 <td>{{ formation.description }}</td>
             </tr>
+        <tr>
+            <th>Nombre d'inscription </th>
+            <td>{{ nb }}</td>
+        </tr>
+
 <tr>
     <th>
         <a class="btn_2 text-capitalize" href="{{path('formation_cours_index',{'id': formation.formationId})}}">Voir les cours associés </a>
     </th>
- {# {% for inscription in inscription %}
-   {% if inscription.findIsinscrit()==false %}  {% endif %}
-{% endfor %} #}
+
+{#   {% if  render(controller(#}
+{#          'App\\Controller\\FormationController::inscritVisible',#}
+{#          { 'formation': formation.formationId, 'user': formation.user }#}
+{#      ))  ==true %}#}
+
+
+   {%  if  isincrit==0 %}
+
     <td>  <a  href="{{ path('inscription_new',{'id': formation.formationId})}}" class="btn_2 ">S'inscrire à cette formation</a>
+        {% endif %}
 
     </td>
+
 </tr>
 
         </tbody>

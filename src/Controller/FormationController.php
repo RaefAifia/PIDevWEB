@@ -9,6 +9,7 @@ use App\Form\FormationType;
 use App\Form\InscriptionType;
 use App\Entity\User;
 use App\Repository\FormationRepository;
+use App\Repository\InscriptionRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -126,7 +127,7 @@ class FormationController extends AbstractController
         //dd($data);
      $formations = $repository->findSearch($data);
         return $this->render('formation/index.html.twig', [
-            'formations' => $formations,
+            'formations' => $repository->findByisvalid(1),
          // 'formations' => $repository->findAll(),
             'form' => $form->createView()
         ]);
@@ -185,6 +186,21 @@ class FormationController extends AbstractController
           //  'formations' => $formationRepository->findByuser($UID),
             'formations' => $formationRepository->findBy(['user'=>$user]),
             'formations' => $formationRepository->findByisvalid(0),
+            'user'=>$user,
+        ]);
+    }
+    /**
+     * @Route("/formateur/{user}/valid", name="formateur_index_valid", methods={"GET"})
+     */
+
+    public function indexFormateurAll(FormationRepository $formationRepository,Request $request,$user): Response
+    {
+
+        return $this->render('formation/showFormateurValid.html.twig', [
+            //  'formations' => $formationRepository->findByuser($UID),
+            'formations' => $formationRepository->findBy(['user'=>$user]),
+            'formations' => $formationRepository->findByisvalid(1),
+            'user'=>$user,
         ]);
     }
     /**
@@ -221,7 +237,7 @@ class FormationController extends AbstractController
             } catch (FileException $e) {
                 // ... handle exception if something happens during file upload
             }
-            $this->addFlash('success', 'Formation ajoutée ! Vous pourvez associer des cours à cette formation maintenant !');
+            $this->addFlash('success', 'Formation ajoutée ! Vous pourvez associer des cours à cette formation !');
             if ($this->isCsrfTokenValid('Enregistrer'.$formation->getFormationId(), $request->request->get('_token'))) {
 
            return $this->redirectToRoute('cours_new',array('formationId' => $formation->getFormationId()));}
@@ -231,6 +247,7 @@ class FormationController extends AbstractController
         return $this->render('formation/new.html.twig', [
             'formation' => $formation,
             'form' => $form->createView(),
+          //  'user'=>$user,
         ]);
     }
 
@@ -247,14 +264,25 @@ class FormationController extends AbstractController
     /**
      * @Route("/{formationId}", name="formation_show", methods={"GET"})
      */
-    public function show(Formation $formation): Response
+    public function show(Formation $formation,InscriptionRepository $inscriptionRepository): Response
     {
         $inscription = new Inscription();
-        $form = $this->createForm(InscriptionType::class, $inscription);
+     //   $form = $this->createForm(InscriptionType::class, $inscription);//car j'ai ajouté buttun sinscrire au niv de show
+        $nb=0;
+        $nb=$inscriptionRepository->nbInscit($formation->getFormationId());
+       // dump($nb);
+//        if ($formation->inscritVisible($inscription.formationId,$inscription.user))
+//        {$x=true;}
+        $entityManager = $this->getDoctrine()->getManager();
+        $user = $entityManager->find(User::class, 1);
+        $i=$inscriptionRepository->findB($formation,$user);
+       // dd($formation);
         return $this->render('formation/show.html.twig', [
             'formation' => $formation,
-            'form' => $form->createView(),
+          //  'form' => $form->createView(),
             'inscription'=>$inscription,
+            'nb'=> $nb,
+            'isincrit'=>$i,
 
         ]);
     }
@@ -363,6 +391,7 @@ class FormationController extends AbstractController
                 'formations' => $formation]
         );
     }
+
 
 
 

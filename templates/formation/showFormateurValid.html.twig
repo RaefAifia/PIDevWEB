@@ -26,10 +26,7 @@
         <button type="button" class="btn-toggle-fullwidth"><i class="lnr lnr-arrow-left-circle"></i></button>
     </div> #}
     <h1>Mes Formations </h1>
-{#    <a class="btn btn-warning" href="{{ path('formateur_index') }}"><i class="fa fa-warning"></i>En attente</a>#}
 
-
-{#    <a href="{{ path('formateur_index_valid',{'user': user.userId}) }}"class="btn btn-success"><i class="fa fa-check-circle"></i>Validées</a>#}
 
         <div class="row justify-content-center">
     <div class="blog_right_sidebar">
@@ -78,13 +75,9 @@
                 <td>{{ formation.langue }}</td>
                 <td>{{ formation.description }}</td>
                 <td>{{ formation.image }}</td>
-{#            <td>{{ label}}</td>#}
 
-                <td>
 
-                    <a class="genric-btn info-border radius text-uppercase" href="{{ path('formation_edit', {'formationId': formation.formationId}) }}">Modifier</a>
-                    <a class="genric-btn danger radius text-uppercase" href="{{ path('formation_delete', {'formationId': formation.formationId}) }}">Supprimer</a>
-                </td>
+
             </tr>
 
             {% endfor %}

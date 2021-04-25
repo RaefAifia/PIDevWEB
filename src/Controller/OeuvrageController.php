@@ -79,9 +79,10 @@ class OeuvrageController extends AbstractController
      */
     public function indexforvendor(Request $request, PaginatorInterface $paginator): Response
     {
+        $user = $this->getUser();
         $oeuvrages = $this->getDoctrine()
             ->getRepository(Oeuvrage::class)
-            ->findBy(['user'=>1]);
+            ->findBy(['user'=>$user]);
         //->findAll();
         $listoeuvrages = $paginator->paginate (
             $oeuvrages, // Requête contenant les données à paginer (ici nos articles)
@@ -91,14 +92,9 @@ class OeuvrageController extends AbstractController
 
 
 
-      //  $user =$this->getDoctrine()->getRepository(User::class)->findOneBy(['username' => $this->getUser()->getUsername()]);
-
-      //  $av = $user->getAvertissement();
-        // $conf =$user->getMailconfirme();
         return $this->render('oeuvrage/affoeuvre_vendor.html.twig', [
             'oeuvrages' => $listoeuvrages,
-           // 'av' => $av,
-            //'conf'=>$conf,
+
 
         ]);
     }
@@ -125,6 +121,11 @@ class OeuvrageController extends AbstractController
     public function new(Request $request): Response
     {
         $oeuvrage = new Oeuvrage();
+        $user = $this->getUser();
+        $av = $user->getAvertissement();
+        $conf =$user->getMailconfirme();
+        if ($av<5 && $conf ===1){
+
 
         $form = $this->createForm(OeuvrageType::class, $oeuvrage);
         $form->add('image', FileType::class);
@@ -133,7 +134,7 @@ class OeuvrageController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
-            $user = $entityManager->find(User::class, 1);
+            $user = $this->getUser();
             $oeuvrage->setUser($user);
             $entityManager->persist($oeuvrage);
             $entityManager->flush();
@@ -156,9 +157,7 @@ class OeuvrageController extends AbstractController
                     // ... handle exception if something happens during file upload
                 }
             }
-            else {
-                echo 'Le fichier doit être une Image !';
-            }
+
 
             return $this->redirectToRoute('oeuvrage_indexvendor');
         }
@@ -168,6 +167,12 @@ class OeuvrageController extends AbstractController
             'form' => $form->createView(),
 
         ]);
+        }
+        else {
+            $this->addFlash('error', 'Vous ne pouvez pas ajouté  !');
+            return $this->redirectToRoute('oeuvrage_indexvendor');
+        }
+
     }
 
     /**
@@ -175,9 +180,10 @@ class OeuvrageController extends AbstractController
      */
     public function show(Oeuvrage $oeuvrage): Response
     {
+        $user = $this->getUser();
         $favoris = $this->getDoctrine()
             ->getRepository(FavorisO::class)
-            ->findOneBy(['oeuvrage'=>$oeuvrage ,'user'=> 1 ]);
+            ->findOneBy(['oeuvrage'=>$oeuvrage ,'user'=> $user ]);
 
         return $this->render('oeuvrage/show.html.twig', [
             'oeuvrage' => $oeuvrage,
@@ -215,7 +221,7 @@ class OeuvrageController extends AbstractController
      */
     public function stat(OeuvrageRepository $oeuvrageRepository){
 
-       // $users = $userRepository->findAll();
+
         $categNom = ["Peinture" , "Artisanat" , "Décoration", "Sculpture" , "Litérature"];
         $categColor = ["#a65959" , "#414e4d" , "#5E8486", "#A0D7A8", "#EFBC9B", "#DAF7A6"];
 
@@ -226,20 +232,14 @@ class OeuvrageController extends AbstractController
         $categLit = count($oeuvrageRepository->findBy(["domaine" => "Litérature"]) ) ;
         $categCount = [ $categPeint , $categArt , $categDec , $categScul ,$categLit ];
 
-        //////
-
-      //  $categColor = ["#a65959" , "#414e4d" , "#343e3d", ];
 
         $oeuvrages =$this->getDoctrine()
                  ->getRepository(Oeuvrage::class)
                  ->countvendor();
-        //dd($oeuvrages);
+
         $listvend = array();
         $listvendCount = array();
-       // foreach ( $oeuvrages AS $o) {
-         //   $listvend = $o->getUser()->getUsername();
-           // $listvendCount = count($oeuvrageRepository->findBy(["user" =>$o->getUser()->getUserId()]) );
-            //           }
+
         for ($i =0 ; $i < count($oeuvrages) ; ++$i) {
             $listvend[$i]  =   $oeuvrages[$i]->getUser()->getUserName() ;
             $listvendCount[$i]  =   count($oeuvrageRepository->findBy(["user" => $oeuvrages[$i]->getUser()->getUserId()]) );
@@ -339,11 +339,12 @@ class OeuvrageController extends AbstractController
      */
     public function Favoris (Request $request, Oeuvrage $oeuvrage): Response
     {
+        $user = $this->getUser();
         $favoris = $this->getDoctrine()
             ->getRepository(FavorisO::class)
-            ->findOneBy(['oeuvrage'=>$oeuvrage ,'user'=> 1 ]);
+            ->findOneBy(['oeuvrage'=>$oeuvrage ,'user'=> $user]);
         if  (!$favoris ){
-            $user =  $this->getDoctrine()->getManager()->find(User::class, 1);
+            $user = $this->getUser();
             $response = $this->forward('App\Controller\FavorisOController::newf', [
                 'user'  => $user,
                 'oeuvrage' => $oeuvrage,

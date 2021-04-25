@@ -30,6 +30,7 @@ class Accueil extends AbstractController
         return $this->render('base.html.twig', [
             'oeuvrages' => $oeuvrages,
           //  'formations' => $rep,
+            // 'evenements' =>
         ]);
     }
 }

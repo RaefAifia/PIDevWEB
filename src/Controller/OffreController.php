@@ -56,7 +56,7 @@ class OffreController extends AbstractController
      */
     public function listoffre(): Response
     {    $entityManager = $this->getDoctrine()->getManager();
-        $user = $entityManager->find(User::class, 17);
+        $user = $this->getUser();
         $offres = $this->getDoctrine()
             ->getRepository(Offre::class)
             ->findBy(['user'=>$user]);

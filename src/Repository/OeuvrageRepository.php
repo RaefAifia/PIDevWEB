@@ -23,6 +23,17 @@ class OeuvrageRepository extends ServiceEntityRepository
         parent::__construct($registry, Oeuvrage::class);
     }
 
+    public function affaccueuil(): array
+    {
+        return $this
+            ->createQueryBuilder('o')
+            ->select( 'o')
+            ->orderBy('o.oeuvrageId', 'DESC')
+            ->setMaxResults(4)
+            ->getQuery()
+            ->getResult();
+    }
+
     public function countvendor() {
         return $this
             ->createQueryBuilder('o')

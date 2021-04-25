@@ -23,7 +23,7 @@ class FavorisOController extends AbstractController
     public function index(): Response
     {
         $entityManager = $this->getDoctrine()->getManager();
-        $user = $entityManager->find(User::class, 1);
+        $user = $this->getUser();
         $favoris = $this->getDoctrine()
             ->getRepository(FavorisO::class)
             ->findBy(['user'=>$user]);

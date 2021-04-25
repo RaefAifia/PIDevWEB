@@ -4,16 +4,20 @@ namespace App\Controller;
 
 use App\Entity\Commande;
 use App\Entity\Livraison;
+use App\Entity\Oeuvrage;
 use App\Entity\Panier;
 use App\Entity\PanierTemp;
 use App\Form\CommandeType;
 use App\Repository\CommandeRepository;
 use App\Repository\PanierRepository;
 use App\Form\PanierType;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * @Route("/pan")
@@ -49,7 +53,6 @@ class PanierController extends AbstractController
         $livraisons = $this->getDoctrine()
             ->getRepository(Livraison::class)
             ->findliv();
-
         $prix = 0;
         foreach ($panierTemps as $p){
             $prix = $prix + ($p->getQuantite()*$p->getOeuvrage()->getPrix());
@@ -59,9 +62,7 @@ class PanierController extends AbstractController
             $commande = $this->getDoctrine()->getRepository(Commande::class)
                 ->findnvc();
 
-
                 foreach ($panierTemps as $panierTemp){
-
                     $panier = new Panier();
                     $panier->setCommande($commande);
                     $panier->setOeuvrage($panierTemp->getOeuvrage());
@@ -73,8 +74,7 @@ class PanierController extends AbstractController
                 $panierTemps = $this->getDoctrine()->getRepository(PanierTemp::class)
                     ->deletepant();
 
-
-            return $this->redirectToRoute('panier_temp_index');
+            return $this->redirectToRoute('panier_pdf');
         }
 
         return $this->render('panier/new.html.twig', [
@@ -85,6 +85,15 @@ class PanierController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+    /**
+     * @Route("/pdf", name="panier_pdf")
+     */
+    public function facture()
+    {
+        return $this->render('panier/pdf.html.twig');
+    }
+
     /**
      * @Route("/{id}", name="panier_show", methods={"GET"})
      */
@@ -127,5 +136,118 @@ class PanierController extends AbstractController
         }
 
         return $this->redirectToRoute('panier_index');
+    }
+
+    /**
+     * @Route("/facture/pdfnav", name="panier_pdfnav", methods={"GET"})
+     */
+    public function pdfnav()
+    {
+        // Configure Dompdf according to your needs
+        $pdfOptions = new Options();
+        $pdfOptions->set('defaultFont', 'Arial');
+        $commandes = $this->getDoctrine()->getRepository(Commande::class)
+            ->findnvc();
+        $commande = $this->getDoctrine()->getRepository(Commande::class)
+            ->findnvc()->getCommandeId();
+        $usernom = $this->getDoctrine()->getRepository(Commande::class)
+            ->findnvc()->getUser()->getNom();
+        $userprenom = $this->getDoctrine()->getRepository(Commande::class)
+            ->findnvc()->getUser()->getPrenom();
+        $frais = 7;
+        $prix = $commandes->getPrixtot()+$frais;
+        $text = date('d/m/Y à H:i:s ');
+        $livraison = $this->getDoctrine()->getRepository(Livraison::class)
+            ->findlivr();
+        $numtel = $livraison->getNumTel();
+        $adresse = $livraison->getAdresse();
+        $panier = $this->getDoctrine()->getRepository(Panier::class)
+            ->findpan($commande);
+
+
+        // Instantiate Dompdf with our options
+        $dompdf = new Dompdf($pdfOptions);
+
+        // Retrieve the HTML generated in our twig file
+        $html = $this->renderView('panier/facture.html.twig', [
+            'title' => "Facture",
+            'prix' => $prix,
+            'usernom' => $usernom,
+            'userprenom' => $userprenom,
+            'date' => $text,
+            'numtel' => $numtel,
+            'adresse' => $adresse,
+            'panier' => $panier,
+            'frais' => $frais,
+            'commande' => $commande
+        ]);
+
+
+        $dompdf->loadHtml($html);
+
+        $dompdf->setPaper('A4', 'portrait');
+
+        $dompdf->render();
+
+        $dompdf->stream("Facture.pdf", [
+            "Attachment" => false
+        ]);
+    }
+
+    /**
+     * @Route("/facture/pdfgen", name="panier_pdfgen", methods={"GET"})
+     */
+    public function pdfgen()
+    {
+        // Configure Dompdf according to your needs
+        $pdfOptions = new Options();
+        $pdfOptions->set('defaultFont', 'Arial');
+        $commandes = $this->getDoctrine()->getRepository(Commande::class)
+            ->findnvc();
+        $commande = $this->getDoctrine()->getRepository(Commande::class)
+            ->findnvc()->getCommandeId();
+        $usernom = $this->getDoctrine()->getRepository(Commande::class)
+            ->findnvc()->getUser()->getNom();
+        $userprenom = $this->getDoctrine()->getRepository(Commande::class)
+            ->findnvc()->getUser()->getPrenom();
+        $frais = 7;
+        $prix = $commandes->getPrixtot()+$frais;
+        $text = date('d/m/Y à H:i:s ');
+        $livraison = $this->getDoctrine()->getRepository(Livraison::class)
+            ->findlivr();
+        $numtel = $livraison->getNumTel();
+        $adresse = $livraison->getAdresse();
+        $panier = $this->getDoctrine()->getRepository(Panier::class)
+            ->findpan($commande);
+
+
+
+        // Instantiate Dompdf with our options
+        $dompdf = new Dompdf($pdfOptions);
+
+        // Retrieve the HTML generated in our twig file
+        $html = $this->renderView('panier/facture.html.twig', [
+            'title' => "Facture",
+            'prix' => $prix,
+            'usernom' => $usernom,
+            'userprenom' => $userprenom,
+            'date' => $text,
+            'numtel' => $numtel,
+            'adresse' => $adresse,
+            'panier' => $panier,
+            'frais' => $frais,
+            'commande' => $commande
+        ]);
+
+
+        $dompdf->loadHtml($html);
+
+        $dompdf->setPaper('A4', 'portrait');
+
+        $dompdf->render();
+
+        $dompdf->stream("Facture.pdf", [
+            "Attachment" => true
+        ]);
     }
 }

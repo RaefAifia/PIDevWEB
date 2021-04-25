@@ -40,10 +40,17 @@
                     <td>{{ livraison.Prenom }}</td>
                     <td>{{ livraison.adresse }}</td>
                     <td>{{ livraison.numTel }}</td>
-                    <td>{{ livraison.numTel }}</td>
+                    <td>{{ livraison.etat }}</td>
+                    {% if  livraison.etat  == 'En Attente' %}
+                        {% if livraison.livreur == NULL %}
                     <td>
-                            <a class="btn btn-info" href="{{ path('livraison_showadmin', {'livraisonId': livraison.livraisonId}) }}">Affecter Au livreur</a>
+                            <a class="btn btn-info" href="{{ path('livreurs', {'id': livraison.livraisonId}) }}">Affecter Au livreur</a>
                     </td>
+                        {% endif %}
+                     {% else %}
+                         <td></td>
+                    {% endif %}
+
                 </tr>
             {% else %}
                 <tr>

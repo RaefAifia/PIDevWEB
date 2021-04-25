@@ -31,6 +31,21 @@ class LivraisonRepository extends ServiceEntityRepository
 
     }
 
+
+    public function findlivr()
+    {
+        $query = $this
+            ->createQueryBuilder('c')
+            ->select( 'c')
+            ->addOrderBy('c.livraisonId', 'DESC')
+            ->setMaxResults(1);
+        return $query->getQuery()->getSingleResult();
+
+    }
+
+
+
+
     public function findByExpField($value)
     {
         return $this->createQueryBuilder('lid')

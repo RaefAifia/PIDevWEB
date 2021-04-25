@@ -80,13 +80,13 @@ class PanierTempController extends AbstractController
                     ->findByExampleField($request->attributes->get('id'));
             if($p){
                 $this->addFlash('red', 'Element existe! Veuillez modifier la quantité');
-                return $this->redirectToRoute('panier_temp_add');
+                return $this->redirectToRoute('panier_temp_new',['id'=>$request->attributes->get('id')]);
 
             }elseif($panierTemp->getQuantite()>$panierTemp->getOeuvrage()->getQuantite()){
                 $this->getDoctrine()->getManager()->flush();
                 $this->addFlash('red', 'Stock Insuffisant! Veuillez saisir la bonne quantité');
 
-                return $this->redirectToRoute('panier_temp_add');
+                return $this->redirectToRoute('panier_temp_new',['id'=>$request->attributes->get('id')]);
             }else{
                 $this->addFlash('green', 'Element ajouté avec succès!');
                 $entityManager->persist($panierTemp);
@@ -125,7 +125,7 @@ class PanierTempController extends AbstractController
             {
                 if ($panierTemp->getQuantite() > $panierTemp->getOeuvrage()->getQuantite()) {
                     $this->addFlash('red', 'Stock Insuffisant! Veuillez saisir la bonne quantité');
-                    return $this->redirectToRoute('commande_new');
+                    return $this->redirectToRoute('panier_temp_edit',['id'=>$request->attributes->get('id')]);
                 } else {
                     $this->getDoctrine()->getManager()->flush();
                     $this->addFlash('green', 'Element modifié avec succès!');

@@ -29,8 +29,6 @@ class PanierTempRepository extends ServiceEntityRepository
 
     }
 
-
-
     // /*
     //  * @return PanierTemp[] Returns an array of PanierTemp objects
     //  */
@@ -45,6 +43,8 @@ class PanierTempRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+
+
 
 
     /*

@@ -2,11 +2,8 @@
 
 namespace App\Entity;
 
-
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Mapping\ClassMetadata;
-use App\Entity\Oeuvrage;
+
 /**
  * PanierTemp
  *
@@ -26,15 +23,14 @@ class PanierTemp
 
     /**
      * @var int
-     * @Assert\NotBlank(message="Veuillez saisir la quantite")
-     * @Assert\Positive(message="Veuillez saisir une quantite positive")
+     *
      * @ORM\Column(name="quantite", type="integer", nullable=false)
      */
     private $quantite;
 
     /**
      * @var \User
-
+     *
      * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="user_id", referencedColumnName="user_id")

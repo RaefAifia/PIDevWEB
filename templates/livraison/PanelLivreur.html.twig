@@ -1,0 +1,79 @@
+{% extends 'base_back.html.twig' %}
+
+
+{% block body %}
+
+    <div class="section_padding">
+        <div class="section-top-border">
+
+
+            <div class="btn_1" style="position:relative; top: -100px; margin-left: 80px; width: 1200px;">
+                <h1 style="color: white">Livraisons </h1>
+                <br>
+
+
+
+                <br>
+
+                <table class="table">
+                    <thead>
+                    <tr style="color: white">
+
+
+                        <th>Livraison ID</th>
+                        <th>Nom</th>
+                        <th>Prenm</th>
+                        <th>Destination</th>
+                        <th>Num Tel</th>
+                        <th>Etat</th>
+                        <th>actions</th>
+                    </tr>
+                    </thead>
+                    <tbody id="allQQQ">
+                    {% for livraison in livraisons %}
+
+                        <tr style="color: white">
+                            <td>{{ livraison.livraisonId }}</td>
+                            <td>{{ livraison.nom }}</td>
+                            <td>{{ livraison.Prenom }}</td>
+                            <td>{{ livraison.adresse }}</td>
+                            <td>{{ livraison.numTel }}</td>
+                            <td>{{ livraison.etat }}</td>
+                            {% if  livraison.etat  == 'En Cours' %}
+                                    <td>
+                                        <a class="btn btn-info" href="{{ path('panellivreureff', {'id': livraison.livraisonId}) }}">Livré</a>
+                                    </td>
+                            {% else %}
+                                <td></td>
+                            {% endif %}
+
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="11">Pas de Livraisons</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                    <tbody id="search12">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * User
  *
  * @ORM\Table(name="user")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
 class User
 {
@@ -101,9 +101,9 @@ class User
     /**
      * @var bool|null
      *
-     * @ORM\Column(name="is_recruteur", type="boolean", nullable=true, options={"default"="NULL"})
+     * @ORM\Column(name="is_livreur", type="boolean", nullable=true, options={"default"="NULL"})
      */
-    private $isRecruteur = 'NULL';
+    private $isLivreur = 'NULL';
 
     /**
      * @var bool|null
@@ -284,14 +284,14 @@ class User
         return $this;
     }
 
-    public function getIsRecruteur(): ?bool
+    public function getIsLivreur(): ?bool
     {
-        return $this->isRecruteur;
+        return $this->isLivreur;
     }
 
-    public function setIsRecruteur(?bool $isRecruteur): self
+    public function setIsLivreur(?bool $isLivreur): self
     {
-        $this->isRecruteur = $isRecruteur;
+        $this->isLivreur = $isLivreur;
 
         return $this;
     }

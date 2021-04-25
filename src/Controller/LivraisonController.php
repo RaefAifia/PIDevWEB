@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Livraison;
+use App\Entity\User;
 use App\Form\LivraisonType;
 use App\Repository\LivraisonRepository;
 use App\Repository\CommandeRepository;
@@ -39,6 +40,7 @@ class LivraisonController extends AbstractController
      */
     public function indexadmin(LivraisonRepository $livraisonRepository): Response
     {
+
         return $this->render('livraison/indexadmin.html.twig', [
             'livraisons' => $livraisonRepository->findAll(),
         ]);
@@ -73,6 +75,7 @@ class LivraisonController extends AbstractController
         ]);
     }
 
+
     /**
      * @Route("/admrecherchelivr", name="admrecherchelivr")
      */
@@ -85,7 +88,6 @@ class LivraisonController extends AbstractController
             $entities = $em->getRepository(Livraison::class)->findAll();
         else
 
-            //call repository function
 
             $entities = $repository->findByExpField($searchParameter);
 
@@ -104,6 +106,78 @@ class LivraisonController extends AbstractController
 
         return $response;
     }
+    /**
+     * @Route("/Livreur/{id}", name="livreurs", methods={"GET","POST"})
+     */
+    public function livreur(Request $request, int $id, Livraison $livraison): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+            $users = $this->getDoctrine()
+            ->getRepository(User::class)
+            ->findBy(['isLivreur' => 1]);
+
+        return $this->render('livraison/livreurs.html.twig', [
+            'livraison' => $livraison,
+            'users' => $users,
+        ]);
+    }
+
+    /**
+     * @Route("/Confirmation/{id}/{livreurid}", name="confirmationliv", methods={"GET","POST"})
+     */
+    public function confirmation(Request $request,$id): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $livraisons = $entityManager->getRepository(Livraison::class)->findAll();
+        $livraison = $entityManager->getRepository(Livraison::class)->find($id);
+        $users = $this->getDoctrine()
+            ->getRepository(User::class)
+            ->findBy(['isLivreur' => 1]);
+        $query = $entityManager->createQuery("SELECT o FROM App\Entity\User o WHERE o.userId = :livreurid");
+        $query->setParameter('livreurid',$request->attributes->get('livreurid'));
+        $livreur = $query->getSingleResult();
+        $livraison->setLivreur($livreur);
+        $livraison->setEtat('En Cours');
+        $entityManager->flush();
+
+
+        return $this->render('livraison/indexadmin.html.twig', [
+            'livraison' => $livraison,
+            'livraisons' => $livraisons,
+            'users' => $users,
+        ]);
+    }
+
+    /**
+     * @Route("/PanelLivreur", name="panellivreur", methods={"GET","POST"})
+     */
+    public function livreurindex(Request $request): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $livraisons = $entityManager->getRepository(Livraison::class)->findBy(['livreur'=>15]);
+
+        return $this->render('livraison/PanelLivreur.html.twig', [
+            'livraisons' => $livraisons,
+        ]);
+    }
+
+    /**
+     * @Route("/PanelLivreur/{id}", name="panellivreureff", methods={"GET","POST"})
+     */
+    public function livdone(Request $request,$id): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $livraisons = $entityManager->getRepository(Livraison::class)->findBy(['livreur'=>15]);
+        $livraison = $entityManager->getRepository(Livraison::class)->find($id);
+        $livraison->setEtat('Livré');
+        $entityManager->flush();
+
+
+        return $this->render('livraison/PanelLivreur.html.twig', [
+            'livraison' => $livraison,
+            'livraisons' => $livraisons,
+        ]);
+    }
 
     /**
      * @Route("/{livraisonId}", name="livraison_show", methods={"GET"})
@@ -115,11 +189,11 @@ class LivraisonController extends AbstractController
         ]);
     }
     /**
-     * @Route("/admin/{livraisonId}", name="livraison_showadmin", methods={"GET"})
+     * @Route("/admin/{livraisonId}", name="livraison_showadmin", methods={"GET","POST"})
      */
     public function showadmin(Livraison $livraison): Response
     {
-        return $this->render('livraison/showadmin.html.twig', [
+        return $this->render('livraison/livreurs.html.twig', [
             'livraison' => $livraison,
         ]);
     }

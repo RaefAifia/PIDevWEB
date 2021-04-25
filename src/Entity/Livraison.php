@@ -3,11 +3,11 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * Livraison
  *
- * @ORM\Table(name="livraison", indexes={@ORM\Index(name="user_id", columns={"user_id"}), @ORM\Index(name="commande_id", columns={"commande_id"})})
+ * @ORM\Table(name="livraison", indexes={@ORM\Index(name="user_id", columns={"user_id"}), @ORM\Index(name="livraison_ibfk_4", columns={"Livreur_id"}), @ORM\Index(name="commande_id", columns={"commande_id"})})
  * @ORM\Entity(repositoryClass="App\Repository\LivraisonRepository")
  */
 class Livraison
@@ -23,39 +23,45 @@ class Livraison
 
     /**
      * @var string
-     * @Assert\NotBlank(message="Veuillez saisir votre nom")
+     *
      * @ORM\Column(name="nom", type="string", length=50, nullable=false)
      */
     private $nom;
 
     /**
      * @var string
-     * @Assert\NotBlank(message="Veuillez saisir votre prenom")
+     *
      * @ORM\Column(name="Prenom", type="string", length=50, nullable=false)
      */
     private $prenom;
 
     /**
      * @var string
-     * @Assert\NotBlank(message="Veuillez saisir votre Num de telephone")
+     *
      * @ORM\Column(name="Num_tel", type="string", length=50, nullable=false)
      */
     private $numTel;
 
     /**
      * @var string
-     * @Assert\NotBlank(message="Veuillez saisir votre adresse")
      *
      * @ORM\Column(name="adresse", type="string", length=50, nullable=false)
      */
     private $adresse;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="Etat", type="string", length=55, nullable=false, options={"default"="'En Cours'"})
+     */
+    private $etat = 'En Attente';
+
+    /**
      * @var \Commande
      *
      * @ORM\ManyToOne(targetEntity="Commande")
      * @ORM\JoinColumns({
-     *      @ORM\JoinColumn(name="commande_id", referencedColumnName="commande_id")
+     *   @ORM\JoinColumn(name="commande_id", referencedColumnName="commande_id")
      * })
      */
     private $commande;
@@ -69,6 +75,16 @@ class Livraison
      * })
      */
     private $user;
+
+    /**
+     * @var \Livreur
+     *
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="Livreur_id", referencedColumnName="user_id")
+     * })
+     */
+    private $livreur;
 
     public function getLivraisonId(): ?int
     {
@@ -123,6 +139,18 @@ class Livraison
         return $this;
     }
 
+    public function getEtat(): ?string
+    {
+        return $this->etat;
+    }
+
+    public function setEtat(string $etat): self
+    {
+        $this->etat = $etat;
+
+        return $this;
+    }
+
     public function getCommande(): ?Commande
     {
         return $this->commande;
@@ -143,6 +171,18 @@ class Livraison
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getLivreur(): ?User
+    {
+        return $this->livreur;
+    }
+
+    public function setLivreur(?User $livreur): self
+    {
+        $this->livreur = $livreur;
 
         return $this;
     }

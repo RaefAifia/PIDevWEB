@@ -19,7 +19,27 @@ class PanierRepository extends ServiceEntityRepository
         parent::__construct($registry, Panier::class);
     }
 
+    public function findnvc()
+    {
+        $query = $this
+            ->createQueryBuilder('c')
+            ->select( 'c')
+            ->addOrderBy('c.commande', 'DESC')
+            ->setMaxResults(1);
+        return $query->getQuery()->getSingleResult();
+    }
 
+
+
+    public function findpan($value)
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.commande = :val')
+            ->setParameter('val', $value)
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
+    }
 
     // /**
     //  * @return Panier[] Returns an array of Panier objects

@@ -33,18 +33,6 @@ class OeuvrageRepository extends ServiceEntityRepository
 
     }
 
-    public function affaccueuil(): array
-    {
-        return $this
-            ->createQueryBuilder('o')
-            ->select( 'o')
-            ->orderBy('o.oeuvrageId', 'DESC')
-            ->setMaxResults(4)
-            ->getQuery()
-            ->getResult();
-
-    }
-
     public function findsearch(FiltreOeuvre $search): array
    {
        return $this->getSearchQuery($search)->getQuery()->getResult();

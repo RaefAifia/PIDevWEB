@@ -18,7 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\HttpFoundation\File\File;
-
+use Knp\Component\Pager\PaginatorInterface;
 
 /**
  * @Route("/oeuvrage")
@@ -28,7 +28,7 @@ class OeuvrageController extends AbstractController
     /**
      * @Route("/", name="oeuvrage_index", methods={"GET"})
      */
-    public function index(Request $request): Response
+    public function index(Request $request, PaginatorInterface $paginator): Response
     {
         $data = new FiltreOeuvre();
         $form = $this->createForm(FiltreType::class, $data);
@@ -41,12 +41,18 @@ class OeuvrageController extends AbstractController
         $oeuvrages = $this->getDoctrine()
             ->getRepository(Oeuvrage::class)
             ->findsearch($data);
+        $listoeuvrages = $paginator->paginate (
+            $oeuvrages, // Requête contenant les données à paginer (ici nos articles)
+            $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
+            6// Nombre de résultats par page
+        );
 
         return $this->render('oeuvrage/index.html.twig', [
-            'oeuvrages' => $oeuvrages,
+            'oeuvrages' => $listoeuvrages,
             'form' => $form->createView(),
             'min' => $min,
             'max' => $max
+
         ]);
 
 
@@ -71,18 +77,26 @@ class OeuvrageController extends AbstractController
     /**
      * @Route("/vendor", name="oeuvrage_indexvendor", methods={"GET"})
      */
-    public function indexforvendor( ): Response
+    public function indexforvendor(Request $request, PaginatorInterface $paginator): Response
     {
         $oeuvrages = $this->getDoctrine()
             ->getRepository(Oeuvrage::class)
             ->findBy(['user'=>1]);
+        //->findAll();
+        $listoeuvrages = $paginator->paginate (
+            $oeuvrages, // Requête contenant les données à paginer (ici nos articles)
+            $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
+            6// Nombre de résultats par page
+        );
+
+
 
       //  $user =$this->getDoctrine()->getRepository(User::class)->findOneBy(['username' => $this->getUser()->getUsername()]);
 
       //  $av = $user->getAvertissement();
         // $conf =$user->getMailconfirme();
         return $this->render('oeuvrage/affoeuvre_vendor.html.twig', [
-            'oeuvrages' => $oeuvrages,
+            'oeuvrages' => $listoeuvrages,
            // 'av' => $av,
             //'conf'=>$conf,
 
@@ -107,6 +121,7 @@ class OeuvrageController extends AbstractController
     /**
      * @Route("/new", name="oeuvrage_new", methods={"GET","POST"})
      */
+
     public function new(Request $request): Response
     {
         $oeuvrage = new Oeuvrage();

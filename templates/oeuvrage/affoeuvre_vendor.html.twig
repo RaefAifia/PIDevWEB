@@ -84,12 +84,7 @@
      </section>
      <!-- breadcrumb start-->
  {% endblock %}
-
-
-
-
 {% block body %}
-
     <section>
 
         <div class="container">
@@ -105,6 +100,7 @@
                     </div>
                 </div>
             <div class="row">
+
                 {% for oeuvrage in oeuvrages %}
 
                     <div class="col-sm-6 col-lg-4" align-self-center>
@@ -123,11 +119,11 @@
                                 {% else %}
                                     <h4> {{ oeuvrage.quantite }} oeuvres </h4>
                                 {% endif %}
-                                    {% if oeuvrage.isvalid ==2 %}
-                                        <span class="label-danger ">n'est pas validé</span>
+                                {% if oeuvrage.isvalid ==2 %}
+                                    <span class="label-danger ">n'est pas validé</span>
 
-                                    {% elseif oeuvrage.isvalid ==0 %}
-                                        <span style="color: #206d2f ; font-size: 18px;font-style: italic;"> en attente </span>
+                                {% elseif oeuvrage.isvalid ==0 %}
+                                    <span style="color: #206d2f ; font-size: 18px;font-style: italic;"> en attente </span>
 
                                 {% endif %}
 
@@ -136,7 +132,6 @@
                                         <a href="{{ path('oeuvrage_showvendor', {'oeuvrageId': oeuvrage.oeuvrageId}) }}" class="btn_4" >afficher </a>
                                         <a href="{{ path('oeuvrage_edit', {'oeuvrageId': oeuvrage.oeuvrageId}) }}" class="btn_4" >Modifier</a>
                                     </div>
-
                                 </div>
                             </div>
 
@@ -144,16 +139,15 @@
                     </div>
                 {% endfor %}
 
-
             </div>
-        </div>
+            {{ knp_pagination_render(oeuvrages) }} </div>
+
 
     </section>
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-xl-5">
-                <div class="section_tittle text-center">
-
+                <div class="navigation-area">
                 </div>
             </div>
         </div>

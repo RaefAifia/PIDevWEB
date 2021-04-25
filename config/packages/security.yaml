@@ -18,6 +18,8 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
+            entry_point: App\Security\AuthenticationEntryPoint
+            access_denied_url: /login
             anonymous: lazy
             provider: users_in_memory
             guard:

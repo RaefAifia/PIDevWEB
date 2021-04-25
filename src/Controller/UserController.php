@@ -2,24 +2,26 @@
 
 namespace App\Controller;
 
-use App\Entity\Panier;
-use App\Entity\Reclamation;
+
+use App\Entity\FavorisO;
 use App\Entity\Relations;
 use App\Entity\User;
-use App\Form\Emailconfirm;
 use App\Form\Registration;
 use App\Form\UserType;
+use App\Form\UserEdit;
+
 use App\Repository\UserRepository;
 use App\Security\AppCustomAuthenticator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\MailerInterface;
 use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
+use Symfony\Component\Routing\Annotation\Route;
+
 
 /**
  * @Route("/user")
@@ -40,6 +42,7 @@ class UserController extends AbstractController
      */
     public function index(UserRepository $userRepository): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
         return $this->render('user/index.html.twig', [
             'users' => $userRepository->findBy(["validite"=>1]),
@@ -93,10 +96,19 @@ class UserController extends AbstractController
         $relation = $this->getDoctrine()
             ->getRepository(Relations::class)
             ->findOneBy(['followee'=>$user ,'follower'=> $this->getUser() ]);
+        $relationx = $this->getDoctrine()
+            ->getRepository(Relations::class)
+            ->findBy(['followee' => $user]);
+        $fav = $this->getDoctrine()
+            ->getRepository(FavorisO::class)
+            ->findBy(['user' => $user]);
+
+
 
         return $this->render('user/show.html.twig', [
             'user' => $user,
             'relation' =>$relation,
+            'relationx'=>count($relationx),
         ]);
     }
     public static function send(){
@@ -167,6 +179,93 @@ echo($code);
 
         return $this->redirectToRoute('user_index');
     }
+    /**
+     * @Route("/a/{userId}/contactSms", name="contactSMS", methods={"GET","POST"})
+     */
+
+    public function sendSMS(Request $request ): Response
+    {
+        $country=216;
+
+        if ( $country ) {
+
+            $authy_api = new \Authy\AuthyApi( '0Rkixl3ya2f6kC6n3TBjwBxyHWxfe9P4');
+            $user      = $authy_api->registerUser( 'mariema020@gmail.com', '20246474', '216');
+$s = $user->id();
+            if ( $user->ok() ) {
+
+
+                $sms = $authy_api->requestSms( $user->id(), [ "force" => "true" ] );
+
+                if ( $sms->ok() ) {
+
+                    $this->addFlash(
+                        'success',
+                        $sms->message()
+                    );
+                }
+
+                $user_params = [
+                    'username' => $request->request->get('username'),
+                    'email' => $request->request->get('email'),
+                    'country_code' => "216",
+                    'phone_number' => "20246474",
+                    'password' => $request->request->get('password'),
+                    'authy_id' => $user->id(),
+                ];
+
+                $this->get('session')->set('user', $user_params);
+            }
+
+
+        }
+
+        return $this->redirectToRoute('verify_page');
+
+    }
+    /**
+     * @Route("/verify/page", name="verify_page")
+     */
+    public function verifyCodePage()
+    {
+        return $this->render('user/confirmSMS.html.twig');
+    }
+    /**
+     * @Route("/verify/code", name="verify_code")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function verifyCode(Request $request, UserPasswordEncoderInterface $encoder)
+    {
+        try {
+            // Get data from session
+            $data = $this->get('session')->get('user');
+
+            $authy_api    = new \Authy\AuthyApi( 'wlTNObASocHt0NMtRwrOkBwCVxD1NBXm' );
+            $verification = $authy_api->verifyToken( $data['authy_id'], $request->query->get('verify_code') );
+
+            $this->addFlash(
+                'success',
+                'You phone number has been verified.'
+            );
+            $user= $this->getUser();
+
+
+            $user->setNumconfirme(1);
+            $this->getDoctrine()->getManager()->flush();
+
+
+            return $this->redirectToRoute('user_index');
+
+
+        } catch (\Exception $exception) {
+            $this->addFlash(
+                'error',
+                'Verification code is incorrect'
+            );
+            return $this->redirectToRoute('verify_page');
+        }
+    }
 
 
     /**
@@ -174,10 +273,11 @@ echo($code);
      */
     public function edit(Request $request, User $user): Response
     {
-        $form = $this->createForm(UserType::class, $user);
+        $form = $this->createForm(UserEdit::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('user_index');
@@ -200,7 +300,7 @@ echo($code);
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('user_index');
+        return $this->redirectToRoute('app_login');
     }
     /**
      * @Route("/{userId}/relation", name="user_sabonner",  methods={"GET","POST"})

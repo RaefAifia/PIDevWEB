@@ -43,6 +43,7 @@
                     <div class="collapse navbar-collapse main-menu-item justify-content-end"
                          id="navbarSupportedContent">
                         <ul class="navbar-nav align-items-center">
+
                             <li class="nav-item active">
                                 <a class="nav-link" href="base.html.twig">Accueil</a>
                             </li>
@@ -59,6 +60,9 @@
 
                             <li class="nav-item">
                                 <a class="nav-link" href="contact.html.twig">Oeuvres</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('user_index')}}">Nos artistes</a>
                             </li>
                             {% if(app.user==null) %}
                             <li class="nav-item">

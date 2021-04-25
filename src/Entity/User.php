@@ -25,7 +25,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
  */
 class User implements UserInterface
-{
+
+{const ROLE_ADMIN = 'ROLE_ADMIN';
     /**
      * @var int
      *
@@ -133,9 +134,9 @@ class User implements UserInterface
     /**
      * @var bool|null
      *
-     * @ORM\Column(name="is_recruteur", type="boolean", nullable=true, options={"default"="NULL"})
+     * @ORM\Column(name="is_livreur", type="boolean", nullable=true, options={"default"="NULL"})
      */
-    private $isRecruteur = '0';
+    private $isLivreur = '0';
 
     /**
      * @var bool|null
@@ -358,14 +359,14 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getIsRecruteur(): ?bool
+    public function getIsLivreur(): ?bool
     {
-        return $this->isRecruteur;
+        return $this->isLivreur;
     }
 
-    public function setIsRecruteur(?bool $isRecruteur): self
+    public function setIsLivreur(?bool $isLivreur): self
     {
-        $this->isRecruteur = $isRecruteur;
+        $this->isLivreur = $isLivreur;
 
         return $this;
     }
@@ -454,6 +455,9 @@ class User implements UserInterface
     public function setPlainPassword($password)
     {
         $this->plainPassword = $password;
+    }
+    public function isAdmin(): bool{
+        return in_array(self::ROLE_ADMIN, $this->getRoles());
     }
 
 }

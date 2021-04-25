@@ -278,7 +278,7 @@ a:focus, .button:focus, button:focus, .btn:focus {
   text-align: center;
   width: 80px;
   height: 2px;
-  background-color: #ff663b;
+  background-color: #a65959;
 }
 
 @media (max-width: 576px) {
@@ -2146,7 +2146,7 @@ ul {
 /**************menu part start*****************/
 /* line 2, E:/172 Etrain Education/172_Etrain_Education_html/sass/_menu.scss */
 .main_menu {
-  position: absolute;
+  position: relative;
   left: 0;
   top: 0;
   width: 100%;
@@ -2196,7 +2196,7 @@ ul {
 
 /* line 38, E:/172 Etrain Education/172_Etrain_Education_html/sass/_menu.scss */
 .main_menu .main-menu-item ul li .nav-link {
-  color: #ffffff;
+  color: #000000;
   font-size: 15px;
   padding: 0px 24px;
   font-family: "Roboto", sans-serif;
@@ -2258,7 +2258,7 @@ ul {
 @media (max-width: 576px) {
   /* line 99, E:/172 Etrain Education/172_Etrain_Education_html/sass/_menu.scss */
   .single_page_menu .navbar-collapse ul li .nav-link {
-    color: #ffffff !important;
+    color: #000000 !important;
   }
   /* line 107, E:/172 Etrain Education/172_Etrain_Education_html/sass/_menu.scss */
   .navbar-light .navbar-toggler {
@@ -2311,7 +2311,7 @@ ul {
 @media only screen and (min-width: 576px) and (max-width: 767px) {
   /* line 155, E:/172 Etrain Education/172_Etrain_Education_html/sass/_menu.scss */
   .single_page_menu .navbar-collapse ul li .nav-link {
-    color: #ffffff !important;
+    color: #000000 !important;
   }
   /* line 162, E:/172 Etrain Education/172_Etrain_Education_html/sass/_menu.scss */
   .navbar-light .navbar-toggler {
@@ -2363,7 +2363,7 @@ ul {
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   /* line 209, E:/172 Etrain Education/172_Etrain_Education_html/sass/_menu.scss */
   .single_page_menu .navbar-collapse ul li .nav-link {
-    color: #ffffff !important;
+    color: #000000 !important;
   }
   /* line 216, E:/172 Etrain Education/172_Etrain_Education_html/sass/_menu.scss */
   .navbar-light .navbar-toggler {
@@ -2425,7 +2425,7 @@ ul {
 
 /* line 270, E:/172 Etrain Education/172_Etrain_Education_html/sass/_menu.scss */
 .single_page_menu .main-menu-item ul li .nav-link {
-  color: #fff;
+  color: #000000;
   font-size: 15px;
   padding: 0px 24px;
   font-family: "Roboto", sans-serif;

@@ -9,7 +9,7 @@ use App\Entity\User;
 use App\Form\OeuvrageType;
 use App\Repository\OeuvrageRepository;
 use App\Repository\UserRepository;
-use App\Form\SearchType;
+use App\Form\FiltreType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,7 +31,7 @@ class OeuvrageController extends AbstractController
     public function index(Request $request): Response
     {
         $data = new FiltreOeuvre();
-        $form = $this->createForm(SearchType::class, $data);
+        $form = $this->createForm(FiltreType::class, $data);
         $form->handleRequest($request);
         [$min,$max] = $this->getDoctrine()
             ->getRepository(Oeuvrage::class)
@@ -77,8 +77,14 @@ class OeuvrageController extends AbstractController
             ->getRepository(Oeuvrage::class)
             ->findBy(['user'=>1]);
 
+      //  $user =$this->getDoctrine()->getRepository(User::class)->findOneBy(['username' => $this->getUser()->getUsername()]);
+
+      //  $av = $user->getAvertissement();
+        // $conf =$user->getMailconfirme();
         return $this->render('oeuvrage/affoeuvre_vendor.html.twig', [
             'oeuvrages' => $oeuvrages,
+           // 'av' => $av,
+            //'conf'=>$conf,
 
         ]);
     }
@@ -181,6 +187,7 @@ class OeuvrageController extends AbstractController
     {
         if ($this->isCsrfTokenValid('valider'.$oeuvrage->getOeuvrageId(), $request->request->get('_token'))) {
             $oeuvrage->setIsvalid(1);
+            $oeuvrage->getUser()->setIsVendeur(1);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->flush();
         }
@@ -206,7 +213,6 @@ class OeuvrageController extends AbstractController
 
         //////
 
-
       //  $categColor = ["#a65959" , "#414e4d" , "#343e3d", ];
 
         $oeuvrages =$this->getDoctrine()
@@ -226,7 +232,7 @@ class OeuvrageController extends AbstractController
         }
 
         return $this->render('oeuvrage/Chartoeuvre.html.twig', [
-            'categNom' => json_encode($categNom),
+                'categNom' => json_encode($categNom),
             'categColor' => json_encode($categColor),
             'categCount' => json_encode($categCount),
             'listvend' => json_encode($listvend),

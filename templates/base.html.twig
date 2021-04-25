@@ -51,29 +51,43 @@
                          id="navbarSupportedContent">
                         <ul class="navbar-nav align-items-center">
                             <li class="nav-item">
-                                <a class="nav-link" href="index.html">Accueil</a>
+                                <a class="nav-link" href="{{ path('accueil_index') }}">Accueil</a>
+                            </li>
+                            {# <li class="nav-item">
+                                <a class="nav-link" href="{{ path('blog_index_front') }}">Blog</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="about.html">A propos</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="cource.html">Formations</a>
+                                <a class="nav-link" href="{{ path('formation_index') }}">Formations</a>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link" href="blog.html">Evenements</a>
+                                <a class="nav-link" href="{{ path('evenement_index_Front') }}">Evenements</a>
                             </li>
-
+                            #}
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ path('oeuvrage_index') }}">Oeuvres</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ path('favoris_o_index') }}">Profil</a>
+                            {#  <li class="nav-item">
+                                <a class="nav-link" href="{{ path('user_index')}}">Nos artistes</a>
                             </li>
-                            <li class="d-none d-lg-block">
+                            {% if(app.user==null) %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('app_login') }}">Profil</a>
+                                </li>
 
-                                <a class="btn_1" href="#">S'inscrire</a>
-                            </li>
+                                <li class="d-none d-lg-block">
+                                    <a class="btn_1" href="{{ path('app_login') }}">S'inscrire</a>
+                                </li>
+                            {% else %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('user_show', {'userId':app.user.userId}) }}">Profil</a>
+                                </li>
+
+                                <li class="d-none d-lg-block">
+                                    <a class="btn_1" href="{{ path('app_logout') }}">Déconnecter</a>
+                                </li>
+                            {% endif %}
+                            #}
                         </ul>
                     </div>
                 </nav>
@@ -84,6 +98,16 @@
 <!-- Header part end-->
 
 {% endblock %}
+{% for message in app.flashes('error') %}
+    <div class="alert alert-warning">
+        {{ message }}
+    </div>
+{% endfor %}
+{% for message in app.flashes('success') %}
+    <div class="alert alert-success">
+        {{ message }}
+    </div>
+{% endfor %}
 <!-- banner part start-->
 {% block content %}
 <section class="banner_part">
@@ -102,8 +126,6 @@
                         <p>Replenish seasons may male hath fruit beast were seas saw you arrie said man beast whales
                             his void unto last session for bite. Set have great you'll male grass yielding yielding
                             man</p>
-                        <a href="'#" class="btn_1">Nos artistes </a>
-                        <a href="#" class="btn_2">Commencer ! </a>
 
                     </div>
 
@@ -118,6 +140,80 @@
 {% endblock %}
 <!-- breadcrumb start-->
 {% block body %}
+
+    <section class="testimonial_part section_padding">
+        <div class="container-fluid">
+            <div class="row justify-content-center">
+                <div class="col-xl-5">
+                    <div class="section_tittle text-center">
+                        <h2>Nos oeuvres</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="textimonial_iner owl-carousel">
+                        {% for i in 0..2 %}
+                        <div class="testimonial_slider">
+                            <div class="row">
+                                <div class="col-lg-8 col-xl-4 col-sm-8 align-self-center">
+                                    <div class="testimonial_slider_text">
+                                        </a>
+                                        <a href="{{ path('oeuvrage_show', {'oeuvrageId': oeuvrages[i].oeuvrageId}) }}"  >
+                                            <h3> {{ oeuvrages[i].nom }}</h3>
+                                        </a>
+                                        <p> {{ oeuvrages[i].description |raw }} </p>
+                                        <a >
+                                            <h4>{{oeuvrages[i].prix}} DT</h4>
+                                        </a>
+                                        {% if oeuvrages[i].quantite==0 %}
+                                            <span class="label-danger ">hors stock</span>
+                                        {% else %}
+                                            <span style="font-size: 18px; font-style: italic;  color: #ac3e3e;"> {{ oeuvrages[i].quantite }} oeuvres </span>
+                                        {% endif %}
+
+                                    </div>
+
+                                </div>
+                                <div class="col-lg-4 col-xl-2 col-sm-4">
+                                    <div class="testimonial_slider_img">
+
+                                        <a href="{{ path('oeuvrage_show', {'oeuvrageId': oeuvrages[i].oeuvrageId}) }}"> <img src="\PI\IMG\{{ oeuvrages[i].image }}" class="special_img" alt="" style=" height:150px" >
+                                        </a>
+
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 d-none d-xl-block">
+                                    <div class="testimonial_slider_text">
+                                        </a>
+                                        <a href="{{ path('oeuvrage_show', {'oeuvrageId': oeuvrages[i+1].oeuvrageId}) }}"  >
+                                            <h3> {{ oeuvrages[i+1].nom }}</h3>
+                                        </a>
+                                        <p> {{ oeuvrages[i+1].description |raw }} </p>
+                                        <a >
+                                            <h4>{{oeuvrages[i+1].prix}} DT</h4>
+                                        </a>
+                                        {% if oeuvrages[i+1].quantite==0 %}
+                                            <span class="label-danger ">hors stock</span>
+                                        {% else %}
+                                            <span style="font-size: 18px; font-style: italic;  color: #ac3e3e;"> {{ oeuvrages[i+1].quantite }} oeuvres </span>
+                                        {% endif %}
+
+                                    </div>
+                                </div>
+                                <div class="col-xl-2 d-none d-xl-block">
+                                    <div class="testimonial_slider_img">
+                                        <img src="\PI\IMG\{{ oeuvrages[i+1].image }}" alt="#">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+            </div>
+            </div>
+        </div>
+    </section>
 
 
 {% endblock %}

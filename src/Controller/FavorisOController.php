@@ -27,7 +27,6 @@ class FavorisOController extends AbstractController
         $favoris = $this->getDoctrine()
             ->getRepository(FavorisO::class)
             ->findBy(['user'=>$user]);
-       // $ov=$favoris->map
         $oeuvrages = array();
         foreach ($favoris AS $f) {
 

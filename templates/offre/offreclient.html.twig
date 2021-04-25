@@ -3,14 +3,15 @@
 {% block title %}
     <title> liste des offres  </title>
 {% endblock %}
+
  {% block content %}
-     <section class="breadcrumb breadcrumb_bg">
+     <section >
          <div class="container">
              <div class="row">
                  <div class="col-lg-12">
-                     <div class="breadcrumb_iner text-center">
-                         <div class="breadcrumb_iner_item">
-                             <h2>liste des offres</h2>
+                     <div class=" text-center">
+                         <div>
+                             <h2> </h2>
 
                          </div>
                      </div>
@@ -32,14 +33,28 @@
 
 
                 {% if offres == null %}
-                    <div class="row justify-content-center">
-                        <div class="col-xl-5">
-                            <div class="section_tittle text-center">
 
-                            </div>
+            <div class="row align-items-sm-center align-items-lg-stretch">
+                <div class="col-md-5 col-lg-5 text-center">
+                    <div class="learning_member_text">
+                        <div class="row justify-content-center " style="margin-top: 250px">
+
+
+                            <h2 STYLE=" font-style: italic; font-family: 'Arial Narrow' ;color: #bc6969 ">Vous n'avez pas d'offre ! acheter plus  </h2>
+
+
                         </div>
+
                     </div>
-                    <span class="label-danger ">Vous n'avez pas d'offre ! acheter plus </span>
+                </div>
+                <div class="col-md-7 col-lg-7">
+                    <div class="img-rounded">
+                        <img src="{{ asset ('img/learning_img.jpg') }}" alt="">
+                    </div>
+                </div>
+
+            </div>
+
                {% else %}
 
                            <div class="row align-items-sm-center align-items-lg-stretch">
@@ -62,23 +77,18 @@
                                </div>
 
                            </div>
-
-                {% for offre in offres %}
             <div class="row">
+                {% for offre in offres %}
+
 
                     <div class="col-sm-6 col-lg-4" align-self-center>
                         <div class="single_special_cource">
 
                             <div class="special_cource_text">
-                                <a >
-                                    <h3> {{ offre.nom }}</h3>
-                                </a>
+                                <a ><h3> {{ offre.nom }}</h3></a>
                                 <p>{{ offre.description |raw }}</p>
-
-
-
-                                <span class="label-danger ">Deadline</span>
-                                    <h4> {{ offre.date ? offre.date|date('Y-m-d') : '' }} </h4>
+                                 <span class="label-danger ">Deadline</span>
+                                <h4> {{ offre.date ? offre.date|date('Y-m-d') : '' }} </h4>
 
 
                                 <div class="author_info">
@@ -93,7 +103,7 @@
                     </div>
                 {% endfor %}
                 {% endif %}
-            </div>
+        </div>
         </div>
 
     </section>

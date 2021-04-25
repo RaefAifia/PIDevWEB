@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Commande;
-use App\Entity\Oeuvrage;
 use App\Entity\Offre;
 use App\Entity\User;
 use App\Form\OffreType;
@@ -33,6 +32,13 @@ class OffreController extends AbstractController
         ]);
     }
     /**
+     * @Route("/calendar", name="offre_calendar", methods={"GET"})
+     */
+    public function calendar(): Response
+    {
+        return $this->render('offre/calendar.html.twig');
+    }
+    /**
      * @Route("/tri", name="tri_offre", methods={"GET"})
      */
     public function indextri(): Response
@@ -50,7 +56,7 @@ class OffreController extends AbstractController
      */
     public function listoffre(): Response
     {    $entityManager = $this->getDoctrine()->getManager();
-        $user = $entityManager->find(User::class, 1);
+        $user = $entityManager->find(User::class, 17);
         $offres = $this->getDoctrine()
             ->getRepository(Offre::class)
             ->findBy(['user'=>$user]);

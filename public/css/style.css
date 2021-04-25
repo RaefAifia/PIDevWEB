@@ -7,9 +7,7 @@
 
 /* line 6, E:/172 Etrain Education/172_Etrain_Education_html/sass/_extends.scss */
 .member_counter {
-  background-image: -moz-linear-gradient(0deg, #ee390f 0%, #f9b700 100%);
-  background-image: -webkit-linear-gradient(0deg, #ee390f 0%, #f9b700 100%);
-  background-image: -ms-linear-gradient(0deg, #ee390f 0%, #f9b700 100%);
+  background-image: linear-gradient(to left, #000000 0%, #a65959 51%, #000000 100%);
 }
 
 /**************** extend css start ****************/
@@ -36,7 +34,10 @@ input:hover, input:focus {
 .gray_bg {
   background-color: #f7f7f7;
 }
+.error {
 
+  color: #b13232;
+}
 /* line 18, E:/172 Etrain Education/172_Etrain_Education_html/sass/_common.scss */
 .section_padding {
   padding: 140px 0px;
@@ -169,7 +170,7 @@ p {
 h2 {
   font-size: 44px;
   line-height: 28px;
-  color: #0c2e60;
+  color: #414e4d;
   font-weight: 600;
   line-height: 1.222;
 }
@@ -259,7 +260,7 @@ a:focus, .button:focus, button:focus, .btn:focus {
 /* line 140, E:/172 Etrain Education/172_Etrain_Education_html/sass/_common.scss */
 .section_tittle h2 {
   font-size: 42px;
-  color: #0c2e60;
+  color: #414e4d;
   line-height: 37px;
   font-weight: 700;
   position: relative;
@@ -349,13 +350,19 @@ a:focus, .button:focus, button:focus, .btn:focus {
   margin-bottom: 26px;
 }
 
+
+
 @media (max-width: 576px) {
   /* line 189, E:/172 Etrain Education/172_Etrain_Education_html/sass/_common.scss */
   .section_tittle p {
     margin-bottom: 10px;
   }
 }
-
+.td {
+       width: 170px;
+      height: 100px;
+  position: relative;
+     }
 @media only screen and (min-width: 576px) and (max-width: 767px) {
   /* line 189, E:/172 Etrain Education/172_Etrain_Education_html/sass/_common.scss */
   .section_tittle p {
@@ -529,6 +536,7 @@ ul {
   background-size: 200% auto;
   border: 1px solid transparent;
   box-shadow: 0px 12px 20px 0px rgba(255, 126, 95, 0.15);
+  margin-bottom: 17px;
 }
 
 /* line 38, E:/172 Etrain Education/172_Etrain_Education_html/sass/_button.scss */
@@ -578,6 +586,7 @@ ul {
   background-size: 200% auto;
   font-size: 15px;
   font-weight: 500;
+  margin-bottom: 17px;
 }
 
 /* line 75, E:/172 Etrain Education/172_Etrain_Education_html/sass/_button.scss */
@@ -613,9 +622,10 @@ ul {
 
 /* line 97, E:/172 Etrain Education/172_Etrain_Education_html/sass/_button.scss */
 .btn_4 {
-  background-color: #a65959;
-  padding: 3.5px 21px;
-  background: #a65959;
+  background-color: #878787;
+  padding: 4px 21px;
+  margin-bottom: 30px;
+  background: #878787;
   text-transform: capitalize;
   display: inline-block;
   border: 2px solid transparent;
@@ -626,8 +636,8 @@ ul {
 
 /* line 106, E:/172 Etrain Education/172_Etrain_Education_html/sass/_button.scss */
 .btn_4:hover {
-  background: rgba(255, 102, 59, 0.8);
-  color: #fff;
+  background: rgba(255, 255, 255, 0.8);
+  color: #878787;
 }
 
 /*=================== custom button rule start ====================*/
@@ -2186,7 +2196,7 @@ ul {
 
 /* line 38, E:/172 Etrain Education/172_Etrain_Education_html/sass/_menu.scss */
 .main_menu .main-menu-item ul li .nav-link {
-  color: #0c2e60;
+  color: #000000;
   font-size: 15px;
   padding: 0px 24px;
   font-family: "Roboto", sans-serif;
@@ -2201,7 +2211,7 @@ ul {
 
 /* line 46, E:/172 Etrain Education/172_Etrain_Education_html/sass/_menu.scss */
 .main_menu .main-menu-item ul li .nav-link:hover {
-  color: #ee390f;
+  color: #a65959;
 }
 
 /* line 51, E:/172 Etrain Education/172_Etrain_Education_html/sass/_menu.scss */
@@ -2248,7 +2258,7 @@ ul {
 @media (max-width: 576px) {
   /* line 99, E:/172 Etrain Education/172_Etrain_Education_html/sass/_menu.scss */
   .single_page_menu .navbar-collapse ul li .nav-link {
-    color: #000 !important;
+    color: #000000 !important;
   }
   /* line 107, E:/172 Etrain Education/172_Etrain_Education_html/sass/_menu.scss */
   .navbar-light .navbar-toggler {
@@ -2301,7 +2311,7 @@ ul {
 @media only screen and (min-width: 576px) and (max-width: 767px) {
   /* line 155, E:/172 Etrain Education/172_Etrain_Education_html/sass/_menu.scss */
   .single_page_menu .navbar-collapse ul li .nav-link {
-    color: #000 !important;
+    color: #000000 !important;
   }
   /* line 162, E:/172 Etrain Education/172_Etrain_Education_html/sass/_menu.scss */
   .navbar-light .navbar-toggler {
@@ -2353,7 +2363,7 @@ ul {
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   /* line 209, E:/172 Etrain Education/172_Etrain_Education_html/sass/_menu.scss */
   .single_page_menu .navbar-collapse ul li .nav-link {
-    color: #000 !important;
+    color: #000000 !important;
   }
   /* line 216, E:/172 Etrain Education/172_Etrain_Education_html/sass/_menu.scss */
   .navbar-light .navbar-toggler {
@@ -2415,7 +2425,7 @@ ul {
 
 /* line 270, E:/172 Etrain Education/172_Etrain_Education_html/sass/_menu.scss */
 .single_page_menu .main-menu-item ul li .nav-link {
-  color: #fff;
+  color: #000000;
   font-size: 15px;
   padding: 0px 24px;
   font-family: "Roboto", sans-serif;
@@ -2450,7 +2460,7 @@ ul {
 
 /* line 299, E:/172 Etrain Education/172_Etrain_Education_html/sass/_menu.scss */
 .menu_fixed .main-menu-item ul li .nav-link {
-  color: #000;
+  color: #030303;
 }
 
 /**************** banner part css start ****************/
@@ -2503,7 +2513,7 @@ ul {
 .banner_part .banner_text {
   display: table;
   width: 100%;
-  height: 880px;
+  height: 1100px;
 }
 
 /* line 34, E:/172 Etrain Education/172_Etrain_Education_html/sass/_banner.scss */
@@ -2731,8 +2741,8 @@ ul {
 .banner_part:after {
   position: absolute;
   top: 163px;
-  width: 45%;
-  height: 50%;
+  width: 10%;
+  height: 22%;
   content: "";
   background-image: url(../img/banner_img.png);
   background-size: 100% 100%;
@@ -2761,7 +2771,7 @@ ul {
   /* line 164, E:/172 Etrain Education/172_Etrain_Education_html/sass/_banner.scss */
   .banner_part:after {
     position: absolute;
-    top: 110px;
+    top: 90px;
     max-width: 100%;
     max-height: 100%;
     content: "";
@@ -2783,7 +2793,6 @@ ul {
     max-width: 100%;
     max-height: 100%;
     content: "";
-    background-image: url(../img/banner_img.png);
     background-size: contain;
     right: 0;
     left: 0;
@@ -2816,7 +2825,6 @@ ul {
   position: relative;
   z-index: 1;
   padding: 70px 0px 140px;
-  background-image: url(../img/about_overlay.png);
   background-repeat: no-repeat;
   background-position: left;
   background-size: 33% 73%;
@@ -2878,6 +2886,15 @@ ul {
 }
 
 /* line 42, E:/172 Etrain Education/172_Etrain_Education_html/sass/_about.scss */
+.label-danger {
+  margin-bottom: 32px;
+  color: #981616;
+  font-size: 18px;
+  font-style: italic;
+  font-family: "Poppins", sans-serif;
+  font-weight: 300;
+}
+
 .about_part .about_text h4 {
   margin-bottom: 32px;
   color: #ff7e5f;
@@ -3838,6 +3855,8 @@ ul {
   margin-left: -10px;
 }
 
+
+
 /* line 49, E:/172 Etrain Education/172_Etrain_Education_html/sass/_member_counter.scss */
 .member_counter .single_member_counter span {
   font-size: 60px;
@@ -3987,6 +4006,7 @@ ul {
   /* line 22, E:/172 Etrain Education/172_Etrain_Education_html/sass/_special_cource.scss */
   .special_cource .single_special_cource .special_img {
     width: 100%;
+    background-position: bottom;
   }
 }
 
@@ -4039,7 +4059,7 @@ ul {
 /* line 61, E:/172 Etrain Education/172_Etrain_Education_html/sass/_special_cource.scss */
 .special_cource .single_special_cource .special_cource_text h4 {
   float: right;
-  color: #ff663b;
+  color: #ac3e3e;
   font-weight: 600;
 }
 
@@ -4681,7 +4701,7 @@ ul {
 
 /* line 157, E:/172 Etrain Education/172_Etrain_Education_html/sass/_testimonial_part.scss */
 .testimonial_part h4 {
-  font-size: 20px;
+  font-size: 24px;
   font-weight: 600;
   margin-top: 20px;
   margin-bottom: 5px;
@@ -6053,7 +6073,6 @@ h1, h2, h3, h4, h5, h6 {
 
 /* line 876, E:/172 Etrain Education/172_Etrain_Education_html/sass/_elements.scss */
 .disabled-checkbox input:checked + label {
-  background: url(../img/elements/disabled-check.png) no-repeat center center/cover;
   border: none;
 }
 
@@ -6451,7 +6470,9 @@ h1, h2, h3, h4, h5, h6 {
 
 /* line 66, E:/172 Etrain Education/172_Etrain_Education_html/sass/_blog_part.scss */
 .blog_part .single-home-blog .card .card-body .btn_4 {
-  margin-bottom: 20px;
+
+  margin-bottom: 30px;
+
 }
 
 /* line 70, E:/172 Etrain Education/172_Etrain_Education_html/sass/_blog_part.scss */
@@ -7287,4 +7308,46 @@ h1, h2, h3, h4, h5, h6 {
   margin-top: 0px;
 }
 
+
+.buttonheart{
+  width: 30px;
+  height: 10px;
+  top:50%;
+  position: absolute;
+  left: 150%;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.5s ease;
+}
+.buttonheart:hover{
+
+}
+.activate#heart:before,.activate#heart:after{
+  background: #863535 !important;
+}
+#heart {
+  width: 22px;
+  height: 20px;
+  transition: background 0.5s ease;
+}
+
+#heart:before,
+#heart:after {
+  transition: background 0.5s ease;
+  position: absolute;
+  content: "";
+  left: 50px;
+  top: 0;
+  background: dimgrey;
+  width: 50px;
+  height: 80px;
+  border-radius: 50px 50px 0 0;
+  transform: rotate(-45deg);
+  transform-origin: 0 100%;
+}
+#heart:after {
+  left: 0;
+  transform: rotate(45deg);
+  transform-origin :100% 100%;
+}
 /*# sourceMappingURL=style.css.map */

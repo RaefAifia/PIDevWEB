@@ -64,7 +64,7 @@
       }
     });
   }
-
+ 
   // menu fixed js code
   $(window).scroll(function () {
     var window_top = $(window).scrollTop() + 1;
@@ -88,7 +88,7 @@
 //       dots: false,
 //       navText: false,
 //       autoplay: true,
-
+      
 //     });
 //  owl_2.find(".item").click(function(){
 //     var slide_index = owl_2.find(".item").index(this);
@@ -106,7 +106,7 @@
 //       autoplay: true,
 //       center: true
 //     });
-
+    
 //   });
 
 
@@ -133,7 +133,7 @@
       }
     ]
   });
-
+ 
   //remove active class from all thumbnail slides
   $('.slider-nav-thumbnails .slick-slide').removeClass('slick-active');
 
@@ -145,9 +145,9 @@
     var mySlideNumber = nextSlide;
     $('.slider-nav-thumbnails .slick-slide').removeClass('slick-active');
     $('.slider-nav-thumbnails .slick-slide').eq(mySlideNumber).addClass('slick-active');
-  });
-
-  //UPDATED
+ });
+ 
+ //UPDATED 
 
   $('.slider').on('afterChange', function(event, slick, currentSlide){
     $('.content').hide();
@@ -155,11 +155,11 @@
   });
 
   $('.gallery_img').magnificPopup({
-    type: 'image',
-    gallery:{
-      enabled:true
-    }
-  });
+  type: 'image',
+  gallery:{
+    enabled:true
+  }
+});
 
 
 

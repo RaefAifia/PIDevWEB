@@ -67,7 +67,7 @@ class AppCustomAuthenticator extends AbstractFormLoginAuthenticator implements P
             throw new InvalidCsrfTokenException();
         }
 
-        $user = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $credentials['email']]);
+        $user = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $credentials['email'] , 'validite' => 1]);
 
         if (!$user) {
             // fail authentication with a custom error
@@ -94,6 +94,11 @@ class AppCustomAuthenticator extends AbstractFormLoginAuthenticator implements P
     {
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);
+        }
+        //admin
+
+        if($token->getUser()->isAdmin()){
+            return new RedirectResponse($this->urlGenerator->generate(('admin_index')));
         }
 
         // For example : return new RedirectResponse($this->urlGenerator->generate('some_route'));

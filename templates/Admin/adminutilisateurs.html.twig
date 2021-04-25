@@ -6,13 +6,14 @@
 {% block body %}
 	<section class="banner_part">
 		<div class="container">
+
 			<div class="row align-items-center">
 				<div class="col-lg-6 col-xl-6">
 					<div class="banner_text">
 						<div class="banner_text_iner">
 
 
-							<h1>User index</h1>
+							<h1>Les utilisateurs</h1>
 
 							<table class="table">
 								<thead>
@@ -28,9 +29,9 @@
 									<th>Email</th>
 
 									<th>Bio</th>
-									<th>IsFormateur</th>
-									<th>IsRecruteur</th>
-									<th>IsVendeur</th>
+									<th>Formateur</th>
+									<th>Livreur</th>
+									<th>Vendeur</th>
 									<th>Cv</th>
 									<th>Validite</th>
 									<th>Mailconfirme</th>
@@ -53,17 +54,17 @@
 										<td>{{ user.email }}</td>
 
 										<td>{{ user.bio }}</td>
-										<td>{{ user.isFormateur ? 'Yes' : 'No' }}</td>
-										<td>{{ user.isRecruteur ? 'Yes' : 'No' }}</td>
-										<td>{{ user.isVendeur ? 'Yes' : 'No' }}</td>
+										<td>{{ user.isFormateur ? 'No' : 'Yes' }}</td>
+										<td>{{ user.isLivreur ? 'No' : 'Yes' }}</td>
+										<td>{{ user.isVendeur ? 'No' : 'Yes' }}</td>
 										<td>{{ user.cv }}</td>
-										<td>{{ user.validite ? 'Yes' : 'No' }}</td>
-										<td>{{ user.mailconfirme ? 'Yes' : 'No' }}</td>
-										<td>{{ user.numconfirme ? 'Yes' : 'No' }}</td>
+										<td>{{ user.validite ? 'No' : 'Yes' }}</td>
+										<td>{{ user.mailconfirme ? 'No' : 'Yes' }}</td>
+										<td>{{ user.numconfirme ? 'No' : 'Yes' }}</td>
 										<td>{{ user.avertissement }}</td>
 										<td>
-											<a href="{{ path('admin_show', {'userId': user.userId}) }}">show</a>
-											<a href="{{ path('admin_delete', {'userId': user.userId}) }}">Delete</a>
+											<a href="{{ path('admin_show', {'userId': user.userId}) }}">Consulter</a>
+											<a href="{{ path('admin_delete', {'userId': user.userId}) }}">Supprimer</a>
 
 										</td>
 									</tr>

@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+
+{% block content %}
+    <div class="row align-items-sm-center align-items-lg-stretch">
+        <div class="col-md-5 col-lg-5 text-center">
+            <div class="learning_member_text">
+                <div class="row justify-content-center " style="margin-top: 150px">
+
+
+
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-7 col-lg-7">
+            <div class="img-rounded">
+
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block body %}
+    <section class="banner_part">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 col-xl-6">
+                    <div class="banner_text">
+                        <div class="banner_text_iner">
+
+
+                            <h1>Confirmer numéro téléphone</h1>
+                            <form action="{{ url('verify_code') }}" method="get">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="verify_code" placeholder="Enter code here">
+                                </div>
+
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-success"> Verify Now</button>
+                                </div>
+                            </form>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+

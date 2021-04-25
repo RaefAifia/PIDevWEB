@@ -105,6 +105,8 @@ class Reclamation
      */
     private $user;
 
+    public $code ;
+
     public function getReclamationId(): ?int
     {
         return $this->reclamationId;
@@ -227,6 +229,19 @@ class Reclamation
 
         return $this;
     }
+    public function getCode()
+    {
+        return $this->code;
+    }
+
+    public function setCode(string $code)
+    {
+        $this->code = $code;
+
+        return $this;
+    }
+
+
 
 
 }

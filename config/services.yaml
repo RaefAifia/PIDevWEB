@@ -5,6 +5,7 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     app.path.product_images: \images\profil
+    TWILIO_AUTHY_API_KEY: '%env(AUTHY_API_KEY)%'
 
 services:
     # default configuration for services in *this* file

@@ -3,13 +3,12 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use App\Repository\CommandeRepository;
 
 /**
  * Commande
  *
  * @ORM\Table(name="commande", indexes={@ORM\Index(name="fk_usercom", columns={"user_id"})})
- * @ORM\Entity(repositoryClass=CommandeRepository::class)
+ * @ORM\Entity(repositoryClass="App\Repository\CommandeRepository")
  */
 class Commande
 {
@@ -32,9 +31,9 @@ class Commande
     /**
      * @var \DateTime|null
      *
-     * @ORM\Column(name="date", type="date", nullable=true)
+     * @ORM\Column(name="date", type="date", nullable=true, options={"default"="NULL"})
      */
-    private $date;
+    private $date = 'NULL';
 
     /**
      * @var \User

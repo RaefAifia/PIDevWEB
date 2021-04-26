@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+
 use App\Repository\OeuvrageRepository;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -30,14 +31,18 @@ class Oeuvrage
 
     /**
      * @var string
+
      * @Assert\NotBlank(message="Veuillez donner un nom à votre oeuvre !")
+
      * @ORM\Column(name="nom", type="string", length=50, nullable=false)
      */
     private $nom;
 
     /**
      * @var string
+
      * @Assert\NotBlank(message="Veuillez choisir le domaine de votre oeuvre !")
+
      *
      * @ORM\Column(name="domaine", type="string", length=50, nullable=false)
      */
@@ -85,7 +90,6 @@ class Oeuvrage
 
     /**
      * @var string
-
      * @ORM\Column(name="image", type="string", length=255, nullable=false)
      */
     private $image;
@@ -183,7 +187,6 @@ class Oeuvrage
 
         return $this;
     }
-
 
     public function getIsvalid(): ?int
     {

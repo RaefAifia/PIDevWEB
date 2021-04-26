@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Relations{% endblock %}
+
+{% block body %}
+    <h1>Create new Relations</h1>
+
+    {{ include('relations/_form.html.twig') }}
+
+    <a href="{{ path('relations_index') }}">back to list</a>
+{% endblock %}

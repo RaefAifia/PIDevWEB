@@ -3,8 +3,10 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+
 use App\Repository\OffreRepository;
 use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * Offre
@@ -25,22 +27,28 @@ class Offre
 
     /**
      * @var string
+
      * @Assert\NotBlank(message="Veuillez donner un nom à cette offre !")
+
      * @ORM\Column(name="nom", type="string", length=50, nullable=false)
      */
     private $nom;
 
     /**
      * @var string
+
      * @Assert\NotBlank(message="Veuillez donner une description à cette offre !")
+
      * @ORM\Column(name="description", type="string", length=255, nullable=false)
      */
     private $description;
 
     /**
      * @var int
+
      * @Assert\NotBlank(message="Veuillez saisir le nombre des profiteur de cette offre !")
      * @Assert\Positive(message=" le nombre des pofiteur doit être positif !")
+
      * @ORM\Column(name="nb_client", type="integer", nullable=false)
      */
     private $nbClient;
@@ -55,7 +63,9 @@ class Offre
     /**
      * @var \DateTime
 
+
      * @Assert\GreaterThan("today", message ="La dade de début ne devrait pas être antérieure à la date du jour ")
+
      * @ORM\Column(name="date", type="date", nullable=false)
      */
     private $date;
@@ -69,6 +79,7 @@ class Offre
      * })
      */
     private $user;
+
 
     /**
      *
@@ -154,6 +165,7 @@ class Offre
 
         return $this;
     }
+
     public function getX(): ?string
     {
         return $this->x;
@@ -164,7 +176,6 @@ class Offre
         $this->x = $x;
         return $this;
     }
-
 
 
 }

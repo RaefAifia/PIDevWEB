@@ -5,8 +5,9 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
     {% block title %}
-        <title> Xcode </title>
+        <title> fanny </title>
     {% endblock %}
     <link rel="icon" href="{{ asset ('img/favicon.png') }}">
     {% block css %}
@@ -30,6 +31,7 @@
         <link rel="stylesheet" href="{{ asset ('assetX/styles/app.css') }}">
 
     {% endblock %}
+
 </head>
 
 <body>
@@ -50,6 +52,7 @@
                     <div class="collapse navbar-collapse main-menu-item justify-content-end"
                          id="navbarSupportedContent">
                         <ul class="navbar-nav align-items-center">
+
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ path('accueil_index') }}">Accueil</a>
                             </li>
@@ -79,6 +82,7 @@
                                     <a class="btn_1" href="{{ path('app_login') }}">S'inscrire</a>
                                 </li>
                             {% else %}
+
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ path('user_show', {'userId':app.user.userId}) }}">Profil</a>
                                 </li>
@@ -87,7 +91,8 @@
                                     <a class="btn_1" href="{{ path('app_logout') }}">Déconnecter</a>
                                 </li>
                             {% endif %}
-                            #}
+                          #}
+
                         </ul>
                     </div>
                 </nav>
@@ -95,6 +100,7 @@
         </div>
     </div>
 </header>
+
 <!-- Header part end-->
 
 {% endblock %}
@@ -128,6 +134,7 @@
 
 </section>
 
+
 {% endblock %}
 {% for message in app.flashes('error') %}
     <div class="alert alert-warning">
@@ -139,6 +146,7 @@
         {{ message }}
     </div>
 {% endfor %}
+
 <!-- breadcrumb start-->
 {% block body %}
 {# liste des oeuvre #}
@@ -365,6 +373,7 @@
 </div>
 {% block footer %}
 <!-- footer part start-->
+
 <footer class="footer-area">
     <div class="container">
         <div class="row justify-content-between">
@@ -397,7 +406,9 @@
                         <a href="#"> <i class="ti-facebook"></i> </a>
                         <a href="#"> <i class="ti-twitter-alt"></i> </a>
                         <a href="#"> <i class="ti-instagram"></i> </a>
+
                         <a href="# "> <i class="ti-skype"></i> </a>
+
                     </div>
                 </div>
             </div>
@@ -430,6 +441,8 @@
         </div>
     </div>
 </footer>
+
+
 <!-- footer part end-->
 
 {% endblock %}
@@ -448,10 +461,12 @@
 <script src="{{ asset ('js/swiper.min.js') }}"></script>
 <!-- swiper js -->
 <script src="{{ asset ('js/masonry.pkgd.js') }}"></script>
+
 <!-- particles js -->
 <script src="{{ asset('js/owl.carousel.min.js') }}"></script>
 <script src="{{ asset('js/jquery.nice-select.min.js') }}"></script>
 <!-- swiper js -->
+
 <script src="{{ asset ('js/slick.min.js') }}"></script>
 <script src="{{ asset('js/jquery.counterup.min.js') }}"></script>
 <script src="{{ asset ('js/waypoints.min.js') }}"></script>
@@ -463,6 +478,7 @@
     <script src="{{ asset ('assetX/app.js') }}"></script>
     <script src="{{ asset ('assetX/bootstrap.js') }}"></script>
 {% endblock %}
+
 </body>
 
 </html>

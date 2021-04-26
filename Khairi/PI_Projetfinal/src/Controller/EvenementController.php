@@ -82,6 +82,15 @@ class EvenementController extends AbstractController
             'evenements' => $evenementRepository->findAll(),
         ]);
     }
+    /**
+     * @Route("/homeevenment", name="evenement_index_home", methods={"GET"})
+     */
+    public function indexHome(EvenementRepository $evenementRepository): Response
+    {
+        return $this->render('evenement/back.html.twig', [
+            'evenements' => $evenementRepository->findBy(array('etat'=>1),array('evenement_id' => 'DESC'),4),
+        ]);
+    }
 
     /**
      * @Route("/Front", name="evenement_index_Front", methods={"GET"})

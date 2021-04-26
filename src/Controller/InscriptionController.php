@@ -131,7 +131,7 @@ $entityManager = $this->getDoctrine()->getManager();
         if ($form->isSubmitted() && $form->isValid()) {
 
             $entityManager = $this->getDoctrine()->getManager();
-            $user = $entityManager->find(User::class, 1);
+            $user =$this->getUser();
             $inscription->setUser($user);
 
             $inscription->setIsinscrit(1);

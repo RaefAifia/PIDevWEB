@@ -2,6 +2,25 @@
 
 
 {% block title %}Formation{% endblock %}
+   {% block content %}
+
+       <section class="breadcrumb breadcrumb_bg">
+           <div class="container">
+               <div class="row">
+                   <div class="col-lg-12">
+                       <div class="breadcrumb_iner text-center">
+                           <div class="breadcrumb_iner_item">
+                               <h2>Espace Formateur</h2>
+
+                           </div>
+                       </div>
+                   </div>
+               </div>
+           </div>
+       </section>
+
+   {% endblock %}
+
 
 {% block header %}
     <!--::header part start::-->
@@ -17,33 +36,48 @@
                             <span class="navbar-toggler-icon"></span>
                         </button>
 
-{#                        <div class="collapse navbar-collapse main-menu-item justify-content-end"#}
-{#                             id="navbarSupportedContent">#}
-{#                            <ul class="navbar-nav align-items-center">#}
+                        <div class="collapse navbar-collapse main-menu-item justify-content-end"
+                             id="navbarSupportedContent">
+                            <ul class="navbar-nav align-items-center">
+                                <li class="nav-item">
+{#                                    <a class="nav-link" href="{{ path('accueil_index') }}" style="color: #ffffff">Accueil</a>#}
+{#                                       </li>
 {#                                <li class="nav-item">#}
-{#                                    <a class="nav-link" href="index.html" style="color: #ffffff">Accueil</a>#}
+{#                                    <a class="nav-link" href="{{ path('blog_index_front') }}" style="color: #ffffff">Blog</a>#}
 {#                                </li>#}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('formation_index') }}" style="color: #ffffff">Formations</a>
+                                </li>
 
 {#                                <li class="nav-item">#}
-{#                                    <a class="nav-link" href="cource.html" style="color: #ffffff">Formations</a>#}
-{#                                </li>#}
-
-{#                                <li class="nav-item">#}
-{#                                    <a class="nav-link" href="blog.html" style="color: #ffffff">Evenements</a>#}
-{#                                </li>#}
+{#                                    <a class="nav-link" href="{{ path('evenement_index_Front') }}" style="color: #ffffff">Evenements</a>#}
+{#                                </li> #}
 
 {#                                <li class="nav-item">#}
 {#                                    <a class="nav-link" href="{{ path('oeuvrage_index') }}" style="color: #ffffff">Oeuvres</a>#}
 {#                                </li>#}
-{#                                <li class="nav-item">#}
-{#                                    <a class="nav-link" href="{{ path('favoris_o_index') }}" style="color: #ffffff">Profil</a>#}
-{#                                </li>#}
-{#                                <li class="d-none d-lg-block">#}
+                                {#  <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('user_index')}}" style="color: #ffffff">Nos artistes</a>
+                                </li>
+                                {% if(app.user==null) %}
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ path('app_login') }}" style="color: #ffffff">Profil</a>
+                                    </li>
 
-{#                                    <a class="btn_1" href="#">S'inscrire</a>#}
-{#                                </li>#}
-{#                            </ul>#}
-{#                        </div>#}
+                                    <li class="d-none d-lg-block">
+                                        <a class="btn_1" href="{{ path('app_login') }}">S'inscrire</a>
+                                    </li>
+                                {% else %}
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ path('user_show', {'userId':app.user.userId}) }}" style="color: #ffffff">Profil</a>
+                                    </li>
+
+                                    <li class="d-none d-lg-block">
+                                        <a class="btn_1" href="{{ path('app_logout') }}">Déconnecter</a>
+                                    </li>
+                                {% endif %}#}
+                            </ul>
+                        </div>
                     </nav>
                 </div>
             </div>
@@ -115,7 +149,9 @@
 
 <tr>
     <th>
+{#        {% if isCoursVisible !=0 %}#}
         <a class="btn_2 text-capitalize" href="{{path('formation_cours_index',{'id': formation.formationId})}}">Voir les cours associés </a>
+{#        {% endif %}#}
     </th>
 
 {#   {% if  render(controller(#}
@@ -137,16 +173,12 @@
     </table>
 
 
-          {# {{ form_start(form) }}
-            {{ form_widget(form.formation,{'attr':{'value':formation.formationId}}) }}
-            <button class="btn">{{ button_label|default('Save') }}</button>
-            {{ form_end(form) }} #}
+
 
 
             {#<h4 class="title">{{ formation.cours.titre }}</h4>
   {# <a href="{{ asset('images1/' ~ formation.image) }}">View image </a> naamalha lel cours files
-   <a href="{{ path('formation_index') }}">back to list</a>
-  <a class="btn_1"href="{{ path('formation_edit', {'formationId': formation.formationId}) }}">Modifier</a></div>#}
+   <a href="{{ path('formation_index') }}">back to list</a>#}
 
 
     </div>

@@ -46,13 +46,14 @@ class CoursRepository extends ServiceEntityRepository
 
     }
 
-    public function coursVisible() {
+    public function coursVisible($formationId) {
         return $this   //select count(cours_id) as nb from cours where formation_id=?
         ->createQueryBuilder('c')
             ->select( 'count(c.coursId)')
-            ->where("c.formationId")
+            ->where("c.formation=: formation")
+            ->setParameter('formation', $formationId)
             ->getQuery()
-            ->getResult();
+            ->getSingleScalarResult();
 
     }
 

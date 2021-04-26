@@ -8,6 +8,7 @@ use App\Entity\Inscription;
 use App\Form\FormationType;
 use App\Form\InscriptionType;
 use App\Entity\User;
+use App\Repository\CoursRepository;
 use App\Repository\FormationRepository;
 use App\Repository\InscriptionRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,6 +17,7 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Notification\ValidationNotififcation;
 
 /**
  * @Route("/formation")
@@ -61,7 +63,7 @@ class FormationController extends AbstractController
 //        }
 //        $nivCount = [$debutant , $inter , $avance ];
         // dd($debutant);
-        return $this->render('BackOffice/charts.html.twig',[
+        return $this->render('Admin/charts.html.twig',[
 
             'categNom' => json_encode($categNom),
             'categColor' => json_encode($categColor),
@@ -94,7 +96,7 @@ class FormationController extends AbstractController
 //            else {$inter=$inter+1;}
 //        }
 //     //   dd($debutant);
-//        return $this->render('BackOffice/charts.html.twig',[
+//        return $this->render('Admin/charts.html.twig',[
 //                'Debutant' => $debutant,
 //                'inter'=> $inter,
 //                'avance'=> $avance
@@ -110,7 +112,7 @@ class FormationController extends AbstractController
      */
     public function indexAdmin(FormationRepository $formationRepository): Response
     {
-        return $this->render('BackOffice/admin.html.twig', [
+        return $this->render('Admin/admin.html.twig', [
 
             'formations' => $formationRepository->findAll(),
         ]);
@@ -152,7 +154,7 @@ class FormationController extends AbstractController
      */
     public function findValid(FormationRepository $formationRepository):Response
     {/*$formation = $formationRepository->findByisvalid(1);*/
-        return $this->render('BackOffice/admin.html.twig', [
+        return $this->render('Admin/admin.html.twig', [
             'formations' => $formationRepository->findByisvalid(1),
         ]);
        }
@@ -165,7 +167,7 @@ class FormationController extends AbstractController
 
     public function findNonvalid(FormationRepository $formationRepository):Response
     {/*$formation = $formationRepository->findByisvalid(1);*/
-        return $this->render('BackOffice/admin.html.twig', [
+        return $this->render('Admin/admin.html.twig', [
             'formations' => $formationRepository->findByisvalid(0),
         ]);
     }
@@ -185,7 +187,7 @@ class FormationController extends AbstractController
         return $this->render('formation/showFormateur.html.twig', [
           //  'formations' => $formationRepository->findByuser($UID),
             'formations' => $formationRepository->findBy(['user'=>$user]),
-            'formations' => $formationRepository->findByisvalid(0),
+            //'formations' => $formationRepository->findByisvalid(0),
             'user'=>$user,
         ]);
     }
@@ -206,17 +208,22 @@ class FormationController extends AbstractController
     /**
      * @Route("/new", name="formation_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request,FormationRepository $formationRepository): Response
     {
         $formation = new Formation();
+//['username' => $this->getUser()->getUsername()]
+        $user =$this->getDoctrine()->getRepository(User::class)->findOneBy(['username' => $this->getUser()->getUsername()]);
+        $av = $user->getAvertissement();
+      $conf =$user->getMailconfirme();
+        if($av<5 && $conf==1 ) {
         $form = $this->createForm(FormationType::class, $formation);
         $form->add('image', FileType::class);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+                if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
 
-            $user = $entityManager->find(User::class, 1);
+            $user = $this->getUser();   // $entityManager->find(User::class, 1);
             $formation->setUser($user);
 
 
@@ -231,6 +238,8 @@ class FormationController extends AbstractController
                     $this->getParameter('Images_directory'),
                     $fileName);
                 $formation->setImage($fileName);
+
+
                 $entityManager->persist($formation);
                 $entityManager->flush();
 
@@ -238,17 +247,27 @@ class FormationController extends AbstractController
                 // ... handle exception if something happens during file upload
             }
             $this->addFlash('success', 'Formation ajoutée ! Vous pourvez associer des cours à cette formation !');
+
             if ($this->isCsrfTokenValid('Enregistrer'.$formation->getFormationId(), $request->request->get('_token'))) {
 
            return $this->redirectToRoute('cours_new',array('formationId' => $formation->getFormationId()));}
-            else{return $this->redirectToRoute('formateur_index',array('user' => $user->getUserId()));}
+            else{//return $this->redirectToRoute('formateur_index',array('user' => $user->getUserId()));
+                return $this->render('formation/new.html.twig', [
+                    'formation' => $formation,
+                    'form' => $form->createView(),
+                ]);
+
+            }
+        }}
+        else { $this->addFlash('error', 'Vous ne pouvez plus ajouter des formations !');
+        return $this->render('formation/showFormateur.html.twig', [
+
+            'formations' => $formationRepository->findBy(['user'=>$user])
+            ]);
+
         }
 
-        return $this->render('formation/new.html.twig', [
-            'formation' => $formation,
-            'form' => $form->createView(),
-          //  'user'=>$user,
-        ]);
+
     }
 
 
@@ -257,32 +276,33 @@ class FormationController extends AbstractController
      */
    public function showForAdmin(Formation $formation): Response
     {
-        return $this->render('BackOffice/AdminShowFor.html.twig', [
+        return $this->render('Admin/AdminShowFor.html.twig', [
             'formation' => $formation
         ]);
     }
     /**
      * @Route("/{formationId}", name="formation_show", methods={"GET"})
      */
-    public function show(Formation $formation,InscriptionRepository $inscriptionRepository): Response
+    public function show(Formation $formation,InscriptionRepository $inscriptionRepository, CoursRepository $coursRepository): Response
     {
         $inscription = new Inscription();
      //   $form = $this->createForm(InscriptionType::class, $inscription);//car j'ai ajouté buttun sinscrire au niv de show
         $nb=0;
         $nb=$inscriptionRepository->nbInscit($formation->getFormationId());
        // dump($nb);
-//        if ($formation->inscritVisible($inscription.formationId,$inscription.user))
-//        {$x=true;}
-        $entityManager = $this->getDoctrine()->getManager();
-        $user = $entityManager->find(User::class, 1);
+
+       // $entityManager = $this->getDoctrine()->getManager();
+        $user =  $this->getUser();  //$entityManager->find(User::class, 1);
         $i=$inscriptionRepository->findB($formation,$user);
        // dd($formation);
+      //  $c=$coursRepository->coursVisible($formation->getFormationId());
         return $this->render('formation/show.html.twig', [
             'formation' => $formation,
           //  'form' => $form->createView(),
             'inscription'=>$inscription,
             'nb'=> $nb,
             'isincrit'=>$i,
+           // 'isCoursVisible' =>$c,
 
         ]);
     }
@@ -341,6 +361,7 @@ class FormationController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($formation);
             $entityManager->flush();
+            $this->notify_Validation->notify();
         }
 
         return $this->redirectToRoute('nonValid');
@@ -356,24 +377,27 @@ class FormationController extends AbstractController
         $formation=$em->getRepository(Formation::class)->findTitre($search);
 
 
-        return $this->render('BackOffice/admin.html.twig',[
+        return $this->render('Admin/admin.html.twig',[
                 'formation' => $formation]
         );
     }
     /**
      * @Route("/backoffice/{formationId}/valider", name="v_formation", methods={"POST","GET"})
      */
-    public function validerF(Request $request, Formation $formation): Response
+    public function validerF(Request $request, Formation $formation,\Swift_Mailer $mailer): Response
     {
         if ($this->isCsrfTokenValid('validerF'.$formation->getFormationId(), $request->request->get('_token'))) {
             $formation->setIsvalid(1);
             $entityManager = $this->getDoctrine()->getManager();
-
             $entityManager->flush();
+
+
         }
        // dd($formation);
         return $this->redirectToRoute('Valid');
     }
+
+
 
     /**
      * @param Request $request
@@ -387,13 +411,23 @@ class FormationController extends AbstractController
         $formation=$em->getRepository(Formation::class)->tri();
 
     //dd($formation);
-        return $this->render('BackOffice/admin.html.twig',[
+        return $this->render('Admin/admin.html.twig',[
                 'formations' => $formation]
         );
     }
 
-
-
+    /**
+     * @var ValidationNotififcation
+     */
+    private $notify_Validation;
+    /**
+     * RegistrationController constructor.
+     * @param ValidationNotififcation $notify_creation
+     */
+    public function __construct(ValidationNotififcation $notify_Validation)
+    {
+        $this->notify_Validation = $notify_Validation;
+    }
 
     }
 

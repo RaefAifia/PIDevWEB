@@ -41,7 +41,7 @@ class CoursController extends AbstractController
     {
         $cours=$coursRepository->findByFor($request);
 
-        return $this->render('BackOffice/adminCours.html.twig', [
+        return $this->render('Admin/adminCours.html.twig', [
             'cours' =>$cours
         ]);
 
@@ -53,7 +53,7 @@ class CoursController extends AbstractController
     public function CoursAdmin(Cours $cour): Response
     {
 
-        return $this->render('BackOffice/AdminShCours.html.twig', [
+        return $this->render('Admin/AdminShCours.html.twig', [
             'cour' =>$cour
         ]);
 
@@ -109,6 +109,7 @@ class CoursController extends AbstractController
                 }
            // dd($formation);
             $this->addFlash('success', 'Cours ajouté ! Vous pouvez associer autres cours à cette formation maintenant !');
+
             return $this->redirectToRoute('formation_cours_index',array('id' => $formation->getFormationId()));
         }
 

@@ -85,7 +85,19 @@ class FormationRepository extends ServiceEntityRepository
             ->getQuery()
             ->getSingleScalarResult();
     }
+    public function affaccueuilF(): array
+    {
+        return $this
+            ->createQueryBuilder('f')
+            ->select( 'f')
+            ->orderBy('f.formationId', 'DESC')
+            ->setMaxResults(4)
+            ->getQuery()
+            ->getResult();
+       // $rep=$this->getDoctrine()->getRepository(Formation::class)->affaccueuilF();
 
+
+    }
 /*
      /**
      * @return Formation[] Returns an array of Formation objects

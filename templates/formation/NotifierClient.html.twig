@@ -1,26 +1,26 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Cours index{% endblock %}
-{% block content %}
+{% block title %}{% endblock %}
+   {% block content %}
 
-    <section class="breadcrumb breadcrumb_bg">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="breadcrumb_iner text-center">
-                        <div class="breadcrumb_iner_item">
-                            <h2>Espace Formateur</h2>
+       <section class="breadcrumb breadcrumb_bg">
+           <div class="container">
+               <div class="row">
+                   <div class="col-lg-12">
+                       <div class="breadcrumb_iner text-center">
+                           <div class="breadcrumb_iner_item">
+                               <h2>Espace Formateur</h2>
 
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+           </div>
+       </section>
 
-{% endblock %}
-{% block header %}
-    <!--::header part start::-->
+   {% endblock %}
+
+{% block header  %}
     <header class="main_menu home_menu">
         <div class="container">
             <div class="row align-items-center">
@@ -38,8 +38,8 @@
                             <ul class="navbar-nav align-items-center">
                                 <li class="nav-item">
                                     {#                                    <a class="nav-link" href="{{ path('accueil_index') }}" style="color: #ffffff">Accueil</a>#}
-                                    {#                                       </li>
-{#                                <li class="nav-item">#}
+                                    {#                                    #}{#    </li>#}
+                                    {#                                <li class="nav-item">#}
                                     {#                                    <a class="nav-link" href="{{ path('blog_index_front') }}" style="color: #ffffff">Blog</a>#}
                                     {#                                </li>#}
                                 <li class="nav-item">
@@ -83,87 +83,7 @@
     <!-- Header part end-->
 
 {% endblock %}
-{% block body %}
-
-    <section class="course_details_area section_padding">
-        <div class="container">
-            <div class="row">
-                {% for cour in cours %}
-                <div class="col-lg-8 course_details_left">
-    <h4 class="title">Liste des cours</h4>
-    <div class="content">
-        <ul class="course_list">
-
-            <li class="justify-content-between align-items-center d-flex">
-
-                <h5>{{ cour.titre }}</h5>
-
-                <a class="btn_2 text-uppercase" href="{{path ('cours_show',{ 'coursId': cour.coursId }) }}">Voir en Détails</a>
-            </li>
-           {% endfor %}
-        </ul>
-    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+{% block body  %}
+    <h1>formation validée</h1>
+    <p></p>
 {% endblock %}
-{#    <h1>Cours index</h1>
-
-    <table class="table">
-        <thead>
-            <tr>
-
-                <th>Titre</th>
-                <th>Niveau</th>
-                <th>Description</th>
-                <th>Duree</th>
-                <th>Image</th>
-
-            </tr>
-        </thead>
-
-        {% for cour in cours %}
-            <tr>
-
-                <td>{{ cour.titre }}</td>
-                <td>{{ cour.niveau }}</td>
-                <td>{{ cour.description }}</td>
-                <td>{{ cour.duree }}</td>
-                <td>{{ cour.image }}</td>
-                <td>
-                  {% if (cour.formation.) %}
-                    <a class="btn_2" href="{{ path('cours_show', {'coursId': cour.coursId}) }}">show</a>
-                  {% endif %}
-                    <a class="btn_2" href="{{ path('cours_edit', {'coursId': cour.coursId}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="7">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    <section class="course_details_area ct-golden-section ">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 course_details_area">
-                    <div class="content">
-                        <ul class="course_list">
-
-                            <li class="justify-content-between align-items-center d-flex">
-                               {# <p>{{ cour.titre }}</p>
-                                <a class="btn_2 text-uppercase " href="{{path('cours_show',{'id': cour.coursId})}}">Afficher en détails </a>
-
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-<div class="author_img" align="center">
-    </div>  #}
-

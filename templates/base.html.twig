@@ -70,7 +70,7 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ path('oeuvrage_index') }}">Oeuvres</a>
                             </li>
-                            {#  <li class="nav-item">
+                            <li class="nav-item">
                                 <a class="nav-link" href="{{ path('user_index')}}">Nos artistes</a>
                             </li>
                             {% if(app.user==null) %}
@@ -91,7 +91,7 @@
                                     <a class="btn_1" href="{{ path('app_logout') }}">Déconnecter</a>
                                 </li>
                             {% endif %}
-                          #}
+
 
                         </ul>
                     </div>
@@ -136,6 +136,7 @@
 
 
 {% endblock %}
+
 {% for message in app.flashes('error') %}
     <div class="alert alert-warning">
         {{ message }}

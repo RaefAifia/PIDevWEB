@@ -91,6 +91,18 @@
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.3"
     },
+    "friendsofsymfony/ckeditor-bundle": {
+        "version": "2.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "2.0",
+            "ref": "8eb1cd0962ded6a6d6e1e5a9b6d3e888f9f94ff6"
+        },
+        "files": [
+            "./config/packages/fos_ckeditor.yaml"
+        ]
+    },
     "guzzlehttp/guzzle": {
         "version": "6.5.5"
     },
@@ -102,6 +114,12 @@
     },
     "jms/metadata": {
         "version": "2.5.0"
+    },
+    "knplabs/knp-components": {
+        "version": "v3.0.2"
+    },
+    "knplabs/knp-paginator-bundle": {
+        "version": "v5.4.2"
     },
     "laminas/laminas-code": {
         "version": "4.1.0"
@@ -566,6 +584,18 @@
     },
     "symfonycasts/verify-email-bundle": {
         "version": "v1.4.0"
+    },
+    "tattali/calendar-bundle": {
+        "version": "1.1",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "1.1",
+            "ref": "0c643e17b5340747b35c2c75e11727fa31bfa9bb"
+        },
+        "files": [
+            "./config/routes/calendar.yaml"
+        ]
     },
     "twig/extra-bundle": {
         "version": "v3.3.0"

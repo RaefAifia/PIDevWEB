@@ -1,4 +1,0 @@
-#index:
-#    path: /panier/temp/add
-#    controller: App\Controller\DefaultController::index
-

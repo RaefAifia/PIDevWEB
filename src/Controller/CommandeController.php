@@ -33,6 +33,7 @@ class CommandeController extends AbstractController
      */
     public function new(Request $request): Response
     {
+        $u = $this->getUser();
         $commande = new Commande();
 
         $form = $this->createForm(CommandeType::class, $commande);

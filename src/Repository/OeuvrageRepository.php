@@ -18,8 +18,7 @@ class OeuvrageRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Livraison::class);
+        parent::__construct($registry, Oeuvrage::class);
     }
-
 
 }

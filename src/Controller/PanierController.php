@@ -43,26 +43,36 @@ class PanierController extends AbstractController
      */
     public function new(Request $request, CommandeRepository $commandeRepository): Response
     {
-
+        $u = $this->getUser();
         $panier = new Panier();
         $form = $this->createForm(PanierType::class, $panier);
         $form->handleRequest($request);
         $panierTemps = $this->getDoctrine()
             ->getRepository(PanierTemp::class)
-            ->findBy(['user'=>1]);
+            ->findBy(['user'=>$u]);
         $livraisons = $this->getDoctrine()
             ->getRepository(Livraison::class)
             ->findliv();
+        $oeuvrages= $this->getDoctrine()
+            ->getRepository(Oeuvrage::class)
+            ->findAll();
         $prix = 0;
         foreach ($panierTemps as $p){
             $prix = $prix + ($p->getQuantite()*$p->getOeuvrage()->getPrix());
+
         }
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $commande = $this->getDoctrine()->getRepository(Commande::class)
                 ->findnvc();
 
-                foreach ($panierTemps as $panierTemp){
+
+                        foreach ($panierTemps as $panierTemp) {
+                            foreach ($oeuvrages as $oeuvrage){
+                                if($oeuvrage->getNom()==$panierTemp->getOeuvrage()->getNom()){
+                            $oeuvrage->setQuantite($oeuvrage->getQuantite() - $panierTemp->getQuantite());
+                        }}}
+                            foreach ($panierTemps as $panierTemp){
                     $panier = new Panier();
                     $panier->setCommande($commande);
                     $panier->setOeuvrage($panierTemp->getOeuvrage());
@@ -70,6 +80,7 @@ class PanierController extends AbstractController
 
                     $em->persist($panier);
                     $em->flush();
+
                         }
                 $panierTemps = $this->getDoctrine()->getRepository(PanierTemp::class)
                     ->deletepant();

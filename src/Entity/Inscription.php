@@ -2,13 +2,15 @@
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 
+
+use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Formation;
 /**
  * Inscription
  *
- * @ORM\Table(name="inscription", indexes={@ORM\Index(name="fk_formainscri", columns={"formation_id"}), @ORM\Index(name="fk_userinscri", columns={"user_id"})})
- * @ORM\Entity
+ * @ORM\Table(name="inscription", indexes={@ORM\Index(name="fk_userinscri", columns={"user_id"}), @ORM\Index(name="fk_formainscri", columns={"formation_id"})})
+ * @ORM\Entity (repositoryClass="App\Repository\InscriptionRepository")
  */
 class Inscription
 {
@@ -44,6 +46,9 @@ class Inscription
      * })
      */
     private $formation;
+
+
+
 
     /**
      * @var \User
@@ -106,6 +111,12 @@ class Inscription
         $this->user = $user;
 
         return $this;
+    }
+
+    public function __toString():String
+    {
+        // TODO: Implement __toString() method.
+        return (string)$this->formation;
     }
 
 

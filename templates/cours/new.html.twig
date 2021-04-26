@@ -1,0 +1,221 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Cours{% endblock %}
+
+{% block header %}
+    <!--::header part start::-->
+    <header class="main_menu home_menu">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-12">
+                    <nav class="navbar navbar-expand-lg navbar-light">
+                        <a class="navbar-brand" href="index.html"> <img src="{{ asset ('img/logo.png') }}" alt="logo"> </a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse"
+                                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                                aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+
+                        <div class="collapse navbar-collapse main-menu-item justify-content-end"
+                             id="navbarSupportedContent">
+                            <ul class="navbar-nav align-items-center">
+                                <li class="nav-item">
+                                    {#                                    <a class="nav-link" href="{{ path('accueil_index') }}" style="color: #ffffff">Accueil</a>#}
+                                    {#                                       </li>
+{#                                <li class="nav-item">#}
+                                    {#                                    <a class="nav-link" href="{{ path('blog_index_front') }}" style="color: #ffffff">Blog</a>#}
+                                    {#                                </li>#}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('formation_index') }}" style="color: #ffffff">Formations</a>
+                                </li>
+
+                                {#                                <li class="nav-item">#}
+                                {#                                    <a class="nav-link" href="{{ path('evenement_index_Front') }}" style="color: #ffffff">Evenements</a>#}
+                                {#                                </li> #}
+
+                                {#                                <li class="nav-item">#}
+                                {#                                    <a class="nav-link" href="{{ path('oeuvrage_index') }}" style="color: #ffffff">Oeuvres</a>#}
+                                {#                                </li>#}
+                                {#  <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('user_index')}}" style="color: #ffffff">Nos artistes</a>
+                                </li>
+                                {% if(app.user==null) %}
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ path('app_login') }}" style="color: #ffffff">Profil</a>
+                                    </li>
+
+                                    <li class="d-none d-lg-block">
+                                        <a class="btn_1" href="{{ path('app_login') }}">S'inscrire</a>
+                                    </li>
+                                {% else %}
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ path('user_show', {'userId':app.user.userId}) }}" style="color: #ffffff">Profil</a>
+                                    </li>
+
+                                    <li class="d-none d-lg-block">
+                                        <a class="btn_1" href="{{ path('app_logout') }}">Déconnecter</a>
+                                    </li>
+                                {% endif %}#}
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- Header part end-->
+
+{% endblock %}
+{% block content %}
+
+    <section class="breadcrumb breadcrumb_bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb_iner text-center">
+                        <div class="breadcrumb_iner_item">
+                            <h2>Espace Formateur</h2>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+{% block body %}
+    <h1>Créer un nouveau cours</h1>
+
+    {{ include('cours/_form.html.twig') }}
+
+
+    {# <div class="row">
+        <div class="col-md-12">
+            <div class="card strpied-tabled-with-hover">
+                <div class="card-header ">
+                    <h4 class="card-title">Striped Table with Hover</h4>
+                    <p class="card-category">Here is a subtitle for this table</p>
+                </div>
+                <div class="card-body table-full-width table-responsive">
+                    <table class="table table-hover table-striped">
+                        <thead>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Salary</th>
+                        <th>Country</th>
+                        <th>City</th>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Dakota Rice</td>
+                            <td>$36,738</td>
+                            <td>Niger</td>
+                            <td>Oud-Turnhout</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Minerva Hooper</td>
+                            <td>$23,789</td>
+                            <td>Curaçao</td>
+                            <td>Sinaai-Waas</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Sage Rodriguez</td>
+                            <td>$56,142</td>
+                            <td>Netherlands</td>
+                            <td>Baileux</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>Philip Chaney</td>
+                            <td>$38,735</td>
+                            <td>Korea, South</td>
+                            <td>Overland Park</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>Doris Greene</td>
+                            <td>$63,542</td>
+                            <td>Malawi</td>
+                            <td>Feldkirchen in Kärnten</td>
+                        </tr>
+                        <tr>
+                            <td>6</td>
+                            <td>Mason Porter</td>
+                            <td>$78,615</td>
+                            <td>Chile</td>
+                            <td>Gloucester</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="card card-plain table-plain-bg">
+                <div class="card-header ">
+                    <h4 class="card-title">Table on Plain Background</h4>
+                    <p class="card-category">Here is a subtitle for this table</p>
+                </div>
+                <div class="card-body table-full-width table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Salary</th>
+                        <th>Country</th>
+                        <th>City</th>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Dakota Rice</td>
+                            <td>$36,738</td>
+                            <td>Niger</td>
+                            <td>Oud-Turnhout</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Minerva Hooper</td>
+                            <td>$23,789</td>
+                            <td>Curaçao</td>
+                            <td>Sinaai-Waas</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Sage Rodriguez</td>
+                            <td>$56,142</td>
+                            <td>Netherlands</td>
+                            <td>Baileux</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>Philip Chaney</td>
+                            <td>$38,735</td>
+                            <td>Korea, South</td>
+                            <td>Overland Park</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>Doris Greene</td>
+                            <td>$63,542</td>
+                            <td>Malawi</td>
+                            <td>Feldkirchen in Kärnten</td>
+                        </tr>
+                        <tr>
+                            <td>6</td>
+                            <td>Mason Porter</td>
+                            <td>$78,615</td>
+                            <td>Chile</td>
+                            <td>Gloucester</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div> #}
+{% endblock %}

@@ -3,12 +3,19 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\Date;
+use Symfony\Component\Validator\Constraints\DateValidator;
+use Symfony\Component\Validator\Constraints\LanguageValidator;
+use Symfony\Component\Validator\Constraints\Language;
+use Symfony\Component\Validator\Constraints\ImageValidator;
+use Symfony\Component\Validator\Constraints\Image;
 /**
  * Formation
  *
  * @ORM\Table(name="formation", indexes={@ORM\Index(name="fk_userfor", columns={"user_id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\FormationRepository")
+ *
  */
 class Formation
 {
@@ -18,6 +25,7 @@ class Formation
      * @ORM\Column(name="formation_id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     *
      */
     private $formationId;
 
@@ -25,13 +33,21 @@ class Formation
      * @var string
      *
      * @ORM\Column(name="domaine", type="string", length=50, nullable=false)
+     * @Assert\NotBlank(message="")
+     * @Assert\Choice({"danse", "theatre", "musique", "littérature", "peinture", "audiovisuel", "sculpture"})
+     *@Assert\NotBlank(message="vous n'avez rien choisi")
      */
+    /*@Assert\Regex("/^{danse,musique}/")
+    @Assert\Date
+    @Assert\GreaterThan(value="today")*/
     private $domaine;
 
     /**
-     * @var string
+     * @var string "Y-m-d" formatted value
      *
      * @ORM\Column(name="date", type="string", length=100, nullable=false)
+     * @Assert\Date
+     *
      */
     private $date;
 
@@ -53,6 +69,8 @@ class Formation
      * @var float
      *
      * @ORM\Column(name="prix", type="float", precision=10, scale=0, nullable=false)
+     *@Assert\Type("numeric")
+     *@Assert\NotBlank(message="vous n'avez rien choisi")
      */
     private $prix;
 
@@ -60,6 +78,8 @@ class Formation
      * @var string
      *
      * @ORM\Column(name="niveau", type="string", length=50, nullable=false)
+     *@Assert\Choice({"Débutant", "intermédiaire", "avancé"})
+     * @Assert\NotBlank(message="vous n'avez rien choisi")
      */
     private $niveau;
 
@@ -67,6 +87,8 @@ class Formation
      * @var string
      *
      * @ORM\Column(name="langue", type="string", length=50, nullable=false)
+     * @Assert\Language
+     * @Assert\NotBlank(message="vous n'avez rien choisi")
      */
     private $langue;
 
@@ -74,6 +96,7 @@ class Formation
      * @var string
      *
      * @ORM\Column(name="description", type="string", length=100, nullable=false)
+     * @Assert\NotBlank(message="vous n'avez rien choisi")
      */
     private $description;
 
@@ -81,6 +104,8 @@ class Formation
      * @var string
      *
      * @ORM\Column(name="image", type="string", length=255, nullable=false)
+     * @Assert\NotBlank(message="vous n'avez rien choisi")
+     * @Assert\Image
      */
     private $image;
 
@@ -88,6 +113,7 @@ class Formation
      * @var bool
      *
      * @ORM\Column(name="isvalid", type="boolean", nullable=false)
+     *
      */
     private $isvalid = '0';
 
@@ -95,6 +121,7 @@ class Formation
      * @var string
      *
      * @ORM\Column(name="titre", type="string", length=50, nullable=false)
+     *@Assert\NotBlank(message="vous n'avez rien choisi")
      */
     private $titre;
 
@@ -107,6 +134,12 @@ class Formation
      * })
      */
     private $user;
+    public function setFormationId(int $formationId): self
+    {
+        $this->formationId = $formationId;
+
+        return $this;
+    }
 
     public function getFormationId(): ?int
     {
@@ -256,9 +289,11 @@ class Formation
 
         return $this;
     }
-    public function __toString()
+
+    public function __toString():String
     {
-        return $this->titre;
+        // TODO: Implement __toString() method.
+        return $this->formationId;
     }
 
 

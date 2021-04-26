@@ -1,0 +1,190 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Formation index{% endblock %}
+{% block header %}
+    <header class="main_menu home_menu">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-12">
+                    <nav class="navbar navbar-expand-lg navbar-light">
+                        <a class="navbar-brand" href="index.html"> <img src="{{ asset ('img/logo.png') }}" alt="logo"> </a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse"
+                                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                                aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+
+                        <div class="collapse navbar-collapse main-menu-item justify-content-end"
+                             id="navbarSupportedContent">
+                            <ul class="navbar-nav align-items-center">
+                                <li class="nav-item">
+                                    {#                                    <a class="nav-link" href="{{ path('accueil_index') }}" style="color: #ffffff">Accueil</a>#}
+                                    {#                                    #}{#    </li>#}
+                                    {#                                <li class="nav-item">#}
+                                    {#                                    <a class="nav-link" href="{{ path('blog_index_front') }}" style="color: #ffffff">Blog</a>#}
+                                    {#                                </li>#}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('formation_index') }}" style="color: #ffffff">Formations</a>
+                                </li>
+
+                                {#                                <li class="nav-item">#}
+                                {#                                    <a class="nav-link" href="{{ path('evenement_index_Front') }}" style="color: #ffffff">Evenements</a>#}
+                                {#                                </li> #}
+
+                                {#                                <li class="nav-item">#}
+                                {#                                    <a class="nav-link" href="{{ path('oeuvrage_index') }}" style="color: #ffffff">Oeuvres</a>#}
+                                {#                                </li>#}
+                                {#  <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('user_index')}}" style="color: #ffffff">Nos artistes</a>
+                                </li>
+                                {% if(app.user==null) %}
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ path('app_login') }}" style="color: #ffffff">Profil</a>
+                                    </li>
+
+                                    <li class="d-none d-lg-block">
+                                        <a class="btn_1" href="{{ path('app_login') }}">S'inscrire</a>
+                                    </li>
+                                {% else %}
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ path('user_show', {'userId':app.user.userId}) }}" style="color: #ffffff">Profil</a>
+                                    </li>
+
+                                    <li class="d-none d-lg-block">
+                                        <a class="btn_1" href="{{ path('app_logout') }}">Déconnecter</a>
+                                    </li>
+                                {% endif %}#}
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- Header part end-->
+{% endblock %}
+   {% block content %}
+
+       <section class="breadcrumb breadcrumb_bg">
+           <div class="container">
+               <div class="row">
+                   <div class="col-lg-12">
+                       <div class="breadcrumb_iner text-center">
+                           <div class="breadcrumb_iner_item">
+                               <h2>Espace Formation</h2>
+                               <p>Home<span>/</span>Courses</p>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+           </div>
+       </section>
+   {% endblock %}
+
+
+
+
+{% block body %}
+{#     ena zedt  section okhra#}
+    <section>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xl-5">
+                    <div class="section_tittle text-center">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+            <section class="row">
+                <div class="col-lg-4">
+                    <div class="blog_right_sidebar">
+                        {{ include('formation/_filter.html.twig')  }}
+                    </div>
+                </div>
+
+                <div class="col-lg-8 mb-5 mb-lg-0">
+
+    <section class="special_cource  ">
+        <div class="container">
+
+                <div class="col-xl-5">
+                     <div class="section_tittle text-center">
+
+                         <h2>Les Formations Artistiques</h2>
+                     <a class="btn_1" href="{{ path('formation_new') }}">Devenir un Formateur?</a>
+                </div>
+
+
+        </div>
+
+{#            <h1> <button type="button" onclick="sortTable()" Trier par date ></button></h1>#}
+
+
+            <div class="row">
+             {% for formation in formations %}
+
+                <div class=" col-lg-4 col-sm-6">
+                        <div class="single_special_cource">
+                            <img src="/images1/{{ formation.image }}" class="special_img" alt="" style=" height:150px "> {# class="img-fluid" alt="" style="width: 50%; height:auto #}
+                            <div class="special_cource_text">
+
+
+                               <a href="{{ path('formation_show', {'formationId': formation.formationId}) }}" ><h3>{{ formation.titre}}</h3></a> {#ken nheb naamel click aala esm formation#}
+
+                                <a>
+                                <h4 >{{ formation.prix}} DT </h4>
+                                </a>
+                                <h5>{{ formation.description |raw }}</h5>
+
+
+                                <div class="author_info">
+                                     <div class="author_img">
+
+
+                                          {#    <h2>{{ formation.titre}}</h2>
+                                          <a href="{{ path('formation_show', {'formationId': formation.formationId}) }}" class="btn_4">Afficher</a>
+                                         {% if  formation.user.isFormateur == 1 %}
+                                      <a href="{{ path('formation_edit', {'formationId': formation.formationId}) }}" class="btn_4">Modifier</a>
+                                             {% endif %} #}
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                {% endfor %}
+
+
+            </div>
+        </div>
+
+
+
+    </section>
+
+    </div>
+
+    </div>
+      </div>
+    </section>
+
+{% endblock %}
+
+
+
+
+   {# <div class="author_info">
+       <div class="author_img" align="center"><a class=" primary-btn"  class="btn_1" href="{{ path('formation_new') }}">Ajouter Formation</a> </div> </div>
+   <div class="author_img"><a class="btn_1" href="{{ path('formation_new') }}">Ajouter Formation</a></div> </div>
+   <a href="{{ path('formation_new') }}">Create new</a> #}
+
+
+
+

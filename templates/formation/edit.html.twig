@@ -1,0 +1,114 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Formation
+{% endblock %}
+{% block header %}
+  <header class="main_menu home_menu">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-12">
+          <nav class="navbar navbar-expand-lg navbar-light">
+            <a class="navbar-brand" href="index.html"> <img src="{{ asset ('img/logo.png') }}" alt="logo"> </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse main-menu-item justify-content-end"
+                 id="navbarSupportedContent">
+              <ul class="navbar-nav align-items-center">
+                <li class="nav-item">
+                  {#                                    <a class="nav-link" href="{{ path('accueil_index') }}" style="color: #ffffff">Accueil</a>#}
+                  {#                                    #}{#    </li>#}
+                  {#                                <li class="nav-item">#}
+                  {#                                    <a class="nav-link" href="{{ path('blog_index_front') }}" style="color: #ffffff">Blog</a>#}
+                  {#                                </li>#}
+                <li class="nav-item">
+                  <a class="nav-link" href="{{ path('formation_index') }}" style="color: #ffffff">Formations</a>
+                </li>
+
+                {#                                <li class="nav-item">#}
+                {#                                    <a class="nav-link" href="{{ path('evenement_index_Front') }}" style="color: #ffffff">Evenements</a>#}
+                {#                                </li> #}
+
+                {#                                <li class="nav-item">#}
+                {#                                    <a class="nav-link" href="{{ path('oeuvrage_index') }}" style="color: #ffffff">Oeuvres</a>#}
+                {#                                </li>#}
+                {#  <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('user_index')}}" style="color: #ffffff">Nos artistes</a>
+                                </li>
+                                {% if(app.user==null) %}
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ path('app_login') }}" style="color: #ffffff">Profil</a>
+                                    </li>
+
+                                    <li class="d-none d-lg-block">
+                                        <a class="btn_1" href="{{ path('app_login') }}">S'inscrire</a>
+                                    </li>
+                                {% else %}
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ path('user_show', {'userId':app.user.userId}) }}" style="color: #ffffff">Profil</a>
+                                    </li>
+
+                                    <li class="d-none d-lg-block">
+                                        <a class="btn_1" href="{{ path('app_logout') }}">Déconnecter</a>
+                                    </li>
+                                {% endif %}#}
+              </ul>
+            </div>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- Header part end-->
+{% endblock %}
+   {% block content %}
+
+     <section class="breadcrumb breadcrumb_bg">
+       <div class="container">
+         <div class="row">
+           <div class="col-lg-12">
+             <div class="breadcrumb_iner text-center">
+               <div class="breadcrumb_iner_item">
+                 <h2>Espace Formateur</h2>
+
+               </div>
+             </div>
+           </div>
+         </div>
+       </div>
+     </section>
+
+   {% endblock %}
+{% block body %}
+  {#  <div class="author_img" align="top"  margin-top="100px" ><a class="btn_2"  href="{{ path('formateur_index') }}">Retour</a></div>#}
+    <h1> Modifier la Formation</h1>
+
+  <style>
+    .genric-btn danger-border{
+      margin-left: 200%;
+    }
+  </style>
+  <table>
+    <div class="row">
+
+    <div class="col-sm-6 col-lg-4" align-self-center>
+    <div class="col-sm-6 col-lg-4" align-self-center>
+      <img src="\images1\{{ formation.image }}" class="img-fluid" alt="" style="width: 50%; height:auto">
+    </div>
+    </div>
+    </div>
+    <tr>
+
+      {{ include('formation/_form.html.twig', {'button_label': 'Modifier'}) }}
+
+<td><a href="{{ path('cours_new',{'formationId': formation.formationId }) }}" class="btn_2">Ajouter des cours à cette formation</a>
+  <a class="btn_2 text-capitalize" href="{{path('formation_cours_index',{'id': formation.formationId})}}">Voir les cours associés </a></td>
+    </tr>
+
+    {{ include('formation/_delete_form.html.twig',{'button_label': 'Supprimer'}) }}
+  </table>
+
+{% endblock %}

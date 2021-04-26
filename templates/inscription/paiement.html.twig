@@ -1,0 +1,137 @@
+{% extends 'base.html.twig' %}
+{% block header %}
+    <!--::header part start::-->
+    <header class="main_menu home_menu">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-12">
+                    <nav class="navbar navbar-expand-lg navbar-light">
+                        <a class="navbar-brand" href="index.html"> <img src="{{ asset ('img/logo.png') }}" alt="logo"> </a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse"
+                                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                                aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+
+                        <div class="collapse navbar-collapse main-menu-item justify-content-end"
+                             id="navbarSupportedContent">
+                            <ul class="navbar-nav align-items-center">
+                                <li class="nav-item">
+                                    {#                                    <a class="nav-link" href="{{ path('accueil_index') }}" style="color: #ffffff">Accueil</a>#}
+                                    {#                                       </li>
+{#                                <li class="nav-item">#}
+                                    {#                                    <a class="nav-link" href="{{ path('blog_index_front') }}" style="color: #ffffff">Blog</a>#}
+                                    {#                                </li>#}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('formation_index') }}" style="color: #ffffff">Formations</a>
+                                </li>
+
+                                {#                                <li class="nav-item">#}
+                                {#                                    <a class="nav-link" href="{{ path('evenement_index_Front') }}" style="color: #ffffff">Evenements</a>#}
+                                {#                                </li> #}
+
+                                {#                                <li class="nav-item">#}
+                                {#                                    <a class="nav-link" href="{{ path('oeuvrage_index') }}" style="color: #ffffff">Oeuvres</a>#}
+                                {#                                </li>#}
+                                {#  <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('user_index')}}" style="color: #ffffff">Nos artistes</a>
+                                </li>
+                                {% if(app.user==null) %}
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ path('app_login') }}" style="color: #ffffff">Profil</a>
+                                    </li>
+
+                                    <li class="d-none d-lg-block">
+                                        <a class="btn_1" href="{{ path('app_login') }}">S'inscrire</a>
+                                    </li>
+                                {% else %}
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ path('user_show', {'userId':app.user.userId}) }}" style="color: #ffffff">Profil</a>
+                                    </li>
+
+                                    <li class="d-none d-lg-block">
+                                        <a class="btn_1" href="{{ path('app_logout') }}">Déconnecter</a>
+                                    </li>
+                                {% endif %}#}
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- Header part end-->
+
+{% endblock %}
+{% block content %}
+
+    <section class="breadcrumb breadcrumb_bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb_iner text-center">
+                        <div class="breadcrumb_iner_item">
+                            <h2>Espace Formateur</h2>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+{% block body %}
+
+<script src="https://js.stripe.com/v3/"></script>
+    <center>
+        <h2 >Veuillez proéder au paiement </h2>
+
+<button  class="btn_2 " id="checkout-button" > Payer </button>
+    </center>
+
+{# <a href="{{ path('checkout',{'id': formation.formationId}) }}"  > payer</a> #}
+
+
+
+
+        <script type="text/javascript">
+            tmp = window.location.search.substr(1).split("=");//
+
+            //alert(tmp[1]);
+            // Create an instance of the Stripe object with your publishable API key
+            var stripe = Stripe('pk_test_51IjMKsJAixYnURnKGE69HYPWck2awAF8wnmKFbx2IGFYnu4MDq49iFNPwkc4So9GkZGNM7rhqZ46Y2MJ5pNJ1mbh00Y7m0adFQ'); // public
+            var checkoutButton = document.getElementById('checkout-button');
+
+            checkoutButton.addEventListener('click', function() {
+                // Create a new Checkout Session using the server-side endpoint you
+                // created in step 3.
+                // var payload = {
+                //     formationId: tmp[1]
+                // };
+                // var data = new FormData();
+               // data.append( "json", JSON.stringify( payload ) );
+                fetch('create-checkout-session?formationId='+tmp[1], {
+                    method: 'GET',
+                    //body: data
+                },)
+                    .then(function(response) {
+                        return response.json();
+                    })
+                    .then(function(session) {
+                        return stripe.redirectToCheckout({ sessionId: session.id });
+                    })
+                    .then(function(result) {
+                        // If redirectToCheckout fails due to a browser or network
+                        // error, you should display the localized error message to your
+                        // customer using error.message.
+                        if (result.error) {
+                            alert(result.error.message);
+                        }
+                    })
+                    .catch(function(error) {
+                        console.error('Error:', error);
+                    });
+            });
+        </script>
+        {% endblock %}

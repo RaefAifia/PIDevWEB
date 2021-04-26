@@ -1,0 +1,20 @@
+{{ form_start(form, {'attr': {'novalidate':'novalidate'}}) }}
+
+
+
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+
+
+
+<table class="table  table-striped">
+    <h1>Nouveau contact</h1>
+    <p>Nom : {{contact.nom}}</p>
+    <p>e-mail : {{contact.email}}</p>
+    <p>Message : {{contact.message|raw}}</p>
+
+ {#  <td><button class="btn_4">{{ button_label|default('Enregistrer',{'formationId': formation.formationId}) }}</button></td>
+  <tr><td> <a class="btn_1"   href="#">Save</a></td></tr>
+   <td><a href="{{ path('cours_new', {'id': formation.formationId}) }}" class="btn_2">Ajouter des cours à cette formation</a></td> #}
+</table>
+
+{{ form_end(form) }}

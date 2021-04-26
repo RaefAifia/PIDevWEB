@@ -58,18 +58,17 @@ class PanierTempController extends AbstractController
      */
     public function new(Request $request): Response
     {
+        $u = $this->getUser();
         $panierTemp = new PanierTemp();
         $panierTemps = $this->getDoctrine()
             ->getRepository(PanierTemp::class)
-            ->findBy(['user'=>1]);
+            ->findBy(['user'=>$u]);
         $form = $this->createForm(PanierTempType::class, $panierTemp);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
 
-            $query = $entityManager->createQuery("SELECT u FROM App\Entity\User u WHERE u.userId = 1");
-            $user = $query->getSingleResult();
-            $panierTemp->setUser($user);
+            $panierTemp->setUser($u);
 
             $query = $entityManager->createQuery("SELECT o FROM App\Entity\Oeuvrage o WHERE o.oeuvrageId = :id");
             $query->setParameter('id',$request->attributes->get('id'));

@@ -51,6 +51,7 @@ class LivraisonController extends AbstractController
      */
     public function new(Request $request, CommandeRepository $commandeRepository): Response
     {
+        $u = $this->getUser();
         $livraison = new Livraison();
         $form = $this->createForm(LivraisonType::class, $livraison);
         $form->handleRequest($request);

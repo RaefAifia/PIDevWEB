@@ -1,0 +1,39 @@
+{% extends 'dashboard.html.twig' %}
+
+
+
+{% block body %}
+    <h1>Blog index</h1>
+    <a class="btn btn-info" href="{{ path('blog_new') }}">Create new</a>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>BlogId</th>
+                <th>Titre</th>
+                <th>Image</th>
+                <th>Description</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for blog in blogs %}
+            <tr>
+                <td>{{ blog.blogId }}</td>
+                <td>{{ blog.titre }}</td>
+                <td><img height="70px" width="100px" src="{{ asset('uploads/images/') }}{{blog.image  }}"></td>
+                <td>{{ blog.description }}</td>
+                <td>
+                    <a class="btn btn-danger" href="{{ path('blog_delete', {'blogId': blog.blogId}) }}">Delete</a>
+                    <a class="btn btn-info" href="{{ path('blog_edit', {'blogId': blog.blogId}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+{% endblock %}

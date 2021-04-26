@@ -1,0 +1,178 @@
+{% extends 'base.html.twig' %}
+
+
+
+{% block body %}
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            $('#save_event').click(function () {
+
+
+
+
+                var prix =$('#evenement_prix').val();
+                var domaine =$('#evenement_domaine').val();
+                var capacite=$('#evenement_capacite').val();
+                var image =$('#evenement_imageFile').val();
+                var titre =$('#evenement_titre').val();
+                var description =$('#evenement_description').val();
+                var dateDebut = new Date($('#evenement_date_evenement').val());
+
+                var date = new Date();
+                date.setDate(date.getDate() - 1);
+                if ((prix.length==0)||(!$.isNumeric(prix)))
+                {
+                    swal({
+                        title: 'Error!',
+                        text: 'prix:remplir champ prix/numeric',
+                        icon: 'error',
+                        button: {
+                            text: "Continue",
+                            value: true,
+                            visible: true,
+                            className: "btn btn-primary"
+                        }
+                    });
+                    return false;
+
+                }
+                if ((domaine.length<5)||((domaine.length>15)))
+                {
+                    swal({
+                        title: 'Error!',
+                        text: 'domaine:il faut au moin 5 caractere et max 15',
+                        icon: 'error',
+                        button: {
+                            text: "Continue",
+                            value: true,
+                            visible: true,
+                            className: "btn btn-primary"
+                        }
+                    });
+                    return false;
+
+                }
+                if ((capacite.length==0))
+                {
+                    swal({
+                        title: 'Error!',
+                        text: 'capacite:remplir champ ',
+                        icon: 'error',
+                        button: {
+                            text: "Continue",
+                            value: true,
+                            visible: true,
+                            className: "btn btn-primary"
+                        }
+                    });
+                    return false;
+
+                }
+                if ((image.length==0))
+                {
+                    swal({
+                        title: 'Error!',
+                        text: 'Image:remplir champ image',
+                        icon: 'error',
+                        button: {
+                            text: "Continue",
+                            value: true,
+                            visible: true,
+                            className: "btn btn-primary"
+                        }
+                    });
+                    return false;
+
+                }
+
+
+                if ((titre.length<5)||((titre.length>15)))
+                {
+                    swal({
+                        title: 'Error!',
+                        text: 'titre:il faut au moin 5 caractere et max 15',
+                        icon: 'error',
+                        button: {
+                            text: "Continue",
+                            value: true,
+                            visible: true,
+                            className: "btn btn-primary"
+                        }
+                    });
+                    return false;
+
+                }
+
+                if ((description.length<5)||((description.length>255)))
+                {
+                    swal({
+                        title: 'Error!',
+                        text: 'domaine:il faut au moin 5 caractere et max 255',
+                        icon: 'error',
+                        button: {
+                            text: "Continue",
+                            value: true,
+                            visible: true,
+                            className: "btn btn-primary"
+                        }
+                    });
+                    return false;
+
+                }
+
+
+
+                if (dateDebut < date )
+                {
+                    swal({
+                        title: 'Error!',
+                        text: 'date event: date event < date d\'aujourd\'hui',
+                        icon: 'error',
+                        button: {
+                            text: "Continue",
+                            value: true,
+                            visible: true,
+                            className: "btn btn-primary"
+                        }
+                    });
+                    return false;
+
+                }
+
+                if ((emploi.length<5)||((emploi.length>255)))
+                {
+                    swal({
+                        title: 'Error!',
+                        text: 'Nom proprietaire:il faut au moin 5 caractere et max 255',
+                        icon: 'error',
+                        button: {
+                            text: "Continue",
+                            value: true,
+                            visible: true,
+                            className: "btn btn-primary"
+                        }
+                    });
+                    return false;
+
+                }
+
+
+            });
+
+
+
+        });
+
+    </script>
+<div class="btn_1" style="position: relative; margin-top: -42%; margin-left: 40px; width: 850px;">
+    <h1 style="color: white">Create new Event</h1>
+    {{ include('evenement/_form.html.twig') }}
+</div>
+<br>
+    <br>
+{% endblock %}

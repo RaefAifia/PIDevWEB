@@ -1,0 +1,192 @@
+{% extends 'dashboard.html.twig' %}
+
+{% block title %}New LieuEvenement{% endblock %}
+
+{% block body %}
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            $('#save_lieu').click(function () {
+
+                var nom =$('#lieu_evenement_titre').val();
+                var description =$('#lieu_evenement_description').val();
+
+                var lg=$('#lieu_evenement_longitude').val();
+                var la =$('#lieu_evenement_latitude').val();
+
+
+
+                if (nom.length==0)
+                {
+                    swal({
+                        title: 'Error!',
+                        text: 'titre:remplir champ titre',
+                        icon: 'error',
+                        button: {
+                            text: "Continue",
+                            value: true,
+                            visible: true,
+                            className: "btn btn-primary"
+                        }
+                    });
+                    return false;
+
+                }
+
+
+
+
+
+
+
+                if ((description.length<5)||((description.length>255)))
+                {
+                    swal({
+                        title: 'Error!',
+                        text: 'description:il faut au moin 5 caractere et max 255',
+                        icon: 'error',
+                        button: {
+                            text: "Continue",
+                            value: true,
+                            visible: true,
+                            className: "btn btn-primary"
+                        }
+                    });
+                    return false;
+
+                }
+                if ((lg.length==0)||(!$.isNumeric(lg)))
+                {
+                    swal({
+                        title: 'Error!',
+                        text: 'Longitude:remplir champ Longitude/doit etre numeric',
+                        icon: 'error',
+                        button: {
+                            text: "Continue",
+                            value: true,
+                            visible: true,
+                            className: "btn btn-primary"
+                        }
+                    });
+                    return false;
+
+                }
+
+                if ((la.length==0))
+                {
+                    swal({
+                        title: 'Error!',
+                        text: 'Latitude:remplir champ Latitude',
+                        icon: 'error',
+                        button: {
+                            text: "Continue",
+                            value: true,
+                            visible: true,
+                            className: "btn btn-primary"
+                        }
+                    });
+                    return false;
+
+                }
+
+            });
+
+
+
+        });
+
+    </script>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.js"></script>
+    <style>
+
+        #map { position:fixed; margin-left: 1%;  margin-top: 2%;   width: 650px; height: 400px;  }
+    </style>
+    <style>
+
+        #form { position:relative; margin-left: 50%; margin-top:0%;   width: 650px; height: 300px;  }
+    </style>
+
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.min.js"></script>
+    <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.css" type="text/css">
+    <!-- Promise polyfill script required to use Mapbox GL Geocoder in IE 11 -->
+    <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
+    <style>
+        #geocoder-container > div {
+            min-width: 50%;
+            margin-left: 25%;
+        }
+    </style>
+
+    <div id="map"></div>
+
+    <script>
+
+        mapboxgl.accessToken = 'pk.eyJ1Ijoid2FsaWQxNyIsImEiOiJjazk0dWQwb24wMGRpM21xazY5YTBzanNtIn0.eFvnkX_uIx3--Cc3ZcLbZg';
+        var map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v11',
+            center: [{{lieu_evenement.longitude}}, {{lieu_evenement.latitude}}],
+            zoom: 8
+        });
+
+        var geocoder = new MapboxGeocoder({
+            accessToken: mapboxgl.accessToken,
+            marker: false,
+            mapboxgl: mapboxgl
+        });
+        var marker = new mapboxgl.Marker({
+            draggable: true
+        })
+            .setLngLat([{{lieu_evenement.longitude}}, {{lieu_evenement.latitude}}]).addTo(map);
+        geocoder.on('result', function(e) {
+
+            marker.setLngLat([e.result.geometry.coordinates[0],e.result.geometry.coordinates[1]]).addTo(map);
+            document.getElementById("save_lieu").disabled = false;
+            var form = document.getElementById("formLieu");
+            var elements = form.elements;
+            for (var i = 0, len = elements.length; i < len; ++i) {
+                elements[i].readOnly = false;
+            }
+            document.getElementById("lieu_evenement_longitude").value = e.result.geometry.coordinates[0];
+            document.getElementById("lieu_evenement_latitude").value = e.result.geometry.coordinates[1];
+
+
+
+
+        });
+
+
+        function onDragEnd() {
+            var lngLat = marker.getLngLat();
+            document.getElementById("lieu_evenement_longitude").value = lngLat.lng;
+            document.getElementById("lieu_evenement_latitude").value = lngLat.lat;
+            console.log(lngLat);
+
+
+        }
+
+        marker.on('dragend', onDragEnd);
+
+
+
+
+
+
+        map.addControl(geocoder);
+        map.addControl(new mapboxgl.NavigationControl());
+    </script>
+
+    <div id="form"  class="panel-body">
+        <h1>update LieuEvenement:</h1>
+
+        {{ include('lieu_evenement/_form.html.twig', {'button_label': 'Update'}) }}
+
+
+    </div>
+{% endblock %}

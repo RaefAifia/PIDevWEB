@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+
+    <div style="position:relative; top: -450px; margin-left: 80px;" >
+
+
+            <div  style="width: 520px; margin-top: 10px; margin-left: 10px;" class="btn_1">
+                <div class="btn-block">
+                    <div class="icon"><i class="bx bxl-dribbble"></i></div>
+                    <h3 style="color: white" class="title">Titre:{{blog.titre}}
+                    </h3>
+
+
+                    <img  height="300px" width="500px" src="{{ asset('uploads/images/') }}{{blog.image  }}">
+                    <br>
+                    <br>
+                    <h4 style="color: white">Description:{{blog.description}}
+
+
+                    </h4>
+                    {{ form_start(form) }}
+                    {{ form_widget(form) }}
+                    <button class="btn btn-info">{{ button_label|default('Commenter') }}</button>
+                    {{ form_end(form) }}
+                </div>
+
+            </div>
+        <div  style=" position: absolute; width: 980px;  margin-left: 10px;" class="btn_1">
+            <div class="btn-block">
+                <div class="icon"><i class="bx bxl-dribbble"></i></div>
+                <h3 style="color: white" class="title">Comments
+                </h3>
+
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th style="color: white">Comments</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for comments in blog.commentBlogs %}
+                        <tr style="color: white">
+                            <td>{{comments.text}}
+                            <p style="color: white">{{ comments.date ? comments.date|date('Y-m-d') : '' }}</p>
+                            </td>
+
+                        </tr>
+                    {% else %}
+                        <tr style="color: white">
+                            <td colspan="5">no records found</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+{% endblock %}

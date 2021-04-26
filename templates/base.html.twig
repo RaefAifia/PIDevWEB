@@ -5,24 +5,33 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    {% block title %}<title>Fanny</title>{% endblock %}
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
-    <!-- animate CSS -->
-    <link rel="stylesheet" href="{{ asset('css/animate.css') }}">
-    <!-- owl carousel CSS -->
-    <link rel="stylesheet" href="{{ asset('css/owl.carousel.min.css') }}">
-    <!-- themify CSS -->
-    <link rel="stylesheet" href="{{ asset('css/themify-icons.css') }}">
-    <!-- flaticon CSS -->
-    <link rel="stylesheet" href="{{ asset('css/flaticon.css') }}">
-    <!-- font awesome CSS -->
-    <link rel="stylesheet" href="{{ asset('css/magnific-popup.css') }}">
-    <!-- swiper CSS -->
-    <link rel="stylesheet" href="{{ asset('css/slick.css') }}">
-    <!-- style CSS -->
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    {% block title %}
+        <title> fanny </title>
+    {% endblock %}
+    <link rel="icon" href="{{ asset ('img/favicon.png') }}">
+    {% block css %}
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="{{ asset ('css/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ asset ('css/bootsnav.min.css') }}">
+        <!-- animate CSS -->
+        <link rel="stylesheet" href="{{ asset ('css/animate.css') }}">
+        <!-- owl carousel CSS -->
+        <link rel="stylesheet" href="{{ asset ('css/owl.carousel.min.css') }}">
+        <!-- themify CSS -->
+        <link rel="stylesheet" href="{{ asset ('css/themify-icons.css') }}">
+        <!-- flaticon CSS -->
+        <link rel="stylesheet" href="{{ asset ('css/flaticon.css') }}">
+        <!-- font awesome CSS -->
+        <link rel="stylesheet" href="{{ asset ('css/magnific-popup.css') }}">
+        <!-- swiper CSS -->
+        <link rel="stylesheet" href="{{ asset ('css/slick.css') }}">
+        <!-- style CSS -->
+        <link rel="stylesheet" href="{{ asset ('css/style.css') }}">
+        <link rel="stylesheet" href="{{ asset ('assetX/styles/app.css') }}">
+
+    {% endblock %}
+
 </head>
 
 <body>
@@ -33,7 +42,7 @@
         <div class="row align-items-center">
             <div class="col-lg-12">
                 <nav class="navbar navbar-expand-lg navbar-light">
-                    <a class="navbar-brand" href="base.html.twig"> <img src="{{ asset('images/logo.png') }}" alt="logo"> </a>
+                    <a class="navbar-brand" href="index.html"> <img src="{{ asset ('img/logo.png') }}" alt="logo"> </a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse"
                             data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                             aria-expanded="false" aria-label="Toggle navigation">
@@ -44,35 +53,36 @@
                          id="navbarSupportedContent">
                         <ul class="navbar-nav align-items-center">
 
-                            <li class="nav-item active">
-                                <a class="nav-link" href="base.html.twig">Accueil</a>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('accueil_index') }}">Accueil</a>
+                            </li>
+                            {# <li class="nav-item">
+                                <a class="nav-link" href="{{ path('blog_index_front') }}">Blog</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="about.html.twig">A propos</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="cource.html">Formations</a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link" href="blog.html">Evenements</a>
+                                <a class="nav-link" href="{{ path('formation_index') }}">Formations</a>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link" href="contact.html.twig">Oeuvres</a>
+                                <a class="nav-link" href="{{ path('evenement_index_Front') }}">Evenements</a>
                             </li>
+                            #}
                             <li class="nav-item">
+                                <a class="nav-link" href="{{ path('oeuvrage_index') }}">Oeuvres</a>
+                            </li>
+                            {#  <li class="nav-item">
                                 <a class="nav-link" href="{{ path('user_index')}}">Nos artistes</a>
                             </li>
                             {% if(app.user==null) %}
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ path('app_login') }}">Profil</a>
-                            </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('app_login') }}">Profil</a>
+                                </li>
 
-                            <li class="d-none d-lg-block">
-                                <a class="btn_1" href="{{ path('app_login') }}">S'inscrire</a>
-                            </li>
-                                {% else %}
+                                <li class="d-none d-lg-block">
+                                    <a class="btn_1" href="{{ path('app_login') }}">S'inscrire</a>
+                                </li>
+                            {% else %}
+
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ path('user_show', {'userId':app.user.userId}) }}">Profil</a>
                                 </li>
@@ -81,6 +91,7 @@
                                     <a class="btn_1" href="{{ path('app_logout') }}">Déconnecter</a>
                                 </li>
                             {% endif %}
+                          #}
 
                         </ul>
                     </div>
@@ -89,6 +100,41 @@
         </div>
     </div>
 </header>
+
+<!-- Header part end-->
+
+{% endblock %}
+
+<!-- banner part start-->
+{% block content %}
+<section class="banner_part">
+
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 col-xl-6">
+
+                <div class="banner_text">
+
+                    <div class="banner_text_iner">
+
+                        <h5>Every child yearns to learn</h5>
+                        <h1>Making Your Childs
+                            World Better</h1>
+                        <p>Replenish seasons may male hath fruit beast were seas saw you arrie said man beast whales
+                            his void unto last session for bite. Set have great you'll male grass yielding yielding
+                            man</p>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</section>
+
+
 {% endblock %}
 {% for message in app.flashes('error') %}
     <div class="alert alert-warning">
@@ -100,21 +146,240 @@
         {{ message }}
     </div>
 {% endfor %}
-{% block content %}
-{% endblock %}
+
+<!-- breadcrumb start-->
 {% block body %}
+{# liste des oeuvre #}
+    <section class="testimonial_part section_padding">
+        <div class="container-fluid">
+            <div class="row justify-content-center">
+                <div class="col-xl-5">
+                    <div class="section_tittle text-center">
+                        <h2>Nos oeuvres</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="textimonial_iner owl-carousel">
+                        {% for i in 0..2 %}
+                        <div class="testimonial_slider">
+                            <div class="row">
+                                <div class="col-lg-8 col-xl-4 col-sm-8 align-self-center">
+                                    <div class="testimonial_slider_text">
+                                        </a>
+                                        <a href="{{ path('oeuvrage_show', {'oeuvrageId': oeuvrages[i].oeuvrageId}) }}"  >
+                                            <h3> {{ oeuvrages[i].nom }}</h3>
+                                        </a>
+                                        <span style="font-size: 18px; font-style: italic;  color: #ac3e3e; float: right"> {{ oeuvrages[i].domaine }}  </span>
+                                        <p> {{ oeuvrages[i].description |raw }} </p>
+                                        <a >
+                                            <h4>{{oeuvrages[i].prix}} DT</h4>
+                                        </a>
+                                        {% if oeuvrages[i].quantite==0 %}
+                                            <span class="label-danger ">hors stock</span>
+                                        {% else %}
+                                            <span style="font-size: 18px; font-style: italic;  color: #ac3e3e;"> {{ oeuvrages[i].quantite }} oeuvres </span>
+                                        {% endif %}
+                                    </div>
+
+                                </div>
+                                <div class="col-lg-4 col-xl-2 col-sm-4">
+                                    <div class="testimonial_slider_img">
+
+                                        <a href="{{ path('oeuvrage_show', {'oeuvrageId': oeuvrages[i].oeuvrageId}) }}"> <img src="\PI\IMG\{{ oeuvrages[i].image }}" style="width: 300px; height: 150px; object-fit: cover;" >
+                                        </a>
+
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 d-none d-xl-block">
+                                    <div class="testimonial_slider_text">
+                                        </a>
+                                        <a href="{{ path('oeuvrage_show', {'oeuvrageId': oeuvrages[i+1].oeuvrageId}) }}"  >
+                                            <h3> {{ oeuvrages[i+1].nom }}</h3>
+                                        </a>
+                                        <span style="font-size: 18px; font-style: italic;  color: #ac3e3e; float: right"> {{ oeuvrages[i+1].domaine }}  </span>
+                                        <p> {{ oeuvrages[i+1].description |raw }} </p>
+                                        <a >
+                                            <h4>{{oeuvrages[i+1].prix}} DT</h4>
+                                        </a>
+                                        {% if oeuvrages[i+1].quantite==0 %}
+                                            <span class="label-danger ">hors stock</span>
+                                        {% else %}
+                                            <span style="font-size: 18px; font-style: italic;  color: #ac3e3e;"> {{ oeuvrages[i+1].quantite }} oeuvres </span>
+                                        {% endif %}
+
+                                    </div>
+                                </div>
+                                <div class="col-xl-2 d-none d-xl-block">
+                                    <div class="testimonial_slider_img">
+                                        <img src="\PI\IMG\{{ oeuvrages[i+1].image }}" style="width: 300px; height: 150px; object-fit: cover;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+            </div>
+            </div>
+        </div>
+    </section>
+    {# liste des formations
+    <section class="testimonial_part section_padding">
+        <div class="container-fluid">
+            <div class="row justify-content-center">
+                <div class="col-xl-5">
+                    <div class="section_tittle text-center">
+                        <h2>Nos Formations</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="textimonial_iner owl-carousel">
+                        {% for i in 0..2 %}
+                        <div class="testimonial_slider">
+                            <div class="row">
+                                <div class="col-lg-8 col-xl-4 col-sm-8 align-self-center">
+                                    <div class="testimonial_slider_text">
+                                        </a>
+                                        <a href="{{ path('formation_show', {'formationId': formations[i].formationId}) }}"  >
+                                            <h3> {{ formations[i].titre }}</h3>
+                                        </a>
+                                           <span style="font-size: 18px; font-style: italic;  color: #ac3e3e; float: right"> {{ formations[i].domaine }}  </span>
+                                        <p> {{ formations[i].description |raw }} </p>
+                                        <a >
+                                            <h4>{{formations[i].prix}} DT</h4>
+                                        </a>
+                                 </div>
+
+                                </div>
+                                <div class="col-lg-4 col-xl-2 col-sm-4">
+                                    <div class="testimonial_slider_img">
+
+                                        <a href="{{ path('formation_show', {'formationId': formations[i].formationId}) }}"  > <img src="/images1/{{ formations[i].image }}" style="width: 300px; height: 150px; object-fit: cover;" >
+                                        </a>
+
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 d-none d-xl-block">
+                                    <div class="testimonial_slider_text">
+                                        </a>
+                                        <a href="{{ path('formation_show', {'formationId': formations[i].formationId}) }}"  >
+                                            <h3> {{ formations[i+1].titre }}</h3>
+                                        </a>
+                                        <span style="font-size: 18px; font-style: italic;  color: #ac3e3e; float: right"> {{ formations[i+1].domaine }}  </span>
+                                        <p> {{ formations[i+1].description |raw }} </p>
+                                        <a >
+                                            <h4>{{formations[i+1].prix}} DT</h4>
+                                        </a>
+
+                                    </div>
+                                </div>
+                                <div class="col-xl-2 d-none d-xl-block">
+                                    <div class="testimonial_slider_img">
+                                        <img src="\PI\IMG\{{ oeuvrages[i+1].image }}" style="width: 300px; height: 150px; object-fit: cover;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+            </div>
+            </div>
+        </div>
+    </section>
+    #}
+    {# liste des events
+    <section class="testimonial_part section_padding">
+        <div class="container-fluid">
+            <div class="row justify-content-center">
+                <div class="col-xl-5">
+                    <div class="section_tittle text-center">
+                        <h2>Nos événements</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="textimonial_iner owl-carousel">
+                        {% for i in 0..2 %}
+                        <div class="testimonial_slider">
+                            <div class="row">
+                                <div class="col-lg-8 col-xl-4 col-sm-8 align-self-center">
+                                    <div class="testimonial_slider_text">
+
+
+                                            <h3> {{ evenements[i].titre }}</h3>
+
+                                        <span style="font-size: 18px; font-style: italic;  color: #ac3e3e; float: right"> {{ evenements[i].domaine }}  </span>
+                                        <p> {{ evenements[i].description |raw }} </p>
+                                        <a >
+                                            <h4>{{evenements[i].prix}} DT</h4>
+                                        </a>
+                                        <a >
+                                            <h4>{{evenements[i].date}} DT</h4>
+                                        </a>
+                                 </div>
+
+                                </div>
+                                <div class="col-lg-4 col-xl-2 col-sm-4">
+                                    <div class="testimonial_slider_img">
+                                        <img  height="300px" width="500px" src="{{ asset('uploads/images/') }}{{evenements[i].image  }}">
+
+
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 d-none d-xl-block">
+                                    <div class="testimonial_slider_text">
+
+                                            <h3> {{ evenements[i+1].titre }}</h3>
+
+                                        <span style="font-size: 18px; font-style: italic;  color: #ac3e3e; float: right"> {{ evenements[i+1].domaine }}  </span>
+                                        <p> {{ evenements[i+1].description |raw }} </p>
+                                        <a >
+                                            <h4>{{evenements[i+1].prix}} DT</h4>
+                                        </a>
+                                        <a >
+                                            <h4>{{evenements[i+1].date}} DT</h4>
+                                        </a>
+
+                                    </div>
+                                </div>
+                                <div class="col-xl-2 d-none d-xl-block">
+                                    <div class="testimonial_slider_img">
+                                        <img  height="300px" width="500px" src="{{ asset('uploads/images/') }}{{evenements[i+1].image  }}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+            </div>
+            </div>
+        </div>
+    </section>
+    #}
+
 {% endblock %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-xl-5">
+            <div class="section_tittle text-center">
 
-
-
-
+            </div>
+        </div>
+    </div>
+</div>
 {% block footer %}
+<!-- footer part start-->
+
 <footer class="footer-area">
     <div class="container">
         <div class="row justify-content-between">
             <div class="col-sm-6 col-md-4 col-xl-3">
                 <div class="single-footer-widget footer_1">
-                    <a href="base.html.twig"> <img src="{{ asset('images/logo.png') }}" alt=""> </a>
+                    <a href="index.html"> <img src="{{ asset ('img/logo.png') }}" alt=""> </a>
                     <p>But when shot real her. Chamber her one visite removal six
                         sending himself boys scot exquisite existend an </p>
                     <p>But when shot real her hamber her </p>
@@ -141,7 +406,9 @@
                         <a href="#"> <i class="ti-facebook"></i> </a>
                         <a href="#"> <i class="ti-twitter-alt"></i> </a>
                         <a href="#"> <i class="ti-instagram"></i> </a>
-                        <a href="#"> <i class="ti-skype"></i> </a>
+
+                        <a href="# "> <i class="ti-skype"></i> </a>
+
                     </div>
                 </div>
             </div>
@@ -174,30 +441,44 @@
         </div>
     </div>
 </footer>
-{% endblock %}
 
+
+<!-- footer part end-->
+
+{% endblock %}
 <!-- jquery plugins here-->
 <!-- jquery -->
-<script src="{{ asset('js/jquery-1.12.1.min.js') }}"></script>
+{% block js %}
+
+<script src="{{ asset ('js/jquery-1.12.1.min.js') }}"></script>
 <!-- popper js -->
-<script src="{{ asset('js/popper.min.js"') }}"></script>
+<script src="{{ asset('js/popper.min.js') }}"></script>
 <!-- bootstrap js -->
-<script src="{{ asset('js/bootstrap.min.js') }}"></script>
+<script src="{{ asset ('js/bootstrap.min.js') }}"></script>
 <!-- easing js -->
 <script src="{{ asset('js/jquery.magnific-popup.js') }}"></script>
 <!-- swiper js -->
-<script src="{{ asset('js/swiper.min.js') }}"></script>
+<script src="{{ asset ('js/swiper.min.js') }}"></script>
 <!-- swiper js -->
-<script src="{{ asset('js/masonry.pkgd.js') }}"></script>
+<script src="{{ asset ('js/masonry.pkgd.js') }}"></script>
+
 <!-- particles js -->
 <script src="{{ asset('js/owl.carousel.min.js') }}"></script>
 <script src="{{ asset('js/jquery.nice-select.min.js') }}"></script>
 <!-- swiper js -->
-<script src="{{ asset('js/slick.min.js') }}"></script>
+
+<script src="{{ asset ('js/slick.min.js') }}"></script>
 <script src="{{ asset('js/jquery.counterup.min.js') }}"></script>
-<script src="{{ asset('js/waypoints.min.js') }}"></script>
+<script src="{{ asset ('js/waypoints.min.js') }}"></script>
 <!-- custom js -->
 <script src="{{ asset('js/custom.js') }}"></script>
+    <script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/mojs/latest/mo.min.js'></script>
+    <script src="{{ asset('js/favoris.js') }}"></script>
+    <script src="{{ asset ('assetX/app.js') }}"></script>
+    <script src="{{ asset ('assetX/bootstrap.js') }}"></script>
+{% endblock %}
+
 </body>
 
 </html>

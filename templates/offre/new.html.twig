@@ -1,0 +1,34 @@
+{% extends 'baseBack.html.twig' %}
+
+{% block title %}
+    <title> Ajouter Offre </title>
+{% endblock %}
+
+
+
+ {% block body %}
+     <div class="main">
+         <!-- MAIN CONTENT -->
+         <div class="main-content">
+             <div class="container-fluid">
+                 <!-- OVERVIEW -->
+                 <div class="panel panel-headline">
+                     <div class="panel-heading">
+                         <h2 class="panel-title">Ajouter Offre</h2>
+                         <p class="panel-subtitle" style="color: #a65959">fournir un offre à vos clients ! </p>
+                     </div>
+                     <!-- changer lllllllllll -->
+
+
+                     {{ include('offre/_form.html.twig') }}
+                     <div class="panel-body">
+                     <a href="{{ path('offre_index') }}"  class="btn_4">Revenir à la liste</a>
+                 </div>
+                 </div>
+                 <!-- END OVERVIEW -->
+
+             </div>
+         </div>
+         <!-- END MAIN CONTENT -->
+     </div>
+ {% endblock %}

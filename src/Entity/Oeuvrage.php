@@ -4,12 +4,20 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+use App\Repository\OeuvrageRepository;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 /**
  * Oeuvrage
- *
+ * @Vich\Uploadable
  * @ORM\Table(name="oeuvrage", indexes={@ORM\Index(name="user_id", columns={"user_id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass=OeuvrageRepository::class)
+ * @UniqueEntity(fields= {"nom"}, message =" l'oeuvre existe déjà !  ")
  */
+
 class Oeuvrage
 {
     /**
@@ -23,13 +31,18 @@ class Oeuvrage
 
     /**
      * @var string
-     *
+
+     * @Assert\NotBlank(message="Veuillez donner un nom à votre oeuvre !")
+
      * @ORM\Column(name="nom", type="string", length=50, nullable=false)
      */
     private $nom;
 
     /**
      * @var string
+
+     * @Assert\NotBlank(message="Veuillez choisir le domaine de votre oeuvre !")
+
      *
      * @ORM\Column(name="domaine", type="string", length=50, nullable=false)
      */
@@ -37,13 +50,25 @@ class Oeuvrage
 
     /**
      * @var float
-     *
+     * @Assert\NotBlank(message="Veuillez saisir le prix de votre oeuvre !")
+     * @Assert\Positive(message=" le prix de votre oeuvre doit être positif !")
+     * @Assert\Type(
+     *     type="float",
+     *     message="The value {{ value }} is not a valid {{ type }}."
+     * )
      * @ORM\Column(name="prix", type="float", precision=10, scale=0, nullable=false)
+     *
      */
     private $prix;
 
     /**
      * @var int
+     *@Assert\NotBlank(message="Veuillez saisir la quantité de votre oeuvre !")
+     * @Assert\Type(
+     *     type="integer",
+     *     message=" {{ value }} n'est pas un {{ type }} valide."
+     * )
+     * @Assert\Positive(message=" la quantité de votre oeuvre doit être positive !")
      *
      * @ORM\Column(name="quantite", type="integer", nullable=false)
      */
@@ -51,19 +76,25 @@ class Oeuvrage
 
     /**
      * @var string
-     *
+     *  *@Assert\NotBlank(message="Veuillez donner une description à votre oeuvre !")
      * @ORM\Column(name="description", type="string", length=100, nullable=false)
+     *  @Assert\Length(
+     *      min = 11,
+     *
+     *      minMessage = "Veuillez décrire mieux votre oeuvre , la description doit avoir au moins {{ limit }} caractere",
+     *
+     * )
+     *
      */
     private $description;
 
     /**
      * @var string
-     *
      * @ORM\Column(name="image", type="string", length=255, nullable=false)
      */
     private $image;
 
-    /**
+   /**
      * @var int
      *
      * @ORM\Column(name="isvalid", type="integer", nullable=false)
@@ -75,7 +106,7 @@ class Oeuvrage
      *
      * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="user_id", referencedColumnName="user_id")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="user_id",)
      * })
      */
     private $user;
@@ -180,9 +211,17 @@ class Oeuvrage
 
         return $this;
     }
-    public function __toString()
+
+    public function setImageFile(File $image = null)
     {
-        return $this->nom;
+        $this->imageFile = $image;
+
+
+    }
+
+    public function getImageFile()
+    {
+        return $this->imageFile;
     }
 
 }

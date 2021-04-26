@@ -1,5 +1,6 @@
 security:
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+
     encoders:
         # use your user class name here
         App\Entity\User:
@@ -13,11 +14,13 @@ security:
             entity:
                 class: App\Entity\User
                 property: email
+
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
+
             entry_point: App\Security\AuthenticationEntryPoint
             access_denied_url: /login
             anonymous: lazy
@@ -34,6 +37,7 @@ security:
                 #secret: '%kernel.secret%'
                 #lifetime: 25000
 
+
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
 
@@ -43,8 +47,10 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
+
         - { path: ^/Admin, roles: ROLE_ADMIN }
         - { path: ^/profil, roles: ROLE_USER }
     role_hierarchy:
         ROLE_ADMIN: ROLE_USER
+
 

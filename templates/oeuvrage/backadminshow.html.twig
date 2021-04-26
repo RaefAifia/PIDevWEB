@@ -1,0 +1,86 @@
+{% extends 'baseBack.html.twig' %}
+
+{% block title %}
+    <title> liste des oeuvres </title>
+{% endblock %}
+
+ {% block body %}
+     <div class="main">
+         <!-- MAIN CONTENT -->
+         <div class="main-content">
+             <div class="container-fluid">
+                 <!-- OVERVIEW -->
+                 <div class="panel panel-headline">
+                     <div class="panel-heading">
+                         <h2>Liste des oeuvres</h2>
+                         <p class="panel-subtitle"></p>
+                     </div>
+                     <!-- changer lllllllllll -->
+
+<div class="list-unstyled row">
+
+    <div class="col-md-6">
+        <div class="panel-body">
+        <img src="\PI\IMG\{{ oeuvrage.image }}" style="width: 70%; height:auto">
+
+    </div> </div>
+
+
+    <div class="col-md-6">
+        <div>
+        <table class="table">
+            <tbody>
+
+            <tr>
+                <th style="color:#a65959">Nom</th>
+                <td>{{ oeuvrage.nom }}</td>
+            </tr>
+            <tr>
+                <th style="color:#a65959">Domaine</th>
+                <td>{{ oeuvrage.domaine }}</td>
+            </tr>
+            <tr>
+                <th style="color:#a65959">Prix</th>
+                <td>{{ oeuvrage.prix }}</td>
+            </tr>
+            <tr>
+                <th style="color:#a65959">Quantite</th>
+                <td>{{ oeuvrage.quantite }}</td>
+            </tr>
+            <tr>
+                <th style="color:#a65959">Description</th>
+                <td>{{ oeuvrage.description }}</td>
+            </tr>
+
+
+            </tbody>
+        </table>
+        </div>
+        {% if oeuvrage.isvalid == 0 %}
+
+            <form method="post" action="{{ path('oeuvrage_valider', {'oeuvrageId': oeuvrage.oeuvrageId}) }}" onsubmit="return confirm('Voulez vous vraimenet valider cet oeuvre ? ');">
+                <input type="hidden" name="_token" value="{{ csrf_token('valider' ~ oeuvrage.oeuvrageId) }}">
+                <button class="btn_4">valider</button>
+            </form>
+
+            <form method="post" action="{{ path('oeuvrage_invalider', {'oeuvrageId': oeuvrage.oeuvrageId}) }}" onsubmit="return confirm('Voulez vous vraimenet invalider cet oeuvre ? ');">
+                <input type="hidden" name="_token" value="{{ csrf_token('valider' ~ oeuvrage.oeuvrageId) }}">
+                <button class="btn_4">supprimer</button>
+            </form>
+
+        {% endif %}
+
+    </div>
+</div>
+
+
+                     <div class="panel-body">
+
+                     </div></div>
+                 <!-- END OVERVIEW -->
+
+             </div>
+         </div>
+         <!-- END MAIN CONTENT -->
+     </div>
+ {% endblock %}

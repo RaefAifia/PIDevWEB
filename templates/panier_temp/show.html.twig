@@ -1,0 +1,25 @@
+{% extends 'base_front.html.twig' %}
+
+
+{% block body %}
+    <h1>PanierTemp</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ panier_temp.id }}</td>
+            </tr>
+            <tr>
+                <th>Quantite</th>
+                <td>{{ panier_temp.quantite }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <center>
+        <button style="margin-top:10px" class="btn btn-outline-success"><a href="{{ path('panier_temp_edit', {'id': panier_temp.id}) }}">Modifier</a></button>
+        <button style="margin-top:10px" class="btn btn-outline-primary"><a href="{{ path('panier_temp_index') }}">Retour</a></button>
+        {{ include('panier_temp/_delete_form.html.twig') }}
+    </center>
+{% endblock %}

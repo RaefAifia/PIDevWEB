@@ -1,0 +1,23 @@
+{% extends 'base_front.html.twig' %}
+
+{% block body %}
+    <center><h1>Modifier Oeuvre</h1></center>
+    {% for flashMessage in app.session.flashbag.get('red') %}
+
+        <div class="alert alert-danger">
+            <center>{{ flashMessage }}</center>
+        </div>
+
+    {% endfor %}
+    {% for flashMessage in app.session.flashbag.get('green') %}
+
+        <div class="alert alert-success">
+            <center>{{ flashMessage }}</center>
+        </div>
+
+    {% endfor %}
+    <center>
+    {{ include('panier_temp/_form.html.twig', {'button_label': 'Modifier'}) }}
+    </center>
+    </br>
+{% endblock %}

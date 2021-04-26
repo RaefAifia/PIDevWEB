@@ -1,0 +1,30 @@
+{{ form_start(form) }}
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+<aside class="single_sidebar_widget post_category_widget">
+    <h4 class="widget_title">Nom</h4>
+    <ul class="list cat-list">
+
+        {{ form_row(form.q) }}
+
+
+    </ul>
+
+    <h4 class="widget_title">Domaine</h4>
+    <ul class="list cat-list">
+        {{ form_row(form.domaine) }}
+    </ul>
+{# </aside>
+
+<aside class="single_sidebar_widget popular_post_widget"> #}
+    <h3 class="widget_title">Prix</h3>
+    <ul class="list cat-list">
+        {{ form_row(form.min) }}
+        {{ form_row(form.max) }}
+
+    </ul>
+    <ul class="list cat-list">
+    <button class="button rounded-0 primary-bg text-white w-100 btn_1" type="submit">Filtre</button>
+    </ul>
+</aside>
+
+{{ form_end(form) }}

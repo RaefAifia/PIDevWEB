@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+
+<title>Commande</title>
+
+{% block body %}
+    <h1>Commande</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>CommandeId</th>
+                <td>{{ commande.commandeId }}</td>
+            </tr>
+            <tr>
+                <th>Prixtot</th>
+                <td>{{ commande.prixtot }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ commande.date ? commande.date|date('Y-m-d') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('commande_index') }}">back to list</a>
+
+    <a href="{{ path('commande_edit', {'commandeId': commande.commandeId}) }}">edit</a>
+
+    {{ include('commande/_delete_form.html.twig') }}
+{% endblock %}

@@ -1,0 +1,12 @@
+
+<style>
+    .genric-btn danger-border{
+        margin-left: 200%;
+    }
+</style>
+<form method="post" action="{{ path('formation_delete', {'formationId': formation.formationId}) }}" onsubmit="return confirm('Voulez Vous Supprimer cette formation? ');">
+    <input type="hidden" name="_token" value="{{ csrf_token('Delete' ~ formation.formationId) }}">
+
+    <button class="btn btn-dark" >Supprimer</button>
+
+</form>

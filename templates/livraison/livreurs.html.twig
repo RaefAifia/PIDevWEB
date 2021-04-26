@@ -1,0 +1,29 @@
+{% extends 'base_back.html.twig' %}
+
+{% block body %}
+<section class="special_cource padding_top">
+    <center>
+
+        <button style="margin-bottom:10px" class="btn btn-outline-primary"><a href="{{ path('livraison_indexadmin') }}">Retour</a></button>
+
+    </center>
+<div class="container">
+        <div class="row">
+            {% for user in users %}
+
+                <div class="col-sm-6 col-lg-4">
+                    <div style="margin-bottom: 10px" class="single_special_cource">
+                        <img style="width: 50%; alignment: center" src="/img/{{user.image}}" alt="user" class="special_img">
+                        <div class="special_cource_text">
+                            <a href="{{ path('confirmationliv',{'id': livraison.livraisonId,'livreurid': user.userId}) }}" class="btn_4">Affecter</a>
+                            <h4> ID : {{ user.userid }}</h4>
+                            <h3>{{ user.nom }} {{ user.prenom }}</h3>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+</div>
+</section>
+
+{% endblock %}

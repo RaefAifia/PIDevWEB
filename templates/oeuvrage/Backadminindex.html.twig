@@ -1,0 +1,106 @@
+{% extends 'baseBack.html.twig' %}
+
+{% block title %}
+    <title> liste des oeuvres </title>
+{% endblock %}
+
+ {% block body %}
+     <div class="main">
+         <!-- MAIN CONTENT -->
+         <div class="main-content">
+             <div class="container-fluid">
+                 <!-- OVERVIEW -->
+                 <div class="panel panel-headline">
+                     <div class="panel-heading">
+                         <h2>Liste des oeuvres</h2>
+                         <p class="panel-subtitle"></p>
+                         <form method="post" style="right: 0px " >
+                             <input type="text"  class="form-control rounded" onkeyup="myFunction()" placeholder="Chercher un oeuvre [ 'par son nom ' ; 'Domaine' ; 'nom du vendeur' ]" id="myInput"  >
+                         </form>
+                     </div>
+                     <!-- changer lllllllllll -->
+
+
+                     <table class="table" id="mytable">
+                         <tr style="color:#a65959">
+
+                             <th>Nom de l'oeuvre </th>
+                             <th>Nom du vendeur </th>
+                             <th>Image</th>
+                             <th>Domaine</th>
+                             <th>Description</th>
+                             <th>prix</th>
+                             <th>Quantité</th>
+                             <th>Actions</th>
+                         </tr>
+                         <tbody>
+                         {% for oeuvre in oeuvrages %}
+                             <tr>
+                                 <td>{{ oeuvre.nom }}</td>
+                                 <td>{{ oeuvre.user }}</td>
+                                 <td><img src="\PI\IMG\{{ oeuvre.image }}" class="mx-auto d-block" alt="" style="width: 50%; height:auto"></td>
+                                 <td>{{ oeuvre.domaine }}</td>
+                                 <td>{{ oeuvre.description |raw }}</td>
+                                 <td>{{ oeuvre.prix }}</td>
+                                 <td>{{ oeuvre.quantite }}</td>
+                                 <td>
+        <a href="{{ path('oeuvrage_showadmin', {'oeuvrageId': oeuvre.oeuvrageId}) }}" class="btn_4" >Afficher </a>
+            {% if oeuvre.isvalid == 0 %}
+
+             <form method="post" action="{{ path('oeuvrage_valider', {'oeuvrageId': oeuvre.oeuvrageId}) }}" onsubmit="return confirm('Voulez vous vraimenet valider cet oeuvre ? ');">
+                    <input type="hidden" name="_token" value="{{ csrf_token('valider' ~     oeuvre.oeuvrageId) }}">
+                    <button class="btn_4">valider</button>
+                </form>
+
+                <form method="post" action="{{ path('oeuvrage_invalider', {'oeuvrageId': oeuvre.oeuvrageId}) }}" onsubmit="return confirm('Voulez vous vraimenet invalider cet oeuvre ? ');">
+                    <input type="hidden" name="_token" value="{{ csrf_token('valider' ~ oeuvre.oeuvrageId) }}">
+                    <button class="btn_4">supprimer</button>
+                </form>
+            {% endif %}
+                                 </td>
+                             </tr>
+
+                         {% endfor %}
+                         <script>
+                             function myFunction() {
+                                 var input, filter, table, tr, td, i,j, txtValue, td1 ,td2, txtValue1, txtValue2 ;
+                                 input = document.getElementById("myInput");
+                                 filter = input.value.toUpperCase();
+                                 table = document.getElementById("mytable");
+                                 tr = table.getElementsByTagName("tr");
+//   alert(td.length);
+                                 for (i = 0; i < tr.length; i++) {
+                                     td= tr[i].getElementsByTagName("td")[0];
+                                     td1= tr[i].getElementsByTagName("td")[1];
+                                     td2= tr[i].getElementsByTagName("td")[3];
+
+                                     if (td) {
+                                         txtValue = td.textContent || td.innerText;
+                                         txtValue1 = td1.textContent || td1.innerText;
+                                         txtValue2 = td2.textContent || td2.innerText;
+                                         if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                                             tr[i].style.display = "";
+                                         }
+                                         else if  (txtValue1.toUpperCase().indexOf(filter) > -1) {
+                                             tr[i].style.display = "";  }
+                                         else if  (txtValue2.toUpperCase().indexOf(filter) > -1) {
+                                             tr[i].style.display = "";  }
+                                         else {
+                                             tr[i].style.display = "none";
+                                         }}
+                                 }
+                             }
+                         </script>
+                         </tbody>
+
+                     </table>
+                     <div class="panel-body">
+
+                     </div></div>
+                 <!-- END OVERVIEW -->
+
+             </div>
+         </div>
+         <!-- END MAIN CONTENT -->
+     </div>
+ {% endblock %}

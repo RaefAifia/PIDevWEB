@@ -1,0 +1,219 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    <title> détail d'un oeuvre </title>
+{% endblock %}
+{% block header %}
+    <!--::header part start::-->
+    <header class="main_menu home_menu">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-12">
+                    <nav class="navbar navbar-expand-lg navbar-light">
+                        <a class="navbar-brand" href="index.html"> <img src="{{ asset ('img/logo.png') }}" alt="logo"> </a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse"
+                                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                                aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+
+                        <div class="collapse navbar-collapse main-menu-item justify-content-end"
+                             id="navbarSupportedContent">
+                            <ul class="navbar-nav align-items-center">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('accueil_index') }}" style="color: #ffffff">Accueil</a>
+                                    {#    </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('blog_index_front') }}" style="color: #ffffff">Blog</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('formation_index') }}" style="color: #ffffff">Formations</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('evenement_index_Front') }}" style="color: #ffffff">Evenements</a>
+                                </li> #}
+
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('oeuvrage_index') }}" style="color: #ffffff">Oeuvres</a>
+                                </li>
+                                {#  <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('user_index')}}" style="color: #ffffff">Nos artistes</a>
+                                </li>
+                                {% if(app.user==null) %}
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ path('app_login') }}" style="color: #ffffff">Profil</a>
+                                    </li>
+
+                                    <li class="d-none d-lg-block">
+                                        <a class="btn_1" href="{{ path('app_login') }}">S'inscrire</a>
+                                    </li>
+                                {% else %}
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ path('user_show', {'userId':app.user.userId}) }}" style="color: #ffffff">Profil</a>
+                                    </li>
+
+                                    <li class="d-none d-lg-block">
+                                        <a class="btn_1" href="{{ path('app_logout') }}">Déconnecter</a>
+                                    </li>
+                                {% endif %}#}
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- Header part end-->
+
+{% endblock %}
+ {% block content %}
+     <section class="breadcrumb breadcrumb_bg">
+         <div class="container">
+             <div class="row">
+                 <div class="col-lg-12">
+                     <div class="breadcrumb_iner text-center">
+                         <div class="breadcrumb_iner_item">
+                             <h2>Détail d'oeuvre </h2>
+
+                         </div>
+                     </div>
+                 </div>
+             </div>
+         </div>
+     </section>
+     <!-- breadcrumb start-->
+ {% endblock %}
+
+{% block body %}
+    <section >
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-xl-5">
+            <div class="section_tittle text-center"  >
+
+                 {%  if favoris==null   %}
+                    <a method="post" href="{{ path('oeuvrage_favoris', {'oeuvrageId': oeuvrage.oeuvrageId}) }}" id='heart' class='buttonheart' ></a>
+
+                {% else %}
+               <a method="post" href="{{ path('oeuvrage_favoris', {'oeuvrageId': oeuvrage.oeuvrageId}) }}" id='heart' class='buttonheart' ></a>
+                    <style>
+                        .buttonheart{
+                            width: 30px;
+                            height: 10px;
+                            top:50%;
+                            position: absolute;
+                            left: 150%;
+                            border-radius: 5px;
+                            cursor: pointer;
+                            transition: background 0.5s ease;
+                        }
+                        .buttonheart:hover{
+
+                        }
+                        .activate#heart:before,.activate#heart:after{
+                            background: dimgrey !important;
+                        }
+                        #heart {
+                            width: 22px;
+                            height: 20px;
+                            transition: background 0.5s ease;
+                        }
+
+                        #heart:before,
+                        #heart:after {
+                            transition: background 0.5s ease;
+                            position: absolute;
+                            content: "";
+                            left: 50px;
+                            top: 0;
+                            background: #863535;
+                            width: 50px;
+                            height: 80px;
+                            border-radius: 50px 50px 0 0;
+                            transform: rotate(-45deg);
+                            transform-origin: 0 100%;
+                        }
+                        #heart:after {
+                            left: 0;
+                            transform: rotate(45deg);
+                            transform-origin :100% 100%;
+                        }
+                    </style>
+                  {% endif %}
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6 col-lg-4" >
+
+         <img src="\PI\IMG\{{ oeuvrage.image }}" class="special_img" alt="" style="width: 100%; height:auto">
+
+        </div>
+
+
+
+                 <div class="col-lg-6 col-xl-6">
+
+                     <div class="banner_text">
+
+                         <div class="banner_text_iner">
+
+
+                             <table class="table">
+                                 <tbody>
+
+                                 <tr>
+                                     <th>Nom</th>
+                                     <td>{{ oeuvrage.nom }}</td>
+                                 </tr>
+                                 <tr>
+                                     <th>Domaine</th>
+                                     <td>{{ oeuvrage.domaine }}</td>
+                                 </tr>
+                                 <tr>
+                                     <th>Prix</th>
+                                     <td>{{ oeuvrage.prix }} DT</td>
+                                 </tr>
+                                 <tr>
+                                     <th>Quantite</th>
+                                     {% if oeuvrage.quantite ==0  %}
+                                         <td STYLE="color: #8f1f00">hors stock</td>
+                                     {%  else %}
+                                     <td>{{ oeuvrage.quantite }} oeuvres</td>
+                                     {% endif %}
+                                 </tr>
+                                 <tr>
+                                     <th>Description</th>
+                                     <td>{{ oeuvrage.description |raw }}</td>
+                                 </tr>
+
+
+                                 </tbody>
+                             </table>
+
+                             <a href="{{ path('oeuvrage_index') }}" class="btn_1">Revenir à la liste</a>
+
+                             <a href="{{ path('oeuvrage_edit', {'oeuvrageId': oeuvrage.oeuvrageId}) }}" class="btn_2">Ajouter au panier</a>
+
+                         </div>
+
+                     </div>
+
+
+         </div>
+
+
+
+
+
+         </div>
+</div>
+
+     </section>
+
+ {% endblock %}
+

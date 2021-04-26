@@ -1,0 +1,59 @@
+{% extends 'panier.html.twig' %}
+
+
+{% block body %}
+
+    <div class="section_padding">
+        <br class="section-top-border">
+        <center><h3 class="mb-30">Facture</h3></center>
+        <section style="padding-top: 5px;padding-bottom: 5px" class="feature_part member_counter single_feature_padding">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 col-sm-6">
+                        <div style="height: 100px;padding-top: 1px" >
+                            <div class="single_member_counter">
+                                <p style="font-size: 20px;color: white">Etape 1</p>
+                                <h4>Commander</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6">
+                        <div style="height: 100px;padding-top: 1px" >
+                            <div class="single_member_counter">
+                                <p style="font-size: 20px;color: white">Etape 2</p>
+                                <h4>Livraison</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6">
+                        <div style="height: 100px;padding-top: 1px" >
+                            <div class="single_member_counter">
+                                <p style="font-size: 20px;color: white">Etape 3</p>
+                                <h4>Confirmer</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6">
+                        <div style="height: 100px;padding-top: 1px" class="single_feature_part">
+                            <div class="single_member_counter">
+                                <p style="font-size: 20px;color: white">Etape 4</p>
+                                <h4>Facture</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    <br><br>
+    <center><h2>Votre commande est en cours de livraison !</h2></center>
+    <center><h3 style="color: rgba(0,123,255,.5)">Merci pour votre achat ☺ </h3></center>
+    <center><div style="display: inline-block">
+    <a style="margin-top: 30px; margin-bottom: 30px" href="{{ path('panier_pdfnav') }}" class="btn_2">Voir facture</a>
+    <a style="margin-top: 30px; margin-bottom: 30px" href="{{ path('panier_pdfgen') }}" class="btn_2">Télécharger facture</a>
+    </div></center>
+    <br><br>
+    <center><img height="30%" width="30%" src="{{asset('img/livraison.png')}}" alt="logo"></center>
+    <br><br>
+
+{% endblock %}

@@ -5,10 +5,12 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
 
+
     Images_directory: '%kernel.project_dir%/public/PI/IMG'
 
     app.path.product_images: \images\profil
     TWILIO_AUTHY_API_KEY: '%env(AUTHY_API_KEY)%'
+
 
 
 services:
@@ -36,5 +38,6 @@ services:
     # add more service definitions when explicit configuration is needed
 
     App\EventSubscriber\CalendarSubscriber:
+
 
     # please note that last definitions always *replace* previous ones

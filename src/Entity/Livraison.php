@@ -7,8 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Livraison
  *
- * @ORM\Table(name="livraison", indexes={@ORM\Index(name="commande_id", columns={"commande_id"}), @ORM\Index(name="user_id", columns={"user_id"})})
- * @ORM\Entity
+ * @ORM\Table(name="livraison", indexes={@ORM\Index(name="user_id", columns={"user_id"}), @ORM\Index(name="livraison_ibfk_4", columns={"Livreur_id"}), @ORM\Index(name="commande_id", columns={"commande_id"})})
+ * @ORM\Entity(repositoryClass="App\Repository\LivraisonRepository")
  */
 class Livraison
 {
@@ -50,6 +50,13 @@ class Livraison
     private $adresse;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="Etat", type="string", length=55, nullable=false, options={"default"="'En Cours'"})
+     */
+    private $etat = 'En Attente';
+
+    /**
      * @var \Commande
      *
      * @ORM\ManyToOne(targetEntity="Commande")
@@ -60,14 +67,24 @@ class Livraison
     private $commande;
 
     /**
-     * @var \Commande
+     * @var \User
      *
-     * @ORM\ManyToOne(targetEntity="Commande")
+     * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="user_id", referencedColumnName="user_id")
      * })
      */
     private $user;
+
+    /**
+     * @var \Livreur
+     *
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="Livreur_id", referencedColumnName="user_id")
+     * })
+     */
+    private $livreur;
 
     public function getLivraisonId(): ?int
     {
@@ -122,6 +139,18 @@ class Livraison
         return $this;
     }
 
+    public function getEtat(): ?string
+    {
+        return $this->etat;
+    }
+
+    public function setEtat(string $etat): self
+    {
+        $this->etat = $etat;
+
+        return $this;
+    }
+
     public function getCommande(): ?Commande
     {
         return $this->commande;
@@ -134,14 +163,26 @@ class Livraison
         return $this;
     }
 
-    public function getUser(): ?Commande
+    public function getUser(): ?User
     {
         return $this->user;
     }
 
-    public function setUser(?Commande $user): self
+    public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getLivreur(): ?User
+    {
+        return $this->livreur;
+    }
+
+    public function setLivreur(?User $livreur): self
+    {
+        $this->livreur = $livreur;
 
         return $this;
     }

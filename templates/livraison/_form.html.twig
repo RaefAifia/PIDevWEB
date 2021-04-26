@@ -1,0 +1,40 @@
+{{ form_start(form,{'attr':{'novalidate':'novalidate'}} ) }}
+
+<div>
+    <div class="col-lg-8 col-md-8">
+
+        <div class="mt-10">
+            <span class="mt-10">Nom</span>
+            <div>
+                {{ form_widget(form.nom, { 'attr': {'class': 'mt-10 '} }) }}{{ form_errors(form.nom) }}
+            </div>
+        </div>
+
+        <div class="mt-10">
+            <span class="mt-10">Prenom</span>
+            <div>
+                {{ form_widget(form.prenom, { 'attr': {'class': 'mt-10'} }) }}{{ form_errors(form.prenom) }}
+            </div>
+        </div>
+
+        <div class="mt-10">
+            <span class="mt-10">Num Tel</span>
+            <div>
+                {{ form_widget(form.numTel, { 'attr': {'class': 'col-lg-4 col-md-5'} }) }}{{ form_errors(form.numTel) }}
+            </div>
+        </div>
+
+        <div class="mt-10">
+            <span class="mt-10">Adresse</span>
+            <div>
+                {{ form_widget(form.adresse, { 'attr': {'class': 'col-lg-4 col-md-5'} }) }}{{ form_errors(form.adresse) }}
+            </div>
+        </div>
+
+        <button style="margin-bottom:10px;margin-top:10px" class="btn_1">{{ button_label|default('Suivant') }}</button>
+        <button style="margin-bottom:10px;margin-top:10px" class="btn_2"><a href="{{ path('panier_temp_index') }}">Retour</a></button>
+    </div>
+</div>
+
+{{ form_end(form) }}
+

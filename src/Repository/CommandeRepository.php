@@ -20,6 +20,19 @@ class CommandeRepository extends ServiceEntityRepository
     }
 
 
+
+    public function findnvc()
+    {
+        $query = $this
+            ->createQueryBuilder('c')
+            ->select( 'c')
+            ->addOrderBy('c.commandeId', 'DESC')
+            ->setMaxResults(1);
+        return $query->getQuery()->getSingleResult();
+
+    }
+
+
     public function findfc() {
         return $this
             ->createQueryBuilder('c')
@@ -30,6 +43,7 @@ class CommandeRepository extends ServiceEntityRepository
             ->getResult();
 
     }
+
 
 
     // /**

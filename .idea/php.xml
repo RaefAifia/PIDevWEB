@@ -2,6 +2,7 @@
 <project version="4">
   <component name="PhpIncludePathManager">
     <include_path>
+
       <path value="$PROJECT_DIR$/vendor/symfony/polyfill-mbstring" />
       <path value="$PROJECT_DIR$/vendor/symfony/var-dumper" />
       <path value="$PROJECT_DIR$/vendor/symfony/http-client-contracts" />
@@ -129,4 +130,5 @@
   <component name="PhpProjectSharedConfiguration" php_language_level="7.1">
     <option name="suggestChangeDefaultLanguageLevel" value="false" />
   </component>
+
 </project>

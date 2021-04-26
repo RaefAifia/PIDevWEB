@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * PanierTemp
  *
  * @ORM\Table(name="panier_temp", uniqueConstraints={@ORM\UniqueConstraint(name="oeuvrage_id", columns={"oeuvrage_id", "user_id"})}, indexes={@ORM\Index(name="user_id", columns={"user_id"}), @ORM\Index(name="IDX_FFB5A0B349DBAF18", columns={"oeuvrage_id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\PanierTempRepository")
  */
 class PanierTemp
 {

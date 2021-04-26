@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+
+{% block content %}
+    <div class="row align-items-sm-center align-items-lg-stretch">
+        <div class="col-md-5 col-lg-5 text-center">
+            <div class="learning_member_text">
+                <div class="row justify-content-center " style="margin-top: 150px">
+
+
+
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-7 col-lg-7">
+            <div class="img-rounded">
+
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}
+{% block body %}
+    <section class="banner_part">
+        <div class="container">
+
+                    <div class="banner_text">
+
+
+
+                            <h2>Créer une nouvelle réclamation</h2>
+
+                            {{ form_start(form) }}
+                            <div class="form-group">
+                                {{ form_label(form.reclamationNom) }}
+                                {{ form_errors(form.reclamationNom) }}
+                                {{ form_widget(form.reclamationNom) }}
+                            </div>
+                            <div class="form-group">
+                                {{ form_label(form.description) }}
+                                {{ form_errors(form.description) }}
+                                {{ form_widget(form.description) }}
+                            </div>
+
+                            <div class="form-group">
+                                {{ form_label(form.x) }}
+                                {{ form_errors(form.x) }}
+                                {{ form_widget(form.x) }}
+                            </div>
+                            <div class="form-group">
+                                {{ form_label(form.concernant) }}
+                                {{ form_errors(form.concernant) }}
+                                {{ form_widget(form.concernant) }}
+                            </div>
+                            <button class="btn btn-primary float-right ">{{ button_label|default('Save') }}</button>
+                            {{ form_end(form) }}
+                            <a href="{{ path('reclamation_index') }}">back to list</a>
+                        </div>
+                    </div>
+
+
+
+    </section>
+{% endblock %}
+

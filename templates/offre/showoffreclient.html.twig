@@ -1,0 +1,80 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    <title> liste des offres  </title>
+{% endblock %}
+
+ {% block content %}
+     <section >
+         <div class="container">
+             <div class="row">
+                 <div class="col-lg-12">
+                     <div class=" text-center">
+                         <div>
+                             <h2> </h2>
+
+                         </div>
+                     </div>
+                 </div>
+             </div>
+         </div>
+     </section>
+     <!-- breadcrumb start-->
+ {% endblock %}
+
+{% block body %}
+
+    <section>
+
+        <div class="container">
+
+            <div class="row justify-content-center">
+                <div class="col-xl-5">
+                    <div class="section_tittle text-center">
+
+                    </div>
+                </div>
+            </div>
+            <div class="row align-items-sm-center align-items-lg-stretch">
+                <div class="col-md-5 col-lg-5 text-center">
+
+                    <div class="row justify-content-center " style="margin-top: 100px">
+
+                            <h2 STYLE=" font-style: italic; font-family: 'Arial Narrow' ;color: #bc6969 ; margin-bottom: 50px"> Détail d'offre "{{  offre.nom }}" </h2>
+                    
+                            <table class="table">
+                                <tbody>
+
+                                <tr>
+                                    <th>Nom</th>
+                                    <td>{{ offre.nom }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Description</th>
+                                    <td>{{ offre.description |raw }}</td>
+                                </tr>
+
+                                <tr>
+                                    <th>Date</th>
+                                    <td>{{ offre.date ? offre.date|date('Y-m-d') : '' }}</td>
+                                </tr>
+
+                                </tbody>
+                            </table>
+                            <a href="{{ path('offre_indexclient') }}" class="btn_1">Revenir à la liste </a>
+
+                    </div>
+
+
+                </div>
+                <div class="col-md-7 col-lg-7">
+                    <div class="img-rounded">
+                        <img src="{{ asset ('img/gift.jpg') }}" alt="">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </section>
+{% endblock %}

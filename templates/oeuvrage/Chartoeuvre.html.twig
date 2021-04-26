@@ -1,0 +1,83 @@
+{% extends 'baseBack.html.twig' %}
+
+{% block title %}
+    <title> liste des oeuvres </title>
+{% endblock %}
+
+ {% block body %}
+
+     <div class="main">
+         <!-- MAIN CONTENT -->
+         <div class="main-content">
+             <div class="container-fluid">
+                 <!-- OVERVIEW -->
+                 <div class="panel panel-headline">
+                     <h2>Statistiques des oeuvres</h2>
+                     <div class="panel-heading">
+
+                         <p class="panel-subtitle"></p>
+
+                     </div>
+                     <!-- changer lllllllllll -->
+                     <div class="panel-body">
+                         <div class="panel-heading">
+                             <h3 STYLE="color: #bc1529 ; font-style: oblique">nos vendeurs</h3>
+                             <p class="panel-subtitle"></p>
+
+                         </div>
+                     <canvas id="vendors" width="400" height="100"></canvas>
+
+
+                     </div>
+                     <div class="panel-body">
+                         <div class="panel-heading">
+                             <h3 STYLE="color: #bc1529; font-style: oblique">Les domaines </h3>
+                             <p class="panel-subtitle"></p>
+
+                         </div>
+                         <canvas id="categories" width="400" height="100"></canvas>
+
+
+
+                     </div></div>
+                 </div>
+                 <!-- END OVERVIEW -->
+
+             </div>
+
+         </div>
+         <!-- END MAIN CONTENT -->
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" integrity="sha512-s+xg36jbIujB2S2VKfpGmlC3T5V2TF3lY48DX7u2r9XzGzgPsa6wTpOQA7J9iffvdeBN0q9tKzRxVxw1JviZPg==" crossorigin="anonymous"></script>
+    <script>
+        let categories = document.querySelector("#categories")
+        let categGraph = new Chart(categories, {
+            type: "pie",
+            data: {
+                labels: {{ categNom|raw }},
+                datasets: [{
+                    label: "Nombre des oeuvres",
+                    data: {{ categCount|raw }},
+                    backgroundColor: {{ categColor|raw }}
+                }]
+            }
+        })
+
+        let vendors = document.querySelector("#vendors")
+
+        let vendorsGraph = new Chart(vendors, {
+            type: "pie",
+            data: {
+                labels: {{ listvend |raw }},
+                datasets: [{
+                    label: "Nombre des oeuvres",
+                    data: {{ listvendcount |raw }},
+                    backgroundColor: {{ categColor |raw }}
+                }]
+            }
+        })
+    </script>
+
+{% endblock %}

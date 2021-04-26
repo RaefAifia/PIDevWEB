@@ -20,6 +20,7 @@ class CommandeRepository extends ServiceEntityRepository
     }
 
 
+
     public function findnvc()
     {
         $query = $this
@@ -30,6 +31,20 @@ class CommandeRepository extends ServiceEntityRepository
         return $query->getQuery()->getSingleResult();
 
     }
+
+
+    public function findfc() {
+        return $this
+            ->createQueryBuilder('c')
+            ->select( 'c')
+            ->groupBy('c.user')
+            ->orderBy('COUNT(c.commandeId)', 'DESC')
+            ->getQuery()
+            ->getResult();
+
+    }
+
+
 
     // /**
     //  * @return Commande[] Returns an array of Commande objects

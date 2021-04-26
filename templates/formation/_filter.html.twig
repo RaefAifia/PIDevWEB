@@ -1,0 +1,40 @@
+
+            {{ form_start(form) }}
+            {% form_theme form 'bootstrap_4_layout.html.twig' %}
+            <aside class="single_sidebar_widget post_category_widget ">
+                <h4 class="widget_title">Recherche</h4>
+                <ul class="list cat-list">
+                     {{ form_row(form.q) }}
+                    <button class="button rounded-0 primary-bg text-white w-100 btn_1" type="submit">Chercher</button>
+                </ul>
+            </aside>
+            <aside class="single_sidebar_widget post_category_widget">
+                <h4 class="widget_title">Domaine</h4>
+                <ul class="list cat-list">
+
+                    {{ form_row(form.domaine) }}
+
+                    <h4 class="widget_title">Niveau</h4>
+                </ul>
+                    {{ form_row(form.niveau) }}
+                <h3 class="widget_title">Prix</h3>
+
+                    <ul class="list cat-list">
+                        {{ form_row(form.min) }}
+                        {{ form_row(form.max) }}
+                    </ul>
+            </aside>
+
+           {#  <div class="slider-price d-flex align-items-center my-4">
+                <span class="font-weight-normal small text-muted mr-2">0 DT</span>
+                <form class="multi-range-field w-100">
+                    <input id="multi" class="multi-range" type="range" />
+                </form>
+                <span class="font-weight-normal small text-muted ml-2">200DT</span>
+            </div>#}
+            <ul class="list cat-list">
+                <button class="button rounded-0 primary-bg text-white w-100 btn_1" type="submit">Filtrer</button>
+            </ul>
+
+
+                    {{ form_end(form) }}

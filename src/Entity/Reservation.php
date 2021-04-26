@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Reservation
  *
- * @ORM\Table(name="reservation", indexes={@ORM\Index(name="fk_reservation", columns={"evenement_id"}), @ORM\Index(name="fk_userres", columns={"user_id"})})
+ * @ORM\Table(name="reservation", indexes={@ORM\Index(name="fk_userres", columns={"user_id"}), @ORM\Index(name="fk_reservation", columns={"evenement_id"})})
  * @ORM\Entity
  */
 class Reservation
@@ -36,21 +36,20 @@ class Reservation
     private $date;
 
     /**
-     * @var \Evenement
      *
      * @ORM\ManyToOne(targetEntity="Evenement")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="evenement_id", referencedColumnName="evenement_id")
+     *   @ORM\JoinColumn(name="evenement_id", referencedColumnName="evenement_id",onDelete="CASCADE")
      * })
      */
     private $evenement;
 
     /**
-     * @var \User
+
      *
      * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="user_id", referencedColumnName="user_id")
+     *   @ORM\JoinColumn(name="user_id", referencedColumnName="user_id",onDelete="CASCADE")
      * })
      */
     private $user;

@@ -7,6 +7,7 @@
         "ext-iconv": "*",
 
 
+
         "authy/php": "^3.0",
 
 
@@ -29,6 +30,7 @@
         "symfony/form": "4.4.*",
         "symfony/framework-bundle": "4.4.*",
 
+
         "symfony/google-mailer": "4.4.*",
 
         "symfony/http-client": "4.4.*",
@@ -43,6 +45,7 @@
         "symfony/serializer": "4.4.*",
 
 
+
         "symfony/webpack-encore-bundle": "^1.11",
       
 
@@ -55,6 +58,7 @@
         "symfony/web-link": "4.4.*",
         "symfony/web-server-bundle": "4.4.*",
         "symfony/yaml": "4.4.*",
+
 
         "symfonycasts/verify-email-bundle": "^1.4",
 

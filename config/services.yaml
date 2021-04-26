@@ -6,6 +6,7 @@
 parameters:
 
 
+
     Images_directory: '%kernel.project_dir%/public/PI/IMG'
 
     app.path.product_images: \images\profil
@@ -36,6 +37,7 @@ services:
         tags: ['controller.service_arguments']
 
     # add more service definitions when explicit configuration is needed
+
 
     App\EventSubscriber\CalendarSubscriber:
 

@@ -2,52 +2,52 @@
 
 namespace App\Entity;
 
+use App\Repository\LieuEvenementRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * LieuEvenement
- *
- * @ORM\Table(name="lieu_evenement")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass=LieuEvenementRepository::class)
  */
 class LieuEvenement
 {
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
      */
     private $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="titre", type="string", length=500, nullable=false)
+     * @ORM\Column(type="string", length=255)
      */
     private $titre;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="description", type="string", length=500, nullable=false)
+     * @ORM\Column(type="string", length=255)
      */
     private $description;
 
     /**
-     * @var float
-     *
-     * @ORM\Column(name="longitude", type="float", precision=10, scale=0, nullable=false)
+     * @ORM\Column(type="float")
      */
     private $longitude;
 
     /**
-     * @var float
-     *
-     * @ORM\Column(name="latitude", type="float", precision=10, scale=0, nullable=false)
+     * @ORM\Column(type="float")
      */
     private $latitude;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Evenement::class, mappedBy="lieu_id", cascade={"remove"})
+     */
+    private $evenements;
+
+    public function __construct()
+    {
+        $this->evenements = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -102,5 +102,33 @@ class LieuEvenement
         return $this;
     }
 
+    /**
+     * @return Collection|Evenement[]
+     */
+    public function getEvenements(): Collection
+    {
+        return $this->evenements;
+    }
 
+    public function addEvenement(Evenement $evenement): self
+    {
+        if (!$this->evenements->contains($evenement)) {
+            $this->evenements[] = $evenement;
+            $evenement->setLieuId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEvenement(Evenement $evenement): self
+    {
+        if ($this->evenements->removeElement($evenement)) {
+            // set the owning side to null (unless already changed)
+            if ($evenement->getLieuId() === $this) {
+                $evenement->setLieuId(null);
+            }
+        }
+
+        return $this;
+    }
 }

@@ -2,121 +2,126 @@
 
 namespace App\Entity;
 
+use App\Repository\EvenementRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Evenement
- *
- * @ORM\Table(name="evenement", indexes={@ORM\Index(name="fk_artist_event", columns={"id_artiste"}), @ORM\Index(name="fk_event_lieu", columns={"lieu_id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass=EvenementRepository::class)
  */
 class Evenement
 {
     /**
-     * @var int
-     *
-     * @ORM\Column(name="evenement_id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
      */
-    private $evenementId;
+    private $evenement_id;
 
     /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="date_creation", type="date", nullable=false)
+     * @ORM\Column(type="date")
      */
-    private $dateCreation;
+    private $date_creation;
 
     /**
-     * @var float
-     *
-     * @ORM\Column(name="prix", type="float", precision=10, scale=0, nullable=false)
+     * @ORM\ManyToOne(targetEntity=LieuEvenement::class, inversedBy="evenements")
+     *  @ORM\JoinColumn(name="lieu_id")
+     */
+    private $lieu_id;
+
+    /**
+     * @ORM\Column(type="float")
      */
     private $prix;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="domaine", type="string", length=50, nullable=false)
+     * @ORM\Column(type="string", length=255)
      */
     private $domaine;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="capacite", type="integer", nullable=false)
+     * @ORM\Column(type="integer")
      */
     private $capacite;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="image", type="string", length=255, nullable=false)
+     * @ORM\Column(type="string", length=255)
      */
     private $image;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="titre", type="string", length=500, nullable=false)
+     * @Assert\File
+     */
+
+    private $imageFile ;
+
+    /**
+     * @return mixed
+     */
+    public function getImageFile()
+    {
+        return $this->imageFile;
+    }
+
+    /**
+     * @param mixed $imageFile
+     */
+    public function setImageFile($imageFile): void
+    {
+        $this->imageFile = $imageFile;
+    }
+
+    /**
+     * @ORM\Column(type="string", length=255)
      */
     private $titre;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="description", type="string", length=500, nullable=false)
+     * @ORM\Column(type="string", length=255)
      */
     private $description;
 
     /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="date_evenement", type="date", nullable=false)
+     * @ORM\Column(type="date")
      */
-    private $dateEvenement;
+    private $date_evenement;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="etat", type="integer", nullable=false)
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="evenements")
+     *  @ORM\JoinColumn(name="id_artiste", referencedColumnName="user_id")
      */
-    private $etat = '0';
+    private $id_artiste;
 
     /**
-     * @var \User
-     *
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_artiste", referencedColumnName="user_id")
-     * })
+     * @ORM\Column(type="integer")
      */
-    private $idArtiste;
-
-    /**
-     * @var \LieuEvenement
-     *
-     * @ORM\ManyToOne(targetEntity="LieuEvenement")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="lieu_id", referencedColumnName="id")
-     * })
-     */
-    private $lieu;
+    private $etat;
 
     public function getEvenementId(): ?int
     {
-        return $this->evenementId;
+        return $this->evenement_id;
     }
 
     public function getDateCreation(): ?\DateTimeInterface
     {
-        return $this->dateCreation;
+        return $this->date_creation;
     }
 
-    public function setDateCreation(\DateTimeInterface $dateCreation): self
+    public function setDateCreation(\DateTimeInterface $date_creation): self
     {
-        $this->dateCreation = $dateCreation;
+        $this->date_creation = $date_creation;
+
+        return $this;
+    }
+
+    public function getLieuId(): ?LieuEvenement
+    {
+        return $this->lieu_id;
+    }
+
+    public function setLieuId(?LieuEvenement $lieu_id): self
+    {
+        $this->lieu_id = $lieu_id;
 
         return $this;
     }
@@ -195,12 +200,24 @@ class Evenement
 
     public function getDateEvenement(): ?\DateTimeInterface
     {
-        return $this->dateEvenement;
+        return $this->date_evenement;
     }
 
-    public function setDateEvenement(\DateTimeInterface $dateEvenement): self
+    public function setDateEvenement(\DateTimeInterface $date_evenement): self
     {
-        $this->dateEvenement = $dateEvenement;
+        $this->date_evenement = $date_evenement;
+
+        return $this;
+    }
+
+    public function getIdArtiste(): ?User
+    {
+        return $this->id_artiste;
+    }
+
+    public function setIdArtiste(?User $id_artiste): self
+    {
+        $this->id_artiste = $id_artiste;
 
         return $this;
     }
@@ -216,35 +233,4 @@ class Evenement
 
         return $this;
     }
-
-    public function getIdArtiste(): ?User
-    {
-        return $this->idArtiste;
-    }
-
-    public function setIdArtiste(?User $idArtiste): self
-    {
-        $this->idArtiste = $idArtiste;
-
-        return $this;
-    }
-
-    public function getLieu(): ?LieuEvenement
-    {
-        return $this->lieu;
-    }
-
-    public function setLieu(?LieuEvenement $lieu): self
-    {
-        $this->lieu = $lieu;
-
-        return $this;
-    }
-    public function __toString()
-    {
-        return $this->titre;
-    }
-
-
-
 }

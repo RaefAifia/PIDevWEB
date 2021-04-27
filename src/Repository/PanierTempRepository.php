@@ -19,12 +19,13 @@ class PanierTempRepository extends ServiceEntityRepository
         parent::__construct($registry, PanierTemp::class);
     }
 
-    public function deletepant()
+    public function deletepant($val)
     {
         $query = $this
             ->createQueryBuilder('c')
             ->delete()
-            ->where('c.user=1');
+            ->where(' c.user = :val ')
+            ->setParameter(':val',$val);
         return $query->getQuery()->execute();
 
     }
@@ -33,11 +34,13 @@ class PanierTempRepository extends ServiceEntityRepository
     //  * @return PanierTemp[] Returns an array of PanierTemp objects
     //  */
 
-    public function findByExampleField($value)
+    public function findByExampleField($value,$value1)
     {
         return $this->createQueryBuilder('p')
             ->andWhere('p.oeuvrage = :val')
+            ->andWhere('p.user = :val1')
             ->setParameter('val', $value)
+            ->setParameter('val1', $value1)
             ->setMaxResults(10)
             ->getQuery()
             ->getResult()

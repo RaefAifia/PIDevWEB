@@ -53,12 +53,17 @@
                                 </tbody>
                             </table>
 
-            <button class="btn float-right" onclick="location.href='{{ path('reclamation_edit', {'reclamationId': reclamation.reclamationId}) }}'">Edit</button>
+
+
+            <button class="btn btn-primary"  style="margin-right: 900px" onclick="location.href='{{ path('reclamation_edit', {'reclamationId': reclamation.reclamationId}) }}'">Modifier</button>
+            <button class="btn btn-primary" onclick="location.href='{{ path('reclamation_index') }}'">Retour</button>
+
             {{ include('reclamation/_delete_form.html.twig') }}
-            <a href="{{ path('reclamation_index') }}">back to list</a>
-
-
-
         </div>
+
+
+
+
+
     </section>
 {% endblock %}

@@ -5,10 +5,10 @@
 {% endblock %}
 
  {% block body %}
-     <div class="main">
+
          <!-- MAIN CONTENT -->
          <div class="main-content">
-             <div class="container-fluid">
+
                  <!-- OVERVIEW -->
                  <div class="panel panel-headline">
                      <div class="panel-heading">
@@ -16,7 +16,6 @@
                          <p class="panel-subtitle"></p>
                          <form method="post" >
                              <input type="text"   class="form-control rounded" name="AfficherClasse" onkeyup="myFunction()" placeholder="Chercher un offre"  id="myInput" >
-
                          </form>
 
                      </div>
@@ -51,8 +50,8 @@
 
                                  <td>{{ offre.date ? offre.date|date('Y-m-d') : '' }}</td>
                                  <td>
-                                     <a href="{{ path('offre_show', {'offreId': offre.offreId}) }}" class="btn_4" >Afficher </a>
-                                     <a href="{{ path('offre_edit', {'offreId': offre.offreId}) }}" class="btn_4" >Modifier</a>
+                                     <a href="{{ path('offre_show', {'offreId': offre.offreId}) }}" class="btn" style="background-color: #b5b3b3 ; color: aliceblue" >Afficher </a>
+                                     <a href="{{ path('offre_edit', {'offreId': offre.offreId}) }}" class="btn" style="background-color: #b5b3b3 ; color: aliceblue" >Modifier</a>
                                  </td>
                              </tr>
                          {% else %}
@@ -96,14 +95,12 @@
                          </tbody>
                      </table>
                      <div class="panel-body">
-                     <a href="{{ path('offre_new') }}"  class="btn_1">Ajouter Offre</a>
+                     <a href="{{ path('offre_new') }}"  class="btn" style="background-color: #b5b3b3 ; color: aliceblue" >Ajouter Offre</a>
 
 
                      </div></div>
                  <!-- END OVERVIEW -->
 
-             </div>
-         </div>
          <!-- END MAIN CONTENT -->
      </div>
  {% endblock %}

@@ -4,8 +4,21 @@
 {% block body %}
 
     <div class="section_padding">
+        <section class="breadcrumb breadcrumb_bg">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="breadcrumb_iner text-center">
+                            <div class="breadcrumb_iner_item">
+                                <h2>Confirmation</h2>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
         <br class="section-top-border">
-        <center><h3 class="mb-30">Confirmation</h3></center>
         <section style="padding-top: 5px;padding-bottom: 5px" class="feature_part member_counter single_feature_padding">
             <div class="container">
                 <div class="row">
@@ -46,11 +59,13 @@
             </div>
         </section>
 {{ include('panier/_form.html.twig') }}
-{# <center><a style="margin-top: 30px; margin-bottom: 30px" href="{{ path('panier_temp_add') }}" class="btn_2">Commander</a></center>#}
-        <br></br>
+
         <center><p style="font-size: 20px;color: red">Total a payer: {{ prix }}</center></p>
-        </br><br></br>
-        <table class="table">
+        </br><br>
+
+        <center><div class="col-lg-8 col-md-8">
+        <div class="banner_text_iner">
+        <table class="table progress-table">
             {% for livraison in livraisons %}
             <tbody>
             <tr>
@@ -78,6 +93,7 @@
                 <h4 style="font-size: 30px;color: red; padding-top: 10px">Pas de Livraisons</h4>
             {% endfor %}
         </table>
+        </div></div></center>
         <br></br>
         <center><div class="progress-table-wrap">
                 <div class="progress-table">
@@ -91,7 +107,7 @@
                     {% for panier_temp in panier_temps %}
                         <div class="table-row">
                             <div style="position: relative; left: 4%" class="serial" >{{ panier_temp.oeuvrage.nom }}</div>
-                            <div style="position: relative; left: 11%"class="country"><img style="width: 20%" src="/img/{{panier_temp.oeuvrage.image}}" alt="produit"></div>
+                            <div style="position: relative; left: 11%"class="country"><img style="width: 20%" src="\PI\IMG\{{panier_temp.oeuvrage.image}}" alt="produit"></div>
                             <div style="position: relative; left: 5%" class="serial" >{{ panier_temp.quantite }}</div>
                             <div style="position: relative; left: 4%" class="serial">{{ panier_temp.oeuvrage.prix }}</div>
                             <div style="position: relative; left: 4%" class="serial">{{ panier_temp.quantite*panier_temp.oeuvrage.prix }}</div>
@@ -103,5 +119,5 @@
                 </div>
             </div></center>
     </div>
-    </div>
+
 {% endblock %}

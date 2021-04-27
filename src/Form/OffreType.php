@@ -19,8 +19,7 @@ class OffreType extends AbstractType
             ->add('description' , CKEditorType::class, [
                 'attr' => ['class' => 'form-control']])
             ->add('nbClient')
-            ->add('date', DateTimeType::class,
-                )
+            ->add('date', DateTimeType::class)
             ->add('x', ChoiceType::class, [
                 'choices'  => [
                     'fidèles clients' => "fidèles clients",

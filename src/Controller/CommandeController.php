@@ -9,6 +9,7 @@ use App\Form\CommandeType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -30,9 +31,11 @@ class CommandeController extends AbstractController
 
     /**
      * @Route("/new", name="commande_new", methods={"GET","POST"})
+     *
      */
     public function new(Request $request): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $u = $this->getUser();
         $commande = new Commande();
 
@@ -41,7 +44,7 @@ class CommandeController extends AbstractController
 
         $panierTemps = $this->getDoctrine()
             ->getRepository(PanierTemp::class)
-            ->findBy(['user'=>1]);
+            ->findBy(['user'=>$u]);
         $prix = 0;
         foreach ($panierTemps as $p){
             $prix = $prix + ($p->getQuantite()*$p->getOeuvrage()->getPrix());
@@ -50,13 +53,11 @@ class CommandeController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             if(!$panierTemps){
                 $this->addFlash('red', 'Panier Vide !');
-                return $this->redirectToRoute('panier_temp_add');
+                return $this->redirectToRoute('oeuvrage_index');
             }else{
             $commande->setDate(new \DateTime());
             $commande->setPrixtot($prix);
-            $query = $entityManager->createQuery("SELECT u FROM App\Entity\User u WHERE u.userId = 1");
-            $user = $query->getSingleResult();
-            $commande->setUser($user);
+            $commande->setUser($u);
             $entityManager->persist($commande);
             $entityManager->flush();
 

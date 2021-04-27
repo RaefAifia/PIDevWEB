@@ -18,6 +18,7 @@ use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * @Route("/reclamation")
@@ -39,6 +40,7 @@ class ReclamationController extends AbstractController
      */
     public function new(Request $request): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $reclamation = new Reclamation();
         $form = $this->createForm(ReclamationType::class, $reclamation);
         $form->handleRequest($request);
@@ -113,6 +115,7 @@ class ReclamationController extends AbstractController
      */
     public function show(Reclamation $reclamation): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $repository0 = $this->getDoctrine()->getRepository(Formation::class);
         $repository1 = $this->getDoctrine()->getRepository(Evenement::class);
 
@@ -120,17 +123,17 @@ class ReclamationController extends AbstractController
         if($reclamation->getOeuvrage()!=null){
             $Oeuvrage = $repository-> find($reclamation->getOeuvrage());
             $reclamation->setX("Oeuvre");
-            $reclamation ->setconcernant($Oeuvrage);
+            $reclamation ->setconcernant($Oeuvrage->getNom());
         }
         if($reclamation->getFormation()!=null){
             $Formation = $repository0-> find($reclamation->getFormation());
             $reclamation->setX("Formation");
-            $reclamation ->setconcernant($Formation);
+            $reclamation ->setconcernant($Formation->getTitre());
         }
         if($reclamation->getEvenement()!=null){
             $Evenement = $repository1-> find($reclamation->getEvenement());
             $reclamation->setX("Evenement");
-            $reclamation ->setconcernant($Evenement);
+            $reclamation ->setconcernant($Evenement->getTitre());
         }
 
         return $this->render('reclamation/show.html.twig', [
@@ -143,6 +146,7 @@ class ReclamationController extends AbstractController
      */
     public function edit(Request $request, Reclamation $reclamation): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $form = $this->createForm(ReclamationType1::class, $reclamation);
         $form->handleRequest($request);
         $repository0 = $this->getDoctrine()->getRepository(Formation::class);
@@ -152,17 +156,17 @@ class ReclamationController extends AbstractController
         if($reclamation->getOeuvrage()!=null){
             $Oeuvrage = $repository-> find($reclamation->getOeuvrage());
             $reclamation->setX("Oeuvre");
-            $reclamation ->setconcernant($Oeuvrage);
+            $reclamation ->setconcernant($Oeuvrage->getNom());
         }
         if($reclamation->getFormation()!=null){
             $Formation = $repository0-> find($reclamation->getFormation());
             $reclamation->setX("Formation");
-            $reclamation ->setconcernant($Formation);
+            $reclamation ->setconcernant($Formation->getTitre());
         }
         if($reclamation->getEvenement()!=null){
             $Evenement = $repository1-> find($reclamation->getEvenement());
             $reclamation->setX("Evenement");
-            $reclamation ->setconcernant($Evenement);
+            $reclamation ->setconcernant($Evenement->getTitre());
         }
 
        if ($form->isSubmitted() && $form->isValid()) {
@@ -183,12 +187,19 @@ class ReclamationController extends AbstractController
      */
     public function delete(Request $request, Reclamation $reclamation): Response
     {
+
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         if ($this->isCsrfTokenValid('delete'.$reclamation->getReclamationId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($reclamation);
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('reclamation_index');
+        if($this->getUser()->isAdmin()){
+            return $this->redirectToRoute('admin_reclamation');
+        }
+        else{
+            return $this->redirectToRoute('reclamation_index');
+        }
     }
 }

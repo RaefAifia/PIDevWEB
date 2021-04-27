@@ -100,9 +100,12 @@ class AppCustomAuthenticator extends AbstractFormLoginAuthenticator implements P
         if($token->getUser()->isAdmin()){
             return new RedirectResponse($this->urlGenerator->generate(('admin_index')));
         }
+        if($token->getUser()->isLivreur()){
+            return new RedirectResponse($this->urlGenerator->generate(('panellivreur')));
+        }
 
         // For example : return new RedirectResponse($this->urlGenerator->generate('some_route'));
-        return new RedirectResponse($this->urlGenerator->generate('user_index'));
+        return new RedirectResponse($this->urlGenerator->generate('accueil_index'));
     }
 
     protected function getLoginUrl()

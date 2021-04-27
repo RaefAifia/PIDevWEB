@@ -27,6 +27,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class User implements UserInterface
 
 {const ROLE_ADMIN = 'ROLE_ADMIN';
+    const ROLE_LIVREUR = 'ROLE_LIVREUR';
     /**
      * @var int
      *
@@ -445,7 +446,7 @@ class User implements UserInterface
 
     public function __toString()
     {
-        return $this->email;
+        return $this->username;
     }
     public function getPlainPassword()
     {
@@ -459,5 +460,9 @@ class User implements UserInterface
     public function isAdmin(): bool{
         return in_array(self::ROLE_ADMIN, $this->getRoles());
     }
+    public function isLivreur(): bool{
+        return in_array(self::ROLE_LIVREUR, $this->getRoles());
+    }
+
 
 }

@@ -1,8 +1,6 @@
 {% extends 'base.html.twig' %}
-
 {% block content %}
 {% endblock %}
-
 
 
 {% block body %}
@@ -45,7 +43,8 @@
 
                                 <div class="author_info">
                                     <div class="author_img">
-                                        <a href="{{ path('user_show', {'userId': user.userId}) }}" class="btn_4">Afficher</a>
+
+                                        <button class="btn btn-primary"  style="margin-bottom: 10px " onclick="location.href='{{ path('user_show', {'userId': user.userId}) }}'">Afficher</button>
 
                                     </div>
 

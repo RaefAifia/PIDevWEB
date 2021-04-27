@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Evenement;
 use App\Entity\Reservation;
+use App\Entity\User;
 use App\Form\EvenementType;
 use App\Repository\EvenementRepository;
 use App\Repository\ReservationRepository;
@@ -15,6 +16,8 @@ use Endroid\QrCode\Label\Alignment\LabelAlignmentCenter;
 use Endroid\QrCode\Label\Font\NotoSans;
 use Endroid\QrCode\RoundBlockSizeMode\RoundBlockSizeModeMargin;
 use Endroid\QrCode\Writer\PngWriter;
+
+
 use Fpdf\Fpdf;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -34,10 +37,12 @@ class EvenementController extends AbstractController
     /**
      * @Route("/", name="evenement_index", methods={"GET"})
      */
-    public function index(EvenementRepository $evenementRepository): Response
-    {
+    public function index(EvenementRepository $evenementRepository,UserRepository $userRepository): Response
+    { $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        if($this->getUser())
+            $user=$userRepository->findOneBy(array('username'=>$this->getUser()->getUsername()));
         return $this->render('evenement/index.html.twig', [
-            'evenements' => $evenementRepository->findAll(),
+            'evenements' => $evenementRepository->findBy(array('id_artiste'=>$user->getUserId())),
             'evenements_approuver' => $evenementRepository->findOneBySomeField(1,1),
         ]);
     }
@@ -95,13 +100,18 @@ class EvenementController extends AbstractController
     /**
      * @Route("/Front", name="evenement_index_Front", methods={"GET"})
      */
-    public function indexFront(EvenementRepository $evenementRepository,ReservationRepository $repository): Response
+    public function indexFront(EvenementRepository $evenementRepository,UserRepository $userRepository,ReservationRepository $repository): Response
     {
         $events=$evenementRepository->findAll();
 
+        $user = new User();
+
+        if($this->getUser())
+            $user=$userRepository->findOneBy(array('username'=>$this->getUser()->getUsername()));
+
         $my_array = array();
         foreach ($events as $e)
-        {  $reservee=$repository->findOneBySomeField($e->getEvenementId(),1);
+        {  $reservee=$repository->findOneBySomeField($e->getEvenementId(),$user->getUserId());
 
         if($reservee)
         {
@@ -122,7 +132,7 @@ class EvenementController extends AbstractController
      * @Route("/new", name="evenement_new", methods={"GET","POST"})
      */
     public function new(Request $request,UserRepository $repository,EvenementRepository$evenementRepository): Response
-    {
+    {$this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $evenement = new Evenement();
         $form = $this->createForm(EvenementType::class, $evenement);
         $form->handleRequest($request);
@@ -140,7 +150,11 @@ class EvenementController extends AbstractController
             }
             $evenement->setImage($filename);
             $evenement->setDateCreation(new \DateTime());
-            $evenement->setIdArtiste($repository->find(1));
+            $user = new User();
+
+            if($this->getUser())
+                $user=$repository->findOneBy(array('username'=>$this->getUser()->getUsername()));
+            $evenement->setIdArtiste($user);
             $evenement->setEtat(0);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($evenement);
@@ -251,10 +265,10 @@ class EvenementController extends AbstractController
      * @Route("/reserver/{id}", name="evenement_reserver")
      */
     public function evenement_reserver(Request $request, Evenement $evenement,UserRepository$userRepository): Response
-    {
+    {  $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $reservation=New Reservation();
         $reservation->setDate(new \DateTime);
-        $reservation->setUser($userRepository->find(1));
+        $reservation->setUser($userRepository->findOneBy(array('username'=>$this->getUser()->getUsername())));
         $reservation->setEvenement($evenement);
         $reservation->setNumReserv($evenement->getTitre().$reservation->getUser()->getUsername());
         $entityManager = $this->getDoctrine()->getManager();
@@ -286,16 +300,17 @@ class EvenementController extends AbstractController
     /**
      * @Route("/voirTicket/{id}", name="evenement_reserver_voirTicket")
      */
-    public function evenement_ticket_reservation(Request $request,ReservationRepository $repository,Evenement $evenement): Response
-    {
-
-        $reservation=$repository->findOneBySomeField($evenement->getEvenementId(),1);
+    public function evenement_ticket_reservation(Request $request,ReservationRepository $repository,UserRepository $userRepository,Evenement $evenement): Response
+    {$this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        if($this->getUser())
+            $user=$userRepository->findOneBy(array('username'=>$this->getUser()->getUsername()));
+        $reservation=$repository->findOneBySomeField($evenement->getEvenementId(),$user->getUserId());
 
         $result = Builder::create()
             ->writer(new PngWriter())
             ->writerOptions([])
             ->data('Event : '.$evenement->getTitre().PHP_EOL.'Description:'.$evenement->getDescription()
-                .PHP_EOL.'User:'.$reservation->getUser()->getUsername())
+                .PHP_EOL.'User:'.$user->getUsername())
             ->encoding(new Encoding('UTF-8'))
             ->errorCorrectionLevel(new ErrorCorrectionLevelHigh())
             ->size(300)

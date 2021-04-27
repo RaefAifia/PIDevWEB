@@ -23,7 +23,9 @@ class FormationRepository extends ServiceEntityRepository
 
     public function findSearch(SearchData $search): array{
         $query=$this
-            ->createQueryBuilder('f');
+            ->createQueryBuilder('f')
+            ->select( 'f')
+            ->andWhere('f.isvalid = 1');
 
         if (!empty($search->q)) {
             $query = $query

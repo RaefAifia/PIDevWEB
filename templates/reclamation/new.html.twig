@@ -33,28 +33,14 @@
                             <h2>Créer une nouvelle réclamation</h2>
 
                             {{ form_start(form) }}
-                            <div class="form-group">
-                                {{ form_label(form.reclamationNom) }}
-                                {{ form_errors(form.reclamationNom) }}
-                                {{ form_widget(form.reclamationNom) }}
-                            </div>
-                            <div class="form-group">
-                                {{ form_label(form.description) }}
-                                {{ form_errors(form.description) }}
-                                {{ form_widget(form.description) }}
-                            </div>
+                        <table class="table  table-striped">
+                            <tr><td> Nom de réclamation : </td>  <td>{{ form_widget(form.reclamationNom) }}{{ form_errors(form.reclamationNom) }}</td></tr>
+                            <tr><td> Description : </td>  <td>{{ form_widget(form.description) }}{{ form_errors(form.description) }}</td></tr>
+                            <tr><td> Type de produit : </td>  <td>{{ form_widget(form.x) }}{{ form_errors(form.x) }}</td></tr>
+                            <tr><td> Concernant : </td>  <td>{{ form_widget(form.concernant) }}{{ form_errors(form.concernant) }}</td></tr>
 
-                            <div class="form-group">
-                                {{ form_label(form.x) }}
-                                {{ form_errors(form.x) }}
-                                {{ form_widget(form.x) }}
-                            </div>
-                            <div class="form-group">
-                                {{ form_label(form.concernant) }}
-                                {{ form_errors(form.concernant) }}
-                                {{ form_widget(form.concernant) }}
-                            </div>
-                            <button class="btn btn-primary float-right ">{{ button_label|default('Save') }}</button>
+                        </table>
+                            <button class="btn btn-primary ">{{ button_label|default('Save') }}</button>
                             {{ form_end(form) }}
                             <a href="{{ path('reclamation_index') }}">back to list</a>
                         </div>

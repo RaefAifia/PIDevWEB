@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 use App\Entity\Formation;
+use App\Repository\InscriptionRepository;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use App\Entity\Cours;
@@ -25,12 +26,14 @@ class CoursController extends AbstractController
     /**
      * @Route("/{id}", name="formation_cours_index", methods={"GET"})
      */
-    public function indexCours(CoursRepository $coursRepository,Request $request): Response
-    {
+    public function indexCours(Formation $formation,CoursRepository $coursRepository,Request $request, InscriptionRepository $inscriptionRepository ): Response
+    {$user = $this->getUser();
         $cours = $coursRepository->findByFor($request);
-
+        $i = $inscriptionRepository->findB($formation, $user);
         return $this->render('cours/index.html.twig', [
-            'cours' => $cours
+            'cours' => $cours,
+            'isincrit' => $i,
+            'user'=> $user,
         ]);
     }
 
@@ -39,6 +42,7 @@ class CoursController extends AbstractController
          */
         public function indexCoursAdmin(CoursRepository $coursRepository,Request $request): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $cours=$coursRepository->findByFor($request);
 
         return $this->render('Admin/adminCours.html.twig', [
@@ -51,7 +55,8 @@ class CoursController extends AbstractController
      * @Route("/backoffice/show/{id}", name="formation_cours_AdminSH", methods={"GET","POST"})
      */
     public function CoursAdmin(Cours $cour): Response
-    {
+    {$this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
 
         return $this->render('Admin/AdminShCours.html.twig', [
             'cour' =>$cour
@@ -75,7 +80,7 @@ class CoursController extends AbstractController
      * @Route("/new/{formationId}", name="cours_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
-    {
+    {$this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $cour = new Cours();
         $form = $this->createForm(CoursType::class, $cour);
         $form->add('image', FileType::class);
@@ -98,7 +103,7 @@ class CoursController extends AbstractController
 
                 try {
                     $file2->move(
-                        $this->getParameter('Images_directory'),
+                        $this->getParameter('Images_directory1'),
                         $fileName);
                     $cour->setImage($fileName);
                     $entityManager->persist($cour);
@@ -134,7 +139,7 @@ class CoursController extends AbstractController
      * @Route("/{coursId}/edit", name="cours_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Cours $cour): Response
-    {
+    {$this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $form = $this->createForm(CoursType::class, $cour);
 
         $form->handleRequest($request);
@@ -155,7 +160,7 @@ class CoursController extends AbstractController
      * @Route("/{coursId}", name="cours_delete", methods={"POST"})
      */
     public function delete(Request $request, Cours $cour): Response
-    {
+    {$this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         if ($this->isCsrfTokenValid('delete'.$cour->getCoursId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($cour);

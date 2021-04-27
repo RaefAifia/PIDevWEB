@@ -8,10 +8,12 @@ use App\Entity\User;
 use App\Form\OffreType;
 use App\Form\OffreTypeEdit;
 use App\Repository\CommandeRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * @Route("/offre")
@@ -20,6 +22,7 @@ class OffreController extends AbstractController
 {
     /**
      * @Route("/", name="offre_index", methods={"GET"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function index(): Response
     {
@@ -33,6 +36,7 @@ class OffreController extends AbstractController
     }
     /**
      * @Route("/calendar", name="offre_calendar", methods={"GET"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function calendar(): Response
     {
@@ -54,20 +58,26 @@ class OffreController extends AbstractController
     /**
      * @Route("/client", name="offre_indexclient", methods={"GET"})
      */
-    public function listoffre(): Response
-    {    $entityManager = $this->getDoctrine()->getManager();
+    public function listoffre(Request $request, PaginatorInterface $paginator): Response
+    {    $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $entityManager = $this->getDoctrine()->getManager();
         $user = $this->getUser();
         $offres = $this->getDoctrine()
             ->getRepository(Offre::class)
             ->findBy(['user'=>$user]);
-
+        $listoffres = $paginator->paginate (
+            $offres, // Requête contenant les données à paginer (ici nos articles)
+            $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
+            6// Nombre de résultats par page
+        );
         return $this->render('offre/offreclient.html.twig', [
-            'offres' => $offres,
+            'offres' => $listoffres,
         ]);
     }
 
     /**
      * @Route("/new", name="offre_new", methods={"GET","POST"})
+     * @IsGranted("ROLE_ADMIN")
      */
     /*
      *
@@ -133,6 +143,7 @@ class OffreController extends AbstractController
 
     /**
      * @Route("/{offreId}", name="offre_show", methods={"GET"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function show(Offre $offre): Response
     {
@@ -145,6 +156,7 @@ class OffreController extends AbstractController
      */
     public function showclient(Offre $offre): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         return $this->render('offre/showoffreclient.html.twig', [
             'offre' => $offre,
         ]);
@@ -152,6 +164,7 @@ class OffreController extends AbstractController
 
     /**
      * @Route("/{offreId}/edit", name="offre_edit", methods={"GET","POST"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function edit(Request $request, Offre $offre): Response
     {
@@ -172,6 +185,7 @@ class OffreController extends AbstractController
 
     /**
      * @Route("/{offreId}", name="offre_delete", methods={"POST"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function delete(Request $request, Offre $offre): Response
     {

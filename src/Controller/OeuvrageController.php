@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\HttpFoundation\File\File;
 use Knp\Component\Pager\PaginatorInterface;
-
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 /**
  * @Route("/oeuvrage")
  */
@@ -44,7 +44,7 @@ class OeuvrageController extends AbstractController
         $listoeuvrages = $paginator->paginate (
             $oeuvrages, // Requête contenant les données à paginer (ici nos articles)
             $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
-            6// Nombre de résultats par page
+            3// Nombre de résultats par page
         );
 
         return $this->render('oeuvrage/index.html.twig', [
@@ -76,9 +76,11 @@ class OeuvrageController extends AbstractController
 
     /**
      * @Route("/vendor", name="oeuvrage_indexvendor", methods={"GET"})
+     *
      */
     public function indexforvendor(Request $request, PaginatorInterface $paginator): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
         $oeuvrages = $this->getDoctrine()
             ->getRepository(Oeuvrage::class)
@@ -102,9 +104,11 @@ class OeuvrageController extends AbstractController
 
     /**
      * @Route("/admin", name="oeuvrage_indexa", methods={"GET"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function indexforadmin(): Response
     {
+
         $oeuvrages = $this->getDoctrine()
             ->getRepository(Oeuvrage::class)
             ->findAll();
@@ -120,11 +124,12 @@ class OeuvrageController extends AbstractController
 
     public function new(Request $request): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $oeuvrage = new Oeuvrage();
         $user = $this->getUser();
         $av = $user->getAvertissement();
         $conf =$user->getMailconfirme();
-        if ($av<5 && $conf ===1){
+        if ($av<5 && $conf == 1){
 
 
         $form = $this->createForm(OeuvrageType::class, $oeuvrage);
@@ -192,6 +197,7 @@ class OeuvrageController extends AbstractController
     }
     /**
      * @Route("/admin/{oeuvrageId}", name="oeuvrage_showadmin", methods={"GET"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function showadmin(Oeuvrage $oeuvrage): Response
     {
@@ -203,6 +209,7 @@ class OeuvrageController extends AbstractController
 
     /**
      * @Route("/admin/{oeuvrageId}/valider", name="oeuvrage_valider", methods={"GET","POST"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function valider(Request $request,  Oeuvrage $oeuvrage): Response
     {
@@ -218,6 +225,7 @@ class OeuvrageController extends AbstractController
 
     /**
      * @Route("/chart/o" , name="admin_chart")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function stat(OeuvrageRepository $oeuvrageRepository){
 
@@ -258,6 +266,7 @@ class OeuvrageController extends AbstractController
 
     /**
      * @Route("/admin/{oeuvrageId}/invalider", name="oeuvrage_invalider", methods={"GET","POST"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function invalider(Request $request,  Oeuvrage $oeuvrage): Response
     {
@@ -275,7 +284,7 @@ class OeuvrageController extends AbstractController
      * @Route("/vendor/{oeuvrageId}", name="oeuvrage_showvendor", methods={"GET"})
      */
     public function showvendor(Oeuvrage $oeuvrage): Response
-    {
+    {$this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         return $this->render('oeuvrage/showforvendor.html.twig', [
             'oeuvrage' => $oeuvrage,
         ]);
@@ -285,7 +294,7 @@ class OeuvrageController extends AbstractController
      * @Route("/{oeuvrageId}/edit", name="oeuvrage_edit", methods={"GET","POST"})
      */
     public function edit(Request $request,  $oeuvrageId): Response
-    {
+    {$this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $oeuvrage =$this->getDoctrine()
             ->getRepository(Oeuvrage::class)->find($oeuvrageId);
 
@@ -325,7 +334,7 @@ class OeuvrageController extends AbstractController
      * @Route("/{oeuvrageId}", name="oeuvrage_delete", methods={"POST"})
      */
     public function delete(Request $request, Oeuvrage $oeuvrage): Response
-    {
+    { $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         if ($this->isCsrfTokenValid('delete'.$oeuvrage->getOeuvrageId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($oeuvrage);
@@ -339,6 +348,7 @@ class OeuvrageController extends AbstractController
      */
     public function Favoris (Request $request, Oeuvrage $oeuvrage): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
         $favoris = $this->getDoctrine()
             ->getRepository(FavorisO::class)

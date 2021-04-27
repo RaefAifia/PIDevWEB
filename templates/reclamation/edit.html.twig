@@ -32,16 +32,10 @@
 
                             <h1>Edit Reclamation</h1>
                             {{ form_start(form) }}
-                            <div>
-                            {{ form_label(form.reclamationNom) }}
-                            {{ form_errors(form.reclamationNom) }}
-                            {{ form_widget(form.reclamationNom) }}
-                            </div>
-                            <div>
-                                {{ form_label(form.description) }}
-                                {{ form_errors(form.description) }}
-                                {{ form_widget(form.description) }}
-                            </div>
+                            <table class="table  table-striped">
+                            <tr><td> Nom de réclamation : </td>  <td>{{ form_widget(form.reclamationNom) }}{{ form_errors(form.reclamationNom) }}</td></tr>
+                            <tr><td> Description : </td>  <td>{{ form_widget(form.description) }}{{ form_errors(form.description) }}</td></tr>
+                            </table>
                             <table class="table">
                                 <tbody>
                             <tr>
@@ -52,15 +46,16 @@
                             </table>
 
 
-                            <button class="btn">{{ button_label|default('Modifier') }}</button>
-                            {{ form_end(form) }}
-                            {{ include('reclamation/_delete_form.html.twig') }}
-                            <a href="{{ path('reclamation_index') }}">back to list</a>
+                            <button class="btn btn-primary"  style="">{{ button_label|default('Modifier') }}</button>
 
+                            {{ form_end(form) }}
+                            <button class="btn btn-primary" style="margin-top: 20px" onclick="location.href='{{ path('reclamation_index') }}'">Retour</button>
+
+                            {{ include('reclamation/_delete_form.html.twig') }}
 
                         </div>
     </div>
-    </div>
+
 </section>
 
 {% endblock %}

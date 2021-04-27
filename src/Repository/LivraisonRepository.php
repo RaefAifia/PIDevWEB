@@ -49,7 +49,7 @@ class LivraisonRepository extends ServiceEntityRepository
     public function findByExpField($value)
     {
         return $this->createQueryBuilder('lid')
-            ->Where('lid.livraisonId like :val or lid.nom like :val or lid.prenom like :val or lid.numTel like :val or lid.adresse like :val')
+            ->Where('lid.livraisonId like :val or lid.nom like :val or lid.prenom like :val or lid.numTel like :val or lid.adresse like :val or lid.etat like :val')
             ->setParameter('val', '%'.$value.'%')
             ->orderBy('lid.livraisonId', 'ASC')
             ->getQuery()

@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Formation index{% endblock %}
+{% block title %}
+{% endblock %}
 {% block header %}
     <header class="main_menu home_menu">
         <div class="container">
@@ -18,23 +19,23 @@
                              id="navbarSupportedContent">
                             <ul class="navbar-nav align-items-center">
                                 <li class="nav-item">
-                                    {#                                    <a class="nav-link" href="{{ path('accueil_index') }}" style="color: #ffffff">Accueil</a>#}
-                                    {#                                    #}{#    </li>#}
-                                    {#                                <li class="nav-item">#}
-                                    {#                                    <a class="nav-link" href="{{ path('blog_index_front') }}" style="color: #ffffff">Blog</a>#}
-                                    {#                                </li>#}
+                                    <a class="nav-link" href="{{ path('accueil_index') }}" style="color: #ffffff">Accueil</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('blog_index_front') }}" style="color: #ffffff">Blog</a>
+                                </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ path('formation_index') }}" style="color: #ffffff">Formations</a>
                                 </li>
 
-                                {#                                <li class="nav-item">#}
-                                {#                                    <a class="nav-link" href="{{ path('evenement_index_Front') }}" style="color: #ffffff">Evenements</a>#}
-                                {#                                </li> #}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('evenement_index_Front') }}" style="color: #ffffff">Evenements</a>
+                                </li>
 
-                                {#                                <li class="nav-item">#}
-                                {#                                    <a class="nav-link" href="{{ path('oeuvrage_index') }}" style="color: #ffffff">Oeuvres</a>#}
-                                {#                                </li>#}
-                                {#  <li class="nav-item">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('oeuvrage_index') }}" style="color: #ffffff">Oeuvres</a>
+                                </li>
+                                <li class="nav-item">
                                     <a class="nav-link" href="{{ path('user_index')}}" style="color: #ffffff">Nos artistes</a>
                                 </li>
                                 {% if(app.user==null) %}
@@ -53,7 +54,7 @@
                                     <li class="d-none d-lg-block">
                                         <a class="btn_1" href="{{ path('app_logout') }}">Déconnecter</a>
                                     </li>
-                                {% endif %}#}
+                                {% endif %}
                             </ul>
                         </div>
                     </nav>
@@ -95,10 +96,10 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
 
-            <section class="row">
+
+
+            <div class="row">
                 <div class="col-lg-4">
                     <div class="blog_right_sidebar">
                         {{ include('formation/_filter.html.twig')  }}
@@ -113,8 +114,9 @@
                 <div class="col-xl-5">
                      <div class="section_tittle text-center">
 
-                         <h2>Les Formations Artistiques</h2>
-                     <a class="btn_1" href="{{ path('formation_new') }}">Devenir un Formateur?</a>
+
+
+                     <a class="button rounded-0 primary-bg text-white w-100 btn_1" href="{{ path('formation_new') }}">Devenir un Formateur?</a>
                 </div>
 
 
@@ -161,7 +163,9 @@
 
                 {% endfor %}
 
-
+                {# <div class="">
+                    {{ knp_pagination_render(formations) }}
+                </div> #}
             </div>
         </div>
 
@@ -173,8 +177,9 @@
 
     </div>
       </div>
-    </section>
+    </div>
 
+    </section>
 {% endblock %}
 
 

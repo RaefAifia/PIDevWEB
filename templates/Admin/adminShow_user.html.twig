@@ -3,8 +3,13 @@
 
 
 {% block body %}
-	<h1>Afficher utilisateur</h1>
 
+
+<div class="main-content">
+	<h1>Afficher utilisateur</h1>
+	<!-- OVERVIEW -->
+	<div class="panel panel-headline">
+		<div class="panel-heading">
 	<table class="table">
 		<tbody>
 		<tr>
@@ -52,41 +57,38 @@
 			<td>{{ user.bio }}</td>
 		</tr>
 		<tr>
-			<th>IsFormateur</th>
-			<td>{{ user.isFormateur ? 'Yes' : 'No' }}</td>
+			<th>Formateur</th>
+			<td>{{ user.isFormateur ? 'No' : 'Yes' }}</td>
 		</tr>
 		<tr>
-			<th>IsRecruteur</th>
-			<td>{{ user.isRecruteur ? 'Yes' : 'No' }}</td>
+			<th>Livreur</th>
+			<td>{{ user.isLivreur ? 'No' : 'Yes' }}</td>
 		</tr>
 		<tr>
-			<th>IsVendeur</th>
-			<td>{{ user.isVendeur ? 'Yes' : 'No' }}</td>
+			<th>Vendeur</th>
+			<td>{{ user.isVendeur ? 'No' : 'Yes' }}</td>
 		</tr>
-		<tr>
-			<th>Cv</th>
-			<td>{{ user.cv }}</td>
-		</tr>
+
 		<tr>
 			<th>Validite</th>
-			<td>{{ user.validite ? 'Yes' : 'No' }}</td>
+			<td>{{ user.validite ? 'No' : 'Yes' }}</td>
 		</tr>
 		<tr>
-			<th>Mailconfirme</th>
-			<td>{{ user.mailconfirme ? 'Yes' : 'No' }}</td>
+			<th>Mail confirmé</th>
+			<td>{{ user.mailconfirme ? 'No' : 'Yes' }}</td>
 		</tr>
 		<tr>
-			<th>Numconfirme</th>
-			<td>{{ user.numconfirme ? 'Yes' : 'No' }}</td>
+			<th>numéro confirmé</th>
+			<td>{{ user.numconfirme ? 'No' : 'Yes' }}</td>
 		</tr>
 		<tr>
-			<th>Avertissement</th>
+			<th> nombre d'avertissement</th>
 			<td>{{ user.avertissement }}</td>
 		</tr>
 		</tbody>
 
 	</table>
-
+		</div></div></div>
 
 
 

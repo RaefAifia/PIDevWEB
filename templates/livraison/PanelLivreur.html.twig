@@ -1,14 +1,16 @@
-{% extends 'base_back.html.twig' %}
+{% extends 'baseBack.html.twig' %}
 
 
 {% block body %}
 
-    <div class="section_padding">
-        <div class="section-top-border">
+<div class="main-content">
 
+    <!-- OVERVIEW -->
+    <div class="panel panel-headline">
+        <div class="panel-heading">
 
-            <div class="btn_1" style="position:relative; top: -100px; margin-left: 80px; width: 1200px;">
-                <h1 style="color: white">Livraisons </h1>
+            <div  style=" top: 100px; margin-left: 80px; width: 950px; background-color: WHITE">
+                <h1 style="color: #020101">Livraisons </h1>
                 <br>
 
 
@@ -17,7 +19,7 @@
 
                 <table class="table">
                     <thead>
-                    <tr style="color: white">
+                    <tr style="color: #a65959">
 
 
                         <th>Livraison ID</th>
@@ -32,7 +34,7 @@
                     <tbody id="allQQQ">
                     {% for livraison in livraisons %}
 
-                        <tr style="color: white">
+                        <tr style="color: gray">
                             <td>{{ livraison.livraisonId }}</td>
                             <td>{{ livraison.nom }}</td>
                             <td>{{ livraison.Prenom }}</td>
@@ -58,10 +60,8 @@
                     </tbody>
                 </table>
             </div>
-        </div>
-    </div>
 
-
+        </div>   </div>   </div>
 {% endblock %}
 
 

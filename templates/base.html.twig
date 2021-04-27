@@ -56,7 +56,7 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ path('accueil_index') }}">Accueil</a>
                             </li>
-                            {# <li class="nav-item">
+                             <li class="nav-item">
                                 <a class="nav-link" href="{{ path('blog_index_front') }}">Blog</a>
                             </li>
                             <li class="nav-item">
@@ -66,7 +66,7 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ path('evenement_index_Front') }}">Evenements</a>
                             </li>
-                            #}
+
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ path('oeuvrage_index') }}">Oeuvres</a>
                             </li>
@@ -107,32 +107,7 @@
 
 <!-- banner part start-->
 {% block content %}
-<section class="banner_part">
 
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-6 col-xl-6">
-
-                <div class="banner_text">
-
-                    <div class="banner_text_iner">
-
-                        <h5>Every child yearns to learn</h5>
-                        <h1>Making Your Childs
-                            World Better</h1>
-                        <p>Replenish seasons may male hath fruit beast were seas saw you arrie said man beast whales
-                            his void unto last session for bite. Set have great you'll male grass yielding yielding
-                            man</p>
-
-                    </div>
-
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-</section>
 
 
 {% endblock %}
@@ -225,7 +200,7 @@
             </div>
         </div>
     </section>
-    {# liste des formations
+    {# liste des formations #}
     <section class="testimonial_part section_padding">
         <div class="container-fluid">
             <div class="row justify-content-center">
@@ -279,7 +254,7 @@
                                 </div>
                                 <div class="col-xl-2 d-none d-xl-block">
                                     <div class="testimonial_slider_img">
-                                        <img src="\PI\IMG\{{ oeuvrages[i+1].image }}" style="width: 300px; height: 150px; object-fit: cover;">
+                                        <img src="\PI\IMG\{{ formations[i+1].image }}" style="width: 300px; height: 150px; object-fit: cover;">
                                     </div>
                                 </div>
                             </div>
@@ -290,8 +265,8 @@
             </div>
         </div>
     </section>
-    #}
-    {# liste des events
+
+    {# liste des events #}
     <section class="testimonial_part section_padding">
         <div class="container-fluid">
             <div class="row justify-content-center">
@@ -319,7 +294,7 @@
                                             <h4>{{evenements[i].prix}} DT</h4>
                                         </a>
                                         <a >
-                                            <h4>{{evenements[i].date}} DT</h4>
+                                            <h4 style="font-size: 18px; font-style: italic;  color: #ac3e3e">{{evenements[i].dateEvenement ? evenements[i].dateEvenement|date('Y-m-d') : '' }}</h4>
                                         </a>
                                  </div>
 
@@ -342,7 +317,7 @@
                                             <h4>{{evenements[i+1].prix}} DT</h4>
                                         </a>
                                         <a >
-                                            <h4>{{evenements[i+1].date}} DT</h4>
+                                            <h4 style="font-size: 18px; font-style: italic;  color: #ac3e3e;">{{evenements[i+1].dateEvenement ? evenements[i+1].dateEvenement|date('Y-m-d') : '' }}</h4>
                                         </a>
 
                                     </div>
@@ -360,7 +335,7 @@
             </div>
         </div>
     </section>
-    #}
+
 
 {% endblock %}
 <div class="container">

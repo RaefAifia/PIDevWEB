@@ -19,6 +19,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Notification\ValidationNotififcation;
 
+use Knp\Component\Pager\PaginatorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+
 /**
  * @Route("/formation")
  */
@@ -31,25 +34,26 @@ class FormationController extends AbstractController
      * @Route ("/backoffice/charts",name="charts",methods={"POST","GET"})
      */
 
-    public function stat(FormationRepository $repository){
+    public function stat(FormationRepository $repository)
+    {
         $debutant = 0;
         $inter = 0;
         $avance = 0;
 //
-       // $formation = $repository->findAll();
-     //   $categNom = ["Débutant", "intermédiaire", "avancé"];
-        $categNom = ["danse" , "theatre" , "musique", "peinture" , "littérature","audiovisuel","sculpture"];
-        $categColor = ["#a65959" , "#414e4d" , "#343e3d","#A0D7A8", "#EFBC9B", "#DAF7A6", "#a00000","#EFBC9B","#EFBC9B"];
+        // $formation = $repository->findAll();
+        //   $categNom = ["Débutant", "intermédiaire", "avancé"];
+        $categNom = ["danse", "theatre", "musique", "peinture", "littérature", "audiovisuel", "sculpture"];
+        $categColor = ["#a65959", "#414e4d", "#343e3d", "#A0D7A8", "#EFBC9B", "#DAF7A6", "#a00000", "#EFBC9B", "#EFBC9B"];
 
-        $categDanse = count($repository->findBy(["domaine" =>"danse"]) )  ;
-          $categTheatre = count($repository->findBy(["domaine" =>"theatre"]) ) ;
-          $categMusique = count($repository->findBy(["domaine" => "musique"]) ) ;
-        $categPeint = count($repository->findBy(["domaine" =>"peinture"]) )  ;
-        $categLit = count($repository->findBy(["domaine" =>"littérature"]) ) ;
-        $categA = count($repository->findBy(["domaine" => "audiovisuel"]) ) ;
-        $categScul = count($repository->findBy(["domaine" =>"sculpture"]) ) ;
+        $categDanse = count($repository->findBy(["domaine" => "danse"]));
+        $categTheatre = count($repository->findBy(["domaine" => "theatre"]));
+        $categMusique = count($repository->findBy(["domaine" => "musique"]));
+        $categPeint = count($repository->findBy(["domaine" => "peinture"]));
+        $categLit = count($repository->findBy(["domaine" => "littérature"]));
+        $categA = count($repository->findBy(["domaine" => "audiovisuel"]));
+        $categScul = count($repository->findBy(["domaine" => "sculpture"]));
 
-          $categCount = [$categDanse , $categTheatre , $categMusique,$categPeint,$categLit,$categA,$categScul ];
+        $categCount = [$categDanse, $categTheatre, $categMusique, $categPeint, $categLit, $categA, $categScul];
 
 
 //        foreach ($formation as $indicateur) {
@@ -63,7 +67,7 @@ class FormationController extends AbstractController
 //        }
 //        $nivCount = [$debutant , $inter , $avance ];
         // dd($debutant);
-        return $this->render('Admin/charts.html.twig',[
+        return $this->render('Admin/charts.html.twig', [
 
             'categNom' => json_encode($categNom),
             'categColor' => json_encode($categColor),
@@ -109,9 +113,11 @@ class FormationController extends AbstractController
 
     /**
      * @Route("/admin", name="admin")
+     *   @IsGranted("ROLE_ADMIN");
      */
     public function indexAdmin(FormationRepository $formationRepository): Response
-    {
+    {$this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
         return $this->render('Admin/admin.html.twig', [
 
             'formations' => $formationRepository->findAll(),
@@ -120,7 +126,7 @@ class FormationController extends AbstractController
     /**
      * @Route("/", name="formation_index")
      */
-    public function indexRecherche(FormationRepository $repository, Request $request)
+   public function indexRecherche(FormationRepository $repository, Request $request)
     {
         $data = new SearchData();
         $data->page = $request->get('page', 1);
@@ -132,41 +138,47 @@ class FormationController extends AbstractController
             'formations' => $repository->findByisvalid(1),
          // 'formations' => $repository->findAll(),
             'form' => $form->createView()
-        ]);
-    }
+     ]);
+   }
     /*
     /**
      * @Route("/", name="formation_index", methods={"GET"})
      */
     /* hedhi methode lel admin zeda w lezem nbadel esm .twig*/
-   /* public function index(FormationRepository $formationRepository): Response
-    {
-        return $this->render('formation/index.html.twig', [
-            'formations' => $formationRepository->findAll(),
+    /* public function index(FormationRepository $formationRepository): Response
+     {
+         return $this->render('formation/index.html.twig', [
+             'formations' => $formationRepository->findAll(),
 
-        ]);
-    }*/
+         ]);
+     }*/
 
     /**
      * @param FormationRepository $formationRepository
      * @return Response
      * @Route ("/backoffice/Valid", name="Valid", methods={"GET","POST"})
+     *   @IsGranted("ROLE_ADMIN");
      */
-    public function findValid(FormationRepository $formationRepository):Response
+    public function findValid(FormationRepository $formationRepository): Response
     {/*$formation = $formationRepository->findByisvalid(1);*/
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
         return $this->render('Admin/admin.html.twig', [
             'formations' => $formationRepository->findByisvalid(1),
         ]);
-       }
+    }
 
     /**
      * @param FormationRepository $formationRepository
      * @return Response
      * @Route ("/backoffice/nonValid", name="nonValid", methods={"GET","POST"})
+     *  @IsGranted("ROLE_ADMIN");
      */
 
-    public function findNonvalid(FormationRepository $formationRepository):Response
+    public function findNonvalid(FormationRepository $formationRepository): Response
     {/*$formation = $formationRepository->findByisvalid(1);*/
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
         return $this->render('Admin/admin.html.twig', [
             'formations' => $formationRepository->findByisvalid(0),
         ]);
@@ -176,133 +188,146 @@ class FormationController extends AbstractController
      * @Route("/formateur/{user}", name="formateur_index", methods={"GET"})
      */
 
-   public function indexFormateur(FormationRepository $formationRepository,Request $request,$user): Response
+    public function indexFormateur(FormationRepository $formationRepository, Request $request, $user): Response
     {
-        $entityManager = $this->getDoctrine()->getManager();
-      /*  $query = $entityManager->createQuery("SELECT f FROM App\Entity\Formation f WHERE f.user = :id");
-        $query->setParameter('id',$request->attributes->get('id'));
-        $UID = $query->getSingleResult();*/
+        //$entityManager = $this->getDoctrine()->getManager();
+        /*  $query = $entityManager->createQuery("SELECT f FROM App\Entity\Formation f WHERE f.user = :id");
+          $query->setParameter('id',$request->attributes->get('id'));
+          $UID = $query->getSingleResult();*/
 
-
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         return $this->render('formation/showFormateur.html.twig', [
-          //  'formations' => $formationRepository->findByuser($UID),
-            'formations' => $formationRepository->findBy(['user'=>$user]),
+            //  'formations' => $formationRepository->findByuser($UID),
+            'formations' => $formationRepository->findBy(['user' => $user]),
             //'formations' => $formationRepository->findByisvalid(0),
-            'user'=>$user,
+            'user' => $user,
         ]);
     }
+
     /**
      * @Route("/formateur/{user}/valid", name="formateur_index_valid", methods={"GET"})
      */
 
-    public function indexFormateurAll(FormationRepository $formationRepository,Request $request,$user): Response
+    public function indexFormateurAll(FormationRepository $formationRepository, Request $request, $user): Response
     {
 
         return $this->render('formation/showFormateurValid.html.twig', [
             //  'formations' => $formationRepository->findByuser($UID),
-            'formations' => $formationRepository->findBy(['user'=>$user]),
+            'formations' => $formationRepository->findBy(['user' => $this->getUser()]),
             'formations' => $formationRepository->findByisvalid(1),
-            'user'=>$user,
+            'user' => $user,
         ]);
     }
+
     /**
      * @Route("/new", name="formation_new", methods={"GET","POST"})
      */
-    public function new(Request $request,FormationRepository $formationRepository): Response
+    public function new(Request $request, FormationRepository $formationRepository): Response
     {
+
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $formation = new Formation();
 //['username' => $this->getUser()->getUsername()]
-        $user =$this->getDoctrine()->getRepository(User::class)->findOneBy(['username' => $this->getUser()->getUsername()]);
+        $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['userId' => $this->getUser()->getUserId()]);
         $av = $user->getAvertissement();
-      $conf =$user->getMailconfirme();
-        if($av<5 && $conf==1 ) {
-        $form = $this->createForm(FormationType::class, $formation);
-        $form->add('image', FileType::class);
-        $form->handleRequest($request);
+        $conf = $user->getMailconfirme();
+        if ($av < 5 && $conf == 1) {
+            $form = $this->createForm(FormationType::class, $formation);
+            $form->add('image', FileType::class);
+            $form->handleRequest($request);
 
-                if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
+            if ($form->isSubmitted() && $form->isValid()) {
+                $entityManager = $this->getDoctrine()->getManager();
 
-            $user = $this->getUser();   // $entityManager->find(User::class, 1);
-            $formation->setUser($user);
-
-
-            $entityManager->persist($formation);
-            $entityManager->flush();
-
-            $file2 = $form['image']->getData();
-            $fileName = $file2->getClientOriginalName();
-            $aux = $file2->guessExtension();
-            try {
-                $file2->move(
-                    $this->getParameter('Images_directory'),
-                    $fileName);
-                $formation->setImage($fileName);
+                $user = $this->getUser();   // $entityManager->find(User::class, 1);
+                $formation->setUser($user);
 
 
                 $entityManager->persist($formation);
                 $entityManager->flush();
 
-            } catch (FileException $e) {
-                // ... handle exception if something happens during file upload
+                $file2 = $form['image']->getData();
+                $fileName = $file2->getClientOriginalName();
+                $aux = $file2->guessExtension();
+                try {
+                    $file2->move(
+                        $this->getParameter('Images_directory1'),
+                        $fileName);
+                    $formation->setImage($fileName);
+
+                    $formation->getUser()->setIsFormateur(1);
+
+                    $entityManager->persist($formation);
+                    $entityManager->flush();
+
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                $this->addFlash('success', 'Formation ajoutée ! Vous pourvez associer des cours à cette formation !');
+                return $this->redirectToRoute('formateur_index',array('user' =>$this->getUser()->getUserId()));
+
+
+//                if ($this->isCsrfTokenValid('Enregistrer' . $formation->getFormationId(), $request->request->get('_token'))) {
+
+                   // return $this->redirectToRoute('cours_new', array('formationId' => $formation->getFormationId()));
+                 //return $this->redirectToRoute('formateur_index',array('user' => $user->getUserId()));
+//                    return $this->render('formation/new.html.twig', [
+//                        'formation' => $formation,
+//                        'form' => $form->createView(),
+//                    ]);
             }
-            $this->addFlash('success', 'Formation ajoutée ! Vous pourvez associer des cours à cette formation !');
-
-            if ($this->isCsrfTokenValid('Enregistrer'.$formation->getFormationId(), $request->request->get('_token'))) {
-
-           return $this->redirectToRoute('cours_new',array('formationId' => $formation->getFormationId()));}
-            else{//return $this->redirectToRoute('formateur_index',array('user' => $user->getUserId()));
-                return $this->render('formation/new.html.twig', [
-                    'formation' => $formation,
-                    'form' => $form->createView(),
-                ]);
-
-            }
-        }}
-        else { $this->addFlash('error', 'Vous ne pouvez plus ajouter des formations !');
-        return $this->render('formation/showFormateur.html.twig', [
-
-            'formations' => $formationRepository->findBy(['user'=>$user])
+            return $this->render('formation/new.html.twig', [
+                'formation' => $formation,
+                'form' => $form->createView(),
             ]);
 
         }
 
+        else {
+            $this->addFlash('error', 'Vous ne pouvez plus ajouter des formations !');
+            return $this->redirectToRoute('formateur_index',array('user' =>$this->getUser()->getUsername()));
+        }
 
     }
 
 
     /**
      * @Route("/backoffice/{id}", name="formation_showAdmin", methods={"GET"})
+     *    @IsGranted("ROLE_ADMIN");
      */
-   public function showForAdmin(Formation $formation): Response
+    public function showForAdmin(Formation $formation): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
         return $this->render('Admin/AdminShowFor.html.twig', [
             'formation' => $formation
         ]);
     }
+
     /**
      * @Route("/{formationId}", name="formation_show", methods={"GET"})
      */
-    public function show(Formation $formation,InscriptionRepository $inscriptionRepository, CoursRepository $coursRepository): Response
+    public function show(Formation $formation, InscriptionRepository $inscriptionRepository, CoursRepository $coursRepository): Response
     {
         $inscription = new Inscription();
-     //   $form = $this->createForm(InscriptionType::class, $inscription);//car j'ai ajouté buttun sinscrire au niv de show
-        $nb=0;
-        $nb=$inscriptionRepository->nbInscit($formation->getFormationId());
-       // dump($nb);
+        //   $form = $this->createForm(InscriptionType::class, $inscription);//car j'ai ajouté buttun sinscrire au niv de show
+        $nb = 0;
+        $nb = $inscriptionRepository->nbInscit($formation->getFormationId());
+        // dump($nb);
 
-       // $entityManager = $this->getDoctrine()->getManager();
-        $user =  $this->getUser();  //$entityManager->find(User::class, 1);
-        $i=$inscriptionRepository->findB($formation,$user);
-       // dd($formation);
-      //  $c=$coursRepository->coursVisible($formation->getFormationId());
+        // $entityManager = $this->getDoctrine()->getManager();
+        $user = $this->getUser();  //$entityManager->find(User::class, 1);
+        $i = $inscriptionRepository->findB($formation, $user);
+        // dd($formation);
+        //  $c=$coursRepository->coursVisible($formation->getFormationId());
         return $this->render('formation/show.html.twig', [
             'formation' => $formation,
-          //  'form' => $form->createView(),
-            'inscription'=>$inscription,
-            'nb'=> $nb,
-            'isincrit'=>$i,
-           // 'isCoursVisible' =>$c,
+            //  'form' => $form->createView(),
+            'inscription' => $inscription,
+            'nb' => $nb,
+            'isincrit' => $i,
+            // 'isCoursVisible' =>$c,
 
         ]);
     }
@@ -313,6 +338,7 @@ class FormationController extends AbstractController
      */
     public function edit(Request $request, Formation $formation): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $form = $this->createForm(FormationType::class, $formation);
         $form->handleRequest($request);
 
@@ -321,8 +347,8 @@ class FormationController extends AbstractController
              * @var UploadedFile $file
              */
             $file = $form->get('image')->getData();
-            $fileName = md5(uniqid()).'.'.$file->guessExtension();
-            $file->move($this->getParameter('Images_directory'),$fileName);
+            $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+            $file->move($this->getParameter('Images_directory1'), $fileName);
             md5(uniqid()) . '.' . $file->guessExtension(); //Crypter le nom de l'image
 
             $formation->setImage($fileName);
@@ -344,7 +370,8 @@ class FormationController extends AbstractController
      */
     public function delete(Request $request, Formation $formation): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$formation->getFormationId(), $request->request->get('_token'))) {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        if ($this->isCsrfTokenValid('delete' . $formation->getFormationId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($formation);
             $entityManager->flush();
@@ -352,51 +379,57 @@ class FormationController extends AbstractController
 
         return $this->redirectToRoute('formation_index');
     }
+
     /**
-     * @Route("/{formationId}", name="formation_delete", methods={"POST"})
+     * @Route("/backoffice/{formationId}", name="formation_delete", methods={"POST","GET"})
      */
     public function invaliderF(Request $request, Formation $formation): Response
     {
-        if ($this->isCsrfTokenValid('Invalider'.$formation->getFormationId(), $request->request->get('_token'))) {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        if ($this->isCsrfTokenValid('Invalider' . $formation->getFormationId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($formation);
             $entityManager->flush();
-            $this->notify_Validation->notify();
+            //$this->notify_Validation->notify();
         }
 
         return $this->redirectToRoute('nonValid');
     }
+
     /**
      * @Route("/backoffice/all",name="formationRecherche")
      */
 
     public function Recherche(Request $request)
     {
-        $search =$request->query->get('formation');
+        $search = $request->query->get('formation');
         $em = $this->getDoctrine()->getManager();
-        $formation=$em->getRepository(Formation::class)->findTitre($search);
+        $formation = $em->getRepository(Formation::class)->findTitre($search);
 
 
-        return $this->render('Admin/admin.html.twig',[
+        return $this->render('Admin/admin.html.twig', [
                 'formation' => $formation]
         );
     }
+
     /**
      * @Route("/backoffice/{formationId}/valider", name="v_formation", methods={"POST","GET"})
+     *   @IsGranted("ROLE_ADMIN");
      */
-    public function validerF(Request $request, Formation $formation,\Swift_Mailer $mailer): Response
+    public function validerF(Request $request, Formation $formation, \Swift_Mailer $mailer): Response
     {
-        if ($this->isCsrfTokenValid('validerF'.$formation->getFormationId(), $request->request->get('_token'))) {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
+        if ($this->isCsrfTokenValid('validerF' . $formation->getFormationId(), $request->request->get('_token'))) {
             $formation->setIsvalid(1);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->flush();
 
 
         }
-       // dd($formation);
+        // dd($formation);
         return $this->redirectToRoute('Valid');
     }
-
 
 
     /**
@@ -406,12 +439,12 @@ class FormationController extends AbstractController
      */
     public function tridDate(Request $request)
     {
-       // $search =$request->query->get('formation');
+        // $search =$request->query->get('formation');
         $em = $this->getDoctrine()->getManager();
-        $formation=$em->getRepository(Formation::class)->tri();
+        $formation = $em->getRepository(Formation::class)->tri();
 
-    //dd($formation);
-        return $this->render('Admin/admin.html.twig',[
+        //dd($formation);
+        return $this->render('Admin/admin.html.twig', [
                 'formations' => $formation]
         );
     }
@@ -420,6 +453,7 @@ class FormationController extends AbstractController
      * @var ValidationNotififcation
      */
     private $notify_Validation;
+
     /**
      * RegistrationController constructor.
      * @param ValidationNotififcation $notify_creation
@@ -429,6 +463,39 @@ class FormationController extends AbstractController
         $this->notify_Validation = $notify_Validation;
     }
 
-    }
+
+
+
+   // /**
+    // * @Route("/", name="formation_index")
+ //    */
+   // public function indexRecherche(FormationRepository $repository, Request $request, PaginatorInterface $paginator)
+    //{
+      //  $data = new SearchData();
+      //  $data->page = $request->get('page', 1);
+      //  $form = $this->createForm(SearchForm::class, $data);
+       // $form->handleRequest($request);
+        //dd($data);
+       // $formations = $repository->findSearch($data);
+        //$listformations = $paginator->paginate (
+          //  $formations, // Requête contenant les données à paginer (ici nos articles)
+        //    $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
+          //  6// Nombre de résultats par page
+        //);
+       // return $this->render('formation/index.html.twig', [
+            //'formations' => $repository->findByisvalid(1),
+        //    'formations' => $listformations,
+         //   'form' => $form->createView()
+      //  ]);
+    //}
+
+
+}
+
+
+
+
+
+
 
 

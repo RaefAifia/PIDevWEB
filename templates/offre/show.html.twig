@@ -5,10 +5,9 @@
 {% endblock %}
 
 {% block body %}
-    <div class="main">
         <!-- MAIN CONTENT -->
         <div class="main-content">
-            <div class="container-fluid">
+
                 <!-- OVERVIEW -->
                 <div class="panel panel-headline">
                     <div class="panel-heading">
@@ -44,18 +43,16 @@
             </tr>
         </tbody>
     </table>
-
+    <a href="{{ path('offre_edit', {'offreId': offre.offreId}) }}"  class="btn" style="background-color: #b5b3b3 ; color: aliceblue" >Modifier</a>
+                        <div class="panel-body">
     <a href="{{ path('offre_index') }}" class="btn_1">Revenir à la liste </a>
 
-    <a href="{{ path('offre_edit', {'offreId': offre.offreId}) }}"  class="btn_1">Modifier</a>
+
 
     {{ include('offre/_delete_form.html.twig') }}
                     </div>
     </div>
-    <!-- END OVERVIEW -->
 
-    </div>
-    </div>
     <!-- END MAIN CONTENT -->
     </div>
 {% endblock %}

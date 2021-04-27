@@ -8,6 +8,8 @@ parameters:
 
 
     Images_directory: '%kernel.project_dir%/public/PI/IMG'
+    images_directory: '%kernel.project_dir%/public/PI/IMG'
+    Images_directory1: '%kernel.project_dir%/public/images1'
 
     app.path.product_images: \images\profil
     TWILIO_AUTHY_API_KEY: '%env(AUTHY_API_KEY)%'

@@ -15,6 +15,7 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -27,9 +28,11 @@ class LivraisonController extends AbstractController
      */
     public function index(): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $u = $this->getUser();
         $livraisons = $this->getDoctrine()
             ->getRepository(Livraison::class)
-            ->findBy(['user'=>1]);
+            ->findBy(['user'=>$u]);
 
         return $this->render('livraison/index.html.twig', [
             'livraisons' => $livraisons,
@@ -37,9 +40,11 @@ class LivraisonController extends AbstractController
     }
     /**
      * @Route("/admin", name="livraison_indexadmin", methods={"GET"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function indexadmin(LivraisonRepository $livraisonRepository): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
         return $this->render('livraison/indexadmin.html.twig', [
             'livraisons' => $livraisonRepository->findAll(),
@@ -51,15 +56,14 @@ class LivraisonController extends AbstractController
      */
     public function new(Request $request, CommandeRepository $commandeRepository): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $u = $this->getUser();
         $livraison = new Livraison();
         $form = $this->createForm(LivraisonType::class, $livraison);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $query = $em->createQuery("SELECT u FROM App\Entity\User u WHERE u.userId = 1");
-            $user = $query->getSingleResult();
-            $livraison->setUser($user);
+            $livraison->setUser($u);
             $commande = $this->getDoctrine()->getRepository(Commande::class)
                 ->findnvc();
             $livraison->setCommande($commande);
@@ -109,9 +113,12 @@ class LivraisonController extends AbstractController
     }
     /**
      * @Route("/Livreur/{id}", name="livreurs", methods={"GET","POST"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function livreur(Request $request, int $id, Livraison $livraison): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $u = $this->getUser();
         $entityManager = $this->getDoctrine()->getManager();
             $users = $this->getDoctrine()
             ->getRepository(User::class)
@@ -125,9 +132,11 @@ class LivraisonController extends AbstractController
 
     /**
      * @Route("/Confirmation/{id}/{livreurid}", name="confirmationliv", methods={"GET","POST"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function confirmation(Request $request,$id): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $entityManager = $this->getDoctrine()->getManager();
         $livraisons = $entityManager->getRepository(Livraison::class)->findAll();
         $livraison = $entityManager->getRepository(Livraison::class)->find($id);
@@ -151,11 +160,14 @@ class LivraisonController extends AbstractController
 
     /**
      * @Route("/PanelLivreur", name="panellivreur", methods={"GET","POST"})
+     * @IsGranted("ROLE_LIVREUR")
      */
     public function livreurindex(Request $request): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $u = $this->getUser();
         $entityManager = $this->getDoctrine()->getManager();
-        $livraisons = $entityManager->getRepository(Livraison::class)->findBy(['livreur'=>15]);
+        $livraisons = $entityManager->getRepository(Livraison::class)->findBy(['livreur'=>$u]);
 
         return $this->render('livraison/PanelLivreur.html.twig', [
             'livraisons' => $livraisons,
@@ -164,11 +176,14 @@ class LivraisonController extends AbstractController
 
     /**
      * @Route("/PanelLivreur/{id}", name="panellivreureff", methods={"GET","POST"})
+     * @IsGranted("ROLE_LIVREUR")
      */
     public function livdone(Request $request,$id): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $u = $this->getUser();
         $entityManager = $this->getDoctrine()->getManager();
-        $livraisons = $entityManager->getRepository(Livraison::class)->findBy(['livreur'=>15]);
+        $livraisons = $entityManager->getRepository(Livraison::class)->findBy(['livreur'=>$u]);
         $livraison = $entityManager->getRepository(Livraison::class)->find($id);
         $livraison->setEtat('Livré');
         $entityManager->flush();
@@ -191,6 +206,7 @@ class LivraisonController extends AbstractController
     }
     /**
      * @Route("/admin/{livraisonId}", name="livraison_showadmin", methods={"GET","POST"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function showadmin(Livraison $livraison): Response
     {

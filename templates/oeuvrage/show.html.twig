@@ -22,7 +22,7 @@
                             <ul class="navbar-nav align-items-center">
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ path('accueil_index') }}" style="color: #ffffff">Accueil</a>
-                                    {#    </li>
+                                       </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ path('blog_index_front') }}" style="color: #ffffff">Blog</a>
                                 </li>
@@ -32,12 +32,12 @@
 
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ path('evenement_index_Front') }}" style="color: #ffffff">Evenements</a>
-                                </li> #}
+                                </li>
 
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ path('oeuvrage_index') }}" style="color: #ffffff">Oeuvres</a>
                                 </li>
-                                {#  <li class="nav-item">
+                                  <li class="nav-item">
                                     <a class="nav-link" href="{{ path('user_index')}}" style="color: #ffffff">Nos artistes</a>
                                 </li>
                                 {% if(app.user==null) %}
@@ -56,7 +56,7 @@
                                     <li class="d-none d-lg-block">
                                         <a class="btn_1" href="{{ path('app_logout') }}">Déconnecter</a>
                                     </li>
-                                {% endif %}#}
+                                {% endif %}
                             </ul>
                         </div>
                     </nav>
@@ -196,9 +196,9 @@
                              </table>
 
                              <a href="{{ path('oeuvrage_index') }}" class="btn_1">Revenir à la liste</a>
-
-                             <a href="{{ path('oeuvrage_edit', {'oeuvrageId': oeuvrage.oeuvrageId}) }}" class="btn_2">Ajouter au panier</a>
-
+                             {% if oeuvrage.quantite > 0 %}
+                                 <a href="{{ path('panier_temp_new', {id: oeuvrage.oeuvrageId }) }}" class="btn_4">Ajouter au panier</a>
+                             {% endif %}
                          </div>
 
                      </div>

@@ -9,7 +9,7 @@ use App\Entity\User;
 use App\Form\Registration;
 use App\Form\UserType;
 use App\Form\UserEdit;
-
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use App\Repository\UserRepository;
 use App\Security\AppCustomAuthenticator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -42,7 +42,7 @@ class UserController extends AbstractController
      */
     public function index(UserRepository $userRepository): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
         $queryBuilder = $userRepository
             ->createQueryBuilder('c');
 
@@ -140,6 +140,7 @@ echo($code);
 
     public function sendMail(Request $request, \Swift_Mailer $mailer , User $user ): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $signatureComponents = $this->verifyEmailHelper->generateSignature(
             'registration_confirmation_route',
             $user->getUserId(),
@@ -147,7 +148,7 @@ echo($code);
         );
         $email = new TemplatedEmail();
         $email->from('mariem.arif@esprit.tn');
-        $email->to('mariema020@gmail.com');
+        $email->to('yosra.mahjoub@esprit.tn');
         $email->htmlTemplate('user/confirmermail.html.twig');
         $email->context(['signedUrl' => $signatureComponents->getSignedUrl()]);
 
@@ -162,6 +163,7 @@ echo($code);
      */
     public function verifyUserEmail(Request $request): Response
     {
+
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
 
@@ -193,6 +195,7 @@ echo($code);
 
     public function sendSMS(Request $request ): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $country=216;
 
         if ( $country ) {
@@ -245,6 +248,7 @@ $s = $user->id();
      */
     public function verifyCode(Request $request, UserPasswordEncoderInterface $encoder)
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         try {
             // Get data from session
             $data = $this->get('session')->get('user');
@@ -281,6 +285,7 @@ $s = $user->id();
      */
     public function edit(Request $request, User $user): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $form = $this->createForm(UserEdit::class, $user);
         $form->handleRequest($request);
 
@@ -298,23 +303,28 @@ $s = $user->id();
     }
 
     /**
-     * @Route("/{userId}/delete", name="user_delete", methods={"POST"} )
+     * @Route("/{userId}/delete", name="user_delete", methods={"GET","POST"} )
+     * @IsGranted("ROLE_ADMIN")
      */
     public function delete(Request $request, User $user): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         if ($this->isCsrfTokenValid('delete'.$user->getUserId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $user->setValidite(0);
             $entityManager->flush();
+            return $this->redirectToRoute('app_logout');
         }
+        return $this->redirectToRoute('user_index');
 
-        return $this->redirectToRoute('app_login');
+
     }
     /**
      * @Route("/{userId}/relation", name="user_sabonner",  methods={"GET","POST"})
      */
     public function Relation (Request $request, User $user): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $relation = $this->getDoctrine()
             ->getRepository(Relations::class)
             ->findOneBy(['followee'=>$user ,'follower'=> $this->getUser() ]);

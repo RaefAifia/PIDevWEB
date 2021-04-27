@@ -122,7 +122,7 @@ $entityManager = $this->getDoctrine()->getManager();
     public function new(Request $request): Response
     {/* $rep=$this->getDoctrine()->getRepository(Formation::class);
     find(array(formation:Formation=>getFormationId));*/
-
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
         $inscription = new Inscription();
         $form = $this->createForm(InscriptionType::class, $inscription);

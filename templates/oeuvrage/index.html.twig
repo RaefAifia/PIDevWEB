@@ -22,7 +22,7 @@
                             <ul class="navbar-nav align-items-center">
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ path('accueil_index') }}" style="color: #ffffff">Accueil</a>
-                                    {#    </li>
+                                        </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ path('blog_index_front') }}" style="color: #ffffff">Blog</a>
                                 </li>
@@ -32,12 +32,12 @@
 
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ path('evenement_index_Front') }}" style="color: #ffffff">Evenements</a>
-                                </li> #}
+                                </li>
 
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ path('oeuvrage_index') }}" style="color: #ffffff">Oeuvres</a>
                                 </li>
-                                {#  <li class="nav-item">
+                                  <li class="nav-item">
                                     <a class="nav-link" href="{{ path('user_index')}}" style="color: #ffffff">Nos artistes</a>
                                 </li>
                                 {% if(app.user==null) %}
@@ -56,7 +56,7 @@
                                     <li class="d-none d-lg-block">
                                         <a class="btn_1" href="{{ path('app_logout') }}">Déconnecter</a>
                                     </li>
-                                {% endif %}#}
+                                {% endif %}
                             </ul>
                         </div>
                     </nav>
@@ -91,11 +91,16 @@
 {% block body %}
 
 <section>
+
+
     <div class="container">
+
+        
+                    <a class="btn_2" href="{{ path('commande_new') }}" style="float: right ; margin-top: 33px ; margin-right: 33px">Voir panier</a>
+
         <div class="row justify-content-center">
             <div class="col-xl-5">
-                <div class="section_tittle text-center">
-
+                <div class="section_tittle">
                 </div>
             </div>
         </div>
@@ -108,12 +113,19 @@
 
             <div class="col-lg-8 mb-5 mb-lg-0">
 
-                <section class="special_cource padding_top">
+                <section class="special_cource">
                     <div class="container">
+                        {% for flashMessage in app.session.flashbag.get('red') %}
+
+                            <div class="alert alert-danger">
+                                <center>{{ flashMessage }}</center>
+                            </div>
+
+                        {% endfor %}
                         <div class="row">
                             {% for oeuvrage in oeuvrages %}
 
-                                <div class=" col-lg-4 col-sm-6">
+                                <div class=" col-lg-4 col-sm-6" STYLE="margin-top: 15px">
                                     <div class="single_special_cource">
 
                                         <a href="{{ path('oeuvrage_show', {'oeuvrageId': oeuvrage.oeuvrageId}) }}"> <img src="\PI\IMG\{{ oeuvrage.image }}" class="img-fluid" style="width: 300px; height: 150px; object-fit: cover;">
@@ -135,8 +147,9 @@
 
                                             <div class="author_info">
                                                 <div class="author_img" >
-                                                    <a href="#" class="btn_4" >Ajouter au panier</a>
-
+                                                    {% if oeuvrage.quantite > 0 %}
+                                                        <a href="{{ path('panier_temp_new', {id: oeuvrage.oeuvrageId }) }}" class="btn_4">Ajouter au panier</a>
+                                                    {% endif %}
                                                 </div>
 
                                             </div>
@@ -149,7 +162,7 @@
                             {% endfor %}
 
                         </div>
-                        <div class="">
+                        <div STYLE="margin-top: 30px ; float: right">
                             {{ knp_pagination_render(oeuvrages) }}
                         </div>
                     </div>

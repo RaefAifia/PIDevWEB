@@ -6,9 +6,11 @@ use App\Entity\FavorisO;
 use App\Entity\Oeuvrage;
 use App\Entity\User;
 use App\Form\FavorisOType;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -20,8 +22,9 @@ class FavorisOController extends AbstractController
      * @Route("/", name="favoris_o_index", methods={"GET"})
 
      */
-    public function index(): Response
+    public function index(Request $request, PaginatorInterface $paginator): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $entityManager = $this->getDoctrine()->getManager();
         $user = $this->getUser();
         $favoris = $this->getDoctrine()
@@ -32,9 +35,15 @@ class FavorisOController extends AbstractController
 
             $oeuvrages[$f->getFavorisOId()] = $f->getOeuvrage();
         }
+        $listfavo = $paginator->paginate (
+            $oeuvrages, // Requête contenant les données à paginer (ici nos articles)
+            $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
+            6// Nombre de résultats par page
+        );
+
 
         return $this->render('oeuvrage/listfav.html.twig', [
-            'oeuvrages' => $oeuvrages,
+            'oeuvrages' => $listfavo,
         ]);
     }
 
@@ -43,6 +52,7 @@ class FavorisOController extends AbstractController
      */
     public function newf(  $user,  $oeuvrage): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $favorisO = new FavorisO();
         $favorisO ->setUser($user);
         $favorisO ->setOeuvrage($oeuvrage);
@@ -92,7 +102,7 @@ class FavorisOController extends AbstractController
      */
     public function delete( $favoris, $oeuvrage): Response
     {
-
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($favoris);
             $entityManager->flush();

@@ -12,6 +12,7 @@ use App\Form\PanierTempType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -24,9 +25,10 @@ class PanierTempController extends AbstractController
      */
     public function index(): Response
     {
+        $u = $this->getUser();
         $panierTemps = $this->getDoctrine()
             ->getRepository(PanierTemp::class)
-            ->findBy(['user'=>1]);
+            ->findBy(['user'=>$u]);
 
         $prix = 0;
         foreach ($panierTemps as $p){
@@ -58,6 +60,7 @@ class PanierTempController extends AbstractController
      */
     public function new(Request $request): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $u = $this->getUser();
         $panierTemp = new PanierTemp();
         $panierTemps = $this->getDoctrine()
@@ -76,7 +79,7 @@ class PanierTempController extends AbstractController
             $panierTemp->setOeuvrage($oeuvrage);
 
                 $p = $this->getDoctrine()->getRepository(PanierTemp::class)
-                    ->findByExampleField($request->attributes->get('id'));
+                    ->findByExampleField($request->attributes->get('id'),$u);
             if($p){
                 $this->addFlash('red', 'Element existe! Veuillez modifier la quantité');
                 return $this->redirectToRoute('panier_temp_new',['id'=>$request->attributes->get('id')]);
@@ -117,6 +120,7 @@ class PanierTempController extends AbstractController
      */
     public function edit(Request $request, PanierTemp $panierTemp): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $form = $this->createForm(PanierTempType::class, $panierTemp);
         $form->handleRequest($request);
 
@@ -145,6 +149,7 @@ class PanierTempController extends AbstractController
      */
     public function delete(Request $request, PanierTemp $panierTemp): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         if ($this->isCsrfTokenValid('delete'.$panierTemp->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($panierTemp);

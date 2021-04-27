@@ -16,6 +16,7 @@ use Dompdf\Options;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -43,6 +44,7 @@ class PanierController extends AbstractController
      */
     public function new(Request $request, CommandeRepository $commandeRepository): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $u = $this->getUser();
         $panier = new Panier();
         $form = $this->createForm(PanierType::class, $panier);
@@ -59,7 +61,6 @@ class PanierController extends AbstractController
         $prix = 0;
         foreach ($panierTemps as $p){
             $prix = $prix + ($p->getQuantite()*$p->getOeuvrage()->getPrix());
-
         }
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
@@ -83,7 +84,7 @@ class PanierController extends AbstractController
 
                         }
                 $panierTemps = $this->getDoctrine()->getRepository(PanierTemp::class)
-                    ->deletepant();
+                    ->deletepant($u);
 
             return $this->redirectToRoute('panier_pdf');
         }
@@ -102,6 +103,7 @@ class PanierController extends AbstractController
      */
     public function facture()
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         return $this->render('panier/pdf.html.twig');
     }
 
@@ -154,6 +156,7 @@ class PanierController extends AbstractController
      */
     public function pdfnav()
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         // Configure Dompdf according to your needs
         $pdfOptions = new Options();
         $pdfOptions->set('defaultFont', 'Arial');
@@ -210,6 +213,7 @@ class PanierController extends AbstractController
      */
     public function pdfgen()
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         // Configure Dompdf according to your needs
         $pdfOptions = new Options();
         $pdfOptions->set('defaultFont', 'Arial');
